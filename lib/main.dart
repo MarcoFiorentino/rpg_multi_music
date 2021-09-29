@@ -6,21 +6,20 @@ import 'music_page.dart';
 import 'settings_page.dart';
 
 void main() => runApp(
-  MultiProvider(
-    providers: [
-      ChangeNotifierProvider(create: (_) => FilesProvider())
-    ],
-    child: MyApp(),
-  ),
-);
+      MultiProvider(
+        providers: [ChangeNotifierProvider(create: (_) => FilesProvider())],
+        child: MyApp(),
+      ),
+    );
 
 class MyApp extends StatelessWidget {
-
   MyApp({Key key}) : super(key: key);
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    // TODO Il metodo getFiles del FilesProvider andrà chiamato anche qui nel momento in cui le impostazioni saranno salvate in modo persistente,
+    // così che i file siano recuperati anche all'avvio.
 
     return MaterialApp(
       title: 'Music Handler',
@@ -28,13 +27,11 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: HomePage(),
-
     );
   }
 }
 
 class HomePage extends StatelessWidget {
-
   HomePage({Key key}) : super(key: key);
 
   @override

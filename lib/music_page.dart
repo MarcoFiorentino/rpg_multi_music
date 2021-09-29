@@ -1,11 +1,13 @@
 import 'dart:math';
 
-import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
-import 'package:path/path.dart';
 
-import 'globals.dart';
-import 'string_extension.dart';
+import 'package:audioplayers/audioplayers.dart';
+import 'package:path/path.dart';
+import 'package:provider/provider.dart';
+
+import 'package:music_handler/string_extension.dart';
+import 'package:music_handler/files_provider.dart';
 
 /*
 Gestisco la pagina delle colonne sonore.
@@ -21,9 +23,7 @@ class MusicPage extends StatefulWidget {
 }
 
 class _MusicPageState extends State<MusicPage> {
-
   // TODO: gestire da settings il numero di tipi diversi di musiche da poter gestire
-  Globals _globals = Globals();
   final musicAudioPlayer = AudioPlayer();
   final ambienceAudioPlayer = AudioPlayer();
   var musicPlaying = "---";
@@ -37,7 +37,6 @@ class _MusicPageState extends State<MusicPage> {
 
   @override
   void initState() {
-
     super.initState();
 
     musicAudioPlayer.setReleaseMode(ReleaseMode.LOOP);
@@ -47,16 +46,15 @@ class _MusicPageState extends State<MusicPage> {
 
   @override
   Widget build(BuildContext context) {
-    _globals.getFilesList();
-    print('Build: '+_globals.ambienceNames.toString());
+    final FilesProvider filesProvider = Provider.of<FilesProvider>(context, listen: true);
+
+    print('Build: ' + filesProvider.ambienceNames.toString());
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(
-              ""
-          ),
+          Text(""),
           // Gestione degli audio musica
           // Visualizza titolo e volume
           Text(
@@ -64,50 +62,48 @@ class _MusicPageState extends State<MusicPage> {
             textAlign: TextAlign.center,
           ),
           // Pulsanti di gestione musica e volume musica
-          Table(
+          Table(children: [
+            TableRow(
               children: [
-                TableRow(
-                  children: [
-                    TableCell(
-                      child: ElevatedButton(
-                        child: Text("Play"),
-                        style: ElevatedButton.styleFrom(elevation: 8.0, primary: Colors.lightGreen),
-                        onPressed: () {
-                          play("musica");
-                        },
-                      ),
-                    ),
-                    TableCell(
-                      child: ElevatedButton(
-                        child: Text("+"),
-                        style: ElevatedButton.styleFrom(elevation: 8.0, primary: Colors.lightGreen),
-                        onPressed: () {
-                          setVolume("musica", "up");
-                        },
-                      ),
-                    ),
-                    TableCell(
-                      child: ElevatedButton(
-                        child: Text("-"),
-                        style: ElevatedButton.styleFrom(elevation: 8.0, primary: Colors.lightGreen),
-                        onPressed: () {
-                          setVolume("musica", "down");
-                        },
-                      ),
-                    ),
-                    TableCell(
-                      child: ElevatedButton(
-                        child: Text("Pause"),
-                        style: ElevatedButton.styleFrom(elevation: 8.0, primary: Colors.lightGreen),
-                        onPressed: () {
-                          pause("musica");
-                        },
-                      ),
-                    ),
-                  ],
+                TableCell(
+                  child: ElevatedButton(
+                    child: Text("Play"),
+                    style: ElevatedButton.styleFrom(elevation: 8.0, primary: Colors.lightGreen),
+                    onPressed: () {
+                      play("musica");
+                    },
+                  ),
                 ),
-              ]
-          ),
+                TableCell(
+                  child: ElevatedButton(
+                    child: Text("+"),
+                    style: ElevatedButton.styleFrom(elevation: 8.0, primary: Colors.lightGreen),
+                    onPressed: () {
+                      setVolume("musica", "up");
+                    },
+                  ),
+                ),
+                TableCell(
+                  child: ElevatedButton(
+                    child: Text("-"),
+                    style: ElevatedButton.styleFrom(elevation: 8.0, primary: Colors.lightGreen),
+                    onPressed: () {
+                      setVolume("musica", "down");
+                    },
+                  ),
+                ),
+                TableCell(
+                  child: ElevatedButton(
+                    child: Text("Pause"),
+                    style: ElevatedButton.styleFrom(elevation: 8.0, primary: Colors.lightGreen),
+                    onPressed: () {
+                      pause("musica");
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ]),
           // Gestione degli audio ambientali
           // Visualizza titolo e volume
           Text(
@@ -164,9 +160,9 @@ class _MusicPageState extends State<MusicPage> {
           Expanded(
             child: ListView.builder(
               controller: scrollController,
-              itemCount: (max(_globals.musicNames.length, _globals.ambienceNames.length) / colonnePerTipo).round(),
+              itemCount: (max(filesProvider.musicNames.length, filesProvider.ambienceNames.length) / colonnePerTipo).round(),
               itemBuilder: (BuildContext context, int index) {
-                return buildRow(context, index);
+                return buildRow(context, index, filesProvider);
               },
             ),
           ),
@@ -183,16 +179,16 @@ class _MusicPageState extends State<MusicPage> {
           musicFile = path;
           musicAudioPlayer.play(musicFile, isLocal: true);
           musicPlaying = basename(path).capitalize();
-          musicAudioPlayer.setVolume(musicVolume/10);
+          musicAudioPlayer.setVolume(musicVolume / 10);
         });
-      break;
+        break;
 
       case "ambientale":
         setState(() {
           ambienceFile = path;
           ambienceAudioPlayer.play(ambienceFile, isLocal: true);
           ambiencePlaying = basename(path).capitalize();
-          ambienceAudioPlayer.setVolume(ambienceVolume/10);
+          ambienceAudioPlayer.setVolume(ambienceVolume / 10);
         });
         break;
     }
@@ -202,16 +198,16 @@ class _MusicPageState extends State<MusicPage> {
   void play(String type) {
     switch (type) {
       case "musica":
-        if(musicFile != null) {
+        if (musicFile != null) {
           musicAudioPlayer.play(musicFile, isLocal: true);
-          musicAudioPlayer.setVolume(musicVolume/10);
+          musicAudioPlayer.setVolume(musicVolume / 10);
         }
         break;
 
       case "ambientale":
-        if(ambienceFile != null) {
+        if (ambienceFile != null) {
           ambienceAudioPlayer.play(ambienceFile, isLocal: true);
-          ambienceAudioPlayer.setVolume(ambienceVolume/10);
+          ambienceAudioPlayer.setVolume(ambienceVolume / 10);
         }
         break;
     }
@@ -221,13 +217,13 @@ class _MusicPageState extends State<MusicPage> {
   void pause(String type) {
     switch (type) {
       case "musica":
-        if(musicFile != null) {
+        if (musicFile != null) {
           musicAudioPlayer.pause();
         }
         break;
 
       case "ambientale":
-        if(ambienceFile != null) {
+        if (ambienceFile != null) {
           ambienceAudioPlayer.pause();
         }
         break;
@@ -252,7 +248,7 @@ class _MusicPageState extends State<MusicPage> {
             musicVolume = 0;
           }
 
-          musicAudioPlayer.setVolume(musicVolume/10);
+          musicAudioPlayer.setVolume(musicVolume / 10);
         });
         break;
 
@@ -271,73 +267,57 @@ class _MusicPageState extends State<MusicPage> {
             ambienceVolume = 0;
           }
 
-          ambienceAudioPlayer.setVolume(ambienceVolume/10);
+          ambienceAudioPlayer.setVolume(ambienceVolume / 10);
         });
         break;
     }
   }
 
   // Creo una riga di pulsanti per le musiche
-  Row buildRow (BuildContext context, int index) {
+  Row buildRow(BuildContext context, int index, FilesProvider provider) {
     List<Widget> sizedBoxes = [];
 
     // Aggiunge i pulsanti musica alla riga o pulsanti vuoti se servono
     for (int i = 0; i < colonnePerTipo; i++) {
-      if (((index * colonnePerTipo) + i)< _globals.musicNames.length) {
+      if (((index * colonnePerTipo) + i) < provider.musicNames.length) {
         sizedBoxes.add(
           SizedBox(
             width: MediaQuery.of(context).size.width * 0.23,
             child: ElevatedButton(
-              child: Text(basename(_globals.musicNames[(index * colonnePerTipo) + i].path).capitalize()),
-              style: ElevatedButton.styleFrom(
-                  elevation: 8.0, primary: Colors.lightGreen),
+              child: Text(basename(provider.musicNames[(index * colonnePerTipo) + i].path).capitalize()),
+              style: ElevatedButton.styleFrom(elevation: 8.0, primary: Colors.lightGreen),
               onPressed: () {
-                playSelected("musica", _globals.musicNames[(index * colonnePerTipo) + i].path);
+                playSelected("musica", provider.musicNames[(index * colonnePerTipo) + i].path);
               },
             ),
           ),
         );
       } else {
-        sizedBoxes.add(
-            SizedBox(
-              width: MediaQuery
-                  .of(context)
-                  .size
-                  .width * 0.23,
-            )
-        );
+        sizedBoxes.add(SizedBox(
+          width: MediaQuery.of(context).size.width * 0.23,
+        ));
       }
     }
 
     // Aggiunge i pulsanti ambiente alla riga o pulsanti vuoti se servono
     for (int i = 0; i < colonnePerTipo; i++) {
-      if (((index * colonnePerTipo) + i) < _globals.ambienceNames.length) {
+      if (((index * colonnePerTipo) + i) < provider.ambienceNames.length) {
         sizedBoxes.add(
           SizedBox(
-            width: MediaQuery
-                .of(context)
-                .size
-                .width * 0.23,
+            width: MediaQuery.of(context).size.width * 0.23,
             child: ElevatedButton(
-              child: Text(basename(_globals.ambienceNames[(index * colonnePerTipo) + i].path).capitalize()),
-              style: ElevatedButton.styleFrom(
-                  elevation: 8.0, primary: Colors.lightBlue),
+              child: Text(basename(provider.ambienceNames[(index * colonnePerTipo) + i].path).capitalize()),
+              style: ElevatedButton.styleFrom(elevation: 8.0, primary: Colors.lightBlue),
               onPressed: () {
-                playSelected(
-                    "ambientale", _globals.ambienceNames[(index * colonnePerTipo) + i].path);
+                playSelected("ambientale", provider.ambienceNames[(index * colonnePerTipo) + i].path);
               },
             ),
           ),
         );
       } else {
-        sizedBoxes.add(
-          SizedBox(
-            width: MediaQuery
-                .of(context)
-                .size
-                .width * 0.23,
-          )
-        );
+        sizedBoxes.add(SizedBox(
+          width: MediaQuery.of(context).size.width * 0.23,
+        ));
       }
     }
 

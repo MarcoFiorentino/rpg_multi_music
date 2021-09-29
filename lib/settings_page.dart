@@ -1,10 +1,11 @@
 import 'dart:io';
 
-import 'globals.dart';
-
+import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_folder_picker/FolderPicker.dart';
 import 'package:path_provider_ex/path_provider_ex.dart';
+
+import 'package:music_handler/files_provider.dart';
 
 class SettingsPage extends StatefulWidget {
   @override
@@ -12,36 +13,29 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsPage> {
-  Globals _globals = Globals();
-  Directory selectedLocalDirectory;
-  Directory selectedExternalDirectory;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Settings UI')),
-      body: buildSettingsList(),
+      body: buildSettingsList(context),
     );
   }
 
-  Widget buildSettingsList() {
+  Widget buildSettingsList(BuildContext context) {
+    final FilesProvider provider = Provider.of<FilesProvider>(context, listen: false);
 
     void toggleSwitch(bool value) {
-
-      if(_globals.useExternalMemory == false)
-      {
+      if (provider.useExternalMemory == false) {
         setState(() {
-          _globals.useExternalMemory = true;
+          provider.useExternalMemory = true;
         });
-      }
-      else
-      {
+      } else {
         setState(() {
-          _globals.useExternalMemory = false;
+          provider.useExternalMemory = false;
         });
       }
 
-      _globals.getFilesList();
+      provider.getFilesList();
     }
 
     Future<void> _pickDirectory(BuildContext context, bool external) async {
@@ -50,10 +44,10 @@ class _SettingsScreenState extends State<SettingsPage> {
       Directory directory;
       if (external) {
         root = storageInfo[1].rootDir; //storageInfo[1] for SD card, getting the root directory
-        directory = selectedExternalDirectory;
+        directory = provider.selectedExternalDirectory;
       } else {
         root = storageInfo[0].rootDir; //storageInfo[1] for SD card, getting the root directory
-        directory = selectedLocalDirectory;
+        directory = provider.selectedLocalDirectory;
       }
 
       if (directory == null) {
@@ -61,19 +55,16 @@ class _SettingsScreenState extends State<SettingsPage> {
       }
 
       Directory newDirectory = await FolderPicker.pick(
-          allowFolderCreation: true,
-          context: context,
-          rootDirectory: directory,
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(10)))
-      );
+          allowFolderCreation: true, context: context, rootDirectory: directory, shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))));
 
       setState(() {
         if (external) {
-          selectedExternalDirectory = newDirectory;
+          provider.selectedExternalDirectory = newDirectory;
         } else {
-          selectedLocalDirectory = newDirectory;
+          provider.selectedLocalDirectory = newDirectory;
         }
+
+        provider.getFilesList();
         print(newDirectory);
       });
     }
@@ -97,7 +88,7 @@ class _SettingsScreenState extends State<SettingsPage> {
               ),
               Switch(
                 onChanged: toggleSwitch,
-                value: _globals.useExternalMemory,
+                value: provider.useExternalMemory,
                 activeColor: Colors.blue,
                 activeTrackColor: Colors.yellow,
                 inactiveThumbColor: Colors.redAccent,
@@ -123,7 +114,7 @@ class _SettingsScreenState extends State<SettingsPage> {
                   _pickDirectory(context, false);
                 },
               ),
-              selectedLocalDirectory != null ? Text("${selectedLocalDirectory.path}") : Container(),
+              provider.selectedLocalDirectory != null ? Text("${provider.selectedLocalDirectory.path}") : Container(),
             ],
           ),
           Row(
@@ -140,7 +131,7 @@ class _SettingsScreenState extends State<SettingsPage> {
                   _pickDirectory(context, true);
                 },
               ),
-              selectedExternalDirectory != null ? Text("${selectedExternalDirectory.path}") : Container(),
+              provider.selectedExternalDirectory != null ? Text("${provider.selectedExternalDirectory.path}") : Container(),
             ],
           ),
         ],
