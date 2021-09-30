@@ -1,13 +1,12 @@
 import 'dart:math';
 
-import 'package:flutter/material.dart';
-
 import 'package:audioplayers/audioplayers.dart';
+import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:provider/provider.dart';
 
-import 'package:music_handler/string_extension.dart';
 import 'package:music_handler/files_provider.dart';
+import 'package:music_handler/string_extension.dart';
 
 /*
 Gestisco la pagina delle colonne sonore.
@@ -41,14 +40,12 @@ class _MusicPageState extends State<MusicPage> {
 
     musicAudioPlayer.setReleaseMode(ReleaseMode.LOOP);
     ambienceAudioPlayer.setReleaseMode(ReleaseMode.LOOP);
-    print('INIT');
   }
 
   @override
   Widget build(BuildContext context) {
     final FilesProvider filesProvider = Provider.of<FilesProvider>(context, listen: true);
 
-    print('Build: ' + filesProvider.ambienceNames.toString());
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,

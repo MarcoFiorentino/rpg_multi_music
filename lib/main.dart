@@ -18,8 +18,9 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    // TODO Il metodo getFiles del FilesProvider andrà chiamato anche qui nel momento in cui le impostazioni saranno salvate in modo persistente,
-    // così che i file siano recuperati anche all'avvio.
+    
+    final FilesProvider filesProvider = Provider.of<FilesProvider>(context, listen: true);
+    filesProvider.getFilesList();
 
     return MaterialApp(
       title: 'Music Handler',
@@ -36,7 +37,6 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('MAIN');
     return MaterialApp(
       //Gestisco le tab dell'app
       home: DefaultTabController(
