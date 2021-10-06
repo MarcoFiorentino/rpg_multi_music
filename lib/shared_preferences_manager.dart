@@ -1,7 +1,10 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreferencesManager {
-  static final String selectedDirectory = "selectedDirectory";
+  static final String firstDirectory = "firstDirectory";
+  static final String secondDirectory = "secondDirectory";
+  static final String thirdDirectory = "thirdDirectory";
+  static final String fourthDirectory = "fourthDirectory";
 
   static Future<SharedPreferences> getSharedPreferencesInstance() async {
     return await SharedPreferences.getInstance();

@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    
+
     final FilesProvider filesProvider = Provider.of<FilesProvider>(context, listen: true);
     filesProvider.getFilesList();
 
@@ -56,22 +56,22 @@ class HomePage extends StatelessWidget {
                 },
               ),
             ],
-            bottom: TabBar(
-              tabs: [
-                Tab(
-                  icon: Icon(Icons.queue_music_outlined),
-                  text: 'Musica',
-                ),
-                // Tab(
-                //   icon: Icon(Icons.flash_on_outlined),
-                //   text: 'Generatori',
-                // ),
-                // Tab(
-                //   icon: Icon(Icons.alarm_on_outlined),
-                //   text: 'Iniziativa',
-                // ),
-              ],
-            ),
+            // bottom: TabBar(
+            //   tabs: [
+            //     Tab(
+            //       icon: Icon(Icons.queue_music_outlined),
+            //       text: 'Musica',
+            //     ),
+            //     // Tab(
+            //     //   icon: Icon(Icons.flash_on_outlined),
+            //     //   text: 'Generatori',
+            //     // ),
+            //     // Tab(
+            //     //   icon: Icon(Icons.alarm_on_outlined),
+            //     //   text: 'Iniziativa',
+            //     // ),
+            //   ],
+            // ),
           ),
           body: TabBarView(
             children: [

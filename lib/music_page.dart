@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:music_handler/shared_preferences_manager.dart';
 import 'package:path/path.dart';
 import 'package:provider/provider.dart';
 
@@ -45,6 +46,12 @@ class _MusicPageState extends State<MusicPage> {
   @override
   Widget build(BuildContext context) {
     final FilesProvider filesProvider = Provider.of<FilesProvider>(context, listen: true);
+    String firstDir = filesProvider.directories[SharedPreferencesManager.firstDirectory] != null ?
+      basename(filesProvider.directories[SharedPreferencesManager.firstDirectory]) :
+      SharedPreferencesManager.firstDirectory;
+    String secondDir = filesProvider.directories[SharedPreferencesManager.secondDirectory] != null ?
+      basename(filesProvider.directories[SharedPreferencesManager.secondDirectory]) :
+      SharedPreferencesManager.secondDirectory;
 
     return Center(
       child: Column(
@@ -52,114 +59,101 @@ class _MusicPageState extends State<MusicPage> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(""),
-          // Gestione degli audio musica
           // Visualizza titolo e volume
           Text(
-            "Musica: " + musicPlaying + " - Vol: " + musicVolume.toString(),
+            firstDir + ": " + musicPlaying + " - Vol: " + musicVolume.toString(),
             textAlign: TextAlign.center,
           ),
           // Pulsanti di gestione musica e volume musica
-          Table(children: [
-            TableRow(
-              children: [
-                TableCell(
-                  child: ElevatedButton(
-                    child: Text("Play"),
-                    style: ElevatedButton.styleFrom(elevation: 8.0, primary: Colors.lightGreen),
-                    onPressed: () {
-                      play("musica");
-                    },
-                  ),
-                ),
-                TableCell(
-                  child: ElevatedButton(
-                    child: Text("+"),
-                    style: ElevatedButton.styleFrom(elevation: 8.0, primary: Colors.lightGreen),
-                    onPressed: () {
-                      setVolume("musica", "up");
-                    },
-                  ),
-                ),
-                TableCell(
-                  child: ElevatedButton(
-                    child: Text("-"),
-                    style: ElevatedButton.styleFrom(elevation: 8.0, primary: Colors.lightGreen),
-                    onPressed: () {
-                      setVolume("musica", "down");
-                    },
-                  ),
-                ),
-                TableCell(
-                  child: ElevatedButton(
-                    child: Text("Pause"),
-                    style: ElevatedButton.styleFrom(elevation: 8.0, primary: Colors.lightGreen),
-                    onPressed: () {
-                      pause("musica");
-                    },
-                  ),
-                ),
-              ],
-            ),
-          ]),
-          // Gestione degli audio ambientali
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              ElevatedButton(
+                child: Text("Play"),
+                style: ElevatedButton.styleFrom(elevation: 8.0, primary: Colors.lightGreen, fixedSize: Size(MediaQuery.of(context).size.width/5, 40)),
+                onPressed: () {
+                  play("musica");
+                },
+              ),
+              ElevatedButton(
+                child: Text("+"),
+                style: ElevatedButton.styleFrom(elevation: 8.0, primary: Colors.lightGreen, fixedSize: Size(MediaQuery.of(context).size.width/5, 40)),
+                onPressed: () {
+                  setVolume("musica", "up");
+                },
+              ),
+              ElevatedButton(
+                child: Text("-"),
+                style: ElevatedButton.styleFrom(elevation: 8.0, primary: Colors.lightGreen, fixedSize: Size(MediaQuery.of(context).size.width/5, 40)),
+                onPressed: () {
+                  setVolume("musica", "down");
+                },
+              ),
+              ElevatedButton(
+                child: Text("Pause"),
+                style: ElevatedButton.styleFrom(elevation: 8.0, primary: Colors.lightGreen, fixedSize: Size(MediaQuery.of(context).size.width/5, 40)),
+                onPressed: () {
+                  pause("musica");
+                },
+              ),
+            ],
+          ),
           // Visualizza titolo e volume
           Text(
-            "Ambientale: " + ambiencePlaying + " - Vol: " + ambienceVolume.toString(),
+            secondDir + ": " + ambiencePlaying + " - Vol: " + ambienceVolume.toString(),
             textAlign: TextAlign.center,
           ),
           // Pulsanti di gestione ambientali e volume ambientali
-          Table(
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              TableRow(
-                children: [
-                  TableCell(
-                    child: ElevatedButton(
-                      child: Text("Play"),
-                      style: ElevatedButton.styleFrom(elevation: 8.0, primary: Colors.lightBlue),
-                      onPressed: () {
-                        play("ambientale");
-                      },
-                    ),
-                  ),
-                  TableCell(
-                    child: ElevatedButton(
-                      child: Text("+"),
-                      style: ElevatedButton.styleFrom(elevation: 8.0, primary: Colors.lightBlue),
-                      onPressed: () {
-                        setVolume("ambientale", "up");
-                      },
-                    ),
-                  ),
-                  TableCell(
-                    child: ElevatedButton(
-                      child: Text("-"),
-                      style: ElevatedButton.styleFrom(elevation: 8.0, primary: Colors.lightBlue),
-                      onPressed: () {
-                        setVolume("ambientale", "down");
-                      },
-                    ),
-                  ),
-                  TableCell(
-                    child: ElevatedButton(
-                      child: Text("Pause"),
-                      style: ElevatedButton.styleFrom(elevation: 8.0, primary: Colors.lightBlue),
-                      onPressed: () {
-                        pause("ambientale");
-                      },
-                    ),
-                  ),
-                ],
+              ElevatedButton(
+                  child: Text("Play"),
+                  style: ElevatedButton.styleFrom(elevation: 8.0, primary: Colors.lightBlue, fixedSize: Size(MediaQuery.of(context).size.width/5, 40)),
+                  onPressed: () {
+                    play("ambientale");
+                  },
+              ),
+              ElevatedButton(
+                  child: Text("+"),
+                  style: ElevatedButton.styleFrom(elevation: 8.0, primary: Colors.lightBlue, fixedSize: Size(MediaQuery.of(context).size.width/5, 40)),
+                  onPressed: () {
+                    setVolume("ambientale", "up");
+                  },
+              ),
+              ElevatedButton(
+                  child: Text("-"),
+                  style: ElevatedButton.styleFrom(elevation: 8.0, primary: Colors.lightBlue, fixedSize: Size(MediaQuery.of(context).size.width/5, 40)),
+                  onPressed: () {
+                    setVolume("ambientale", "down");
+                  },
+              ),
+              ElevatedButton(
+                  child: Text("Pause"),
+                  style: ElevatedButton.styleFrom(elevation: 8.0, primary: Colors.lightBlue, fixedSize: Size(MediaQuery.of(context).size.width/5, 40)),
+                  onPressed: () {
+                    pause("ambientale");
+                  },
               ),
             ],
+          ),
+          const Divider(
+            height: 20,
+            thickness: 5,
           ),
           // Elenco dei file nel path impostato
           // TODO: gestire anche scorrimento in larghezza
           Expanded(
-            child: ListView.builder(
+            child: ListView.separated(
               controller: scrollController,
-              itemCount: (max(filesProvider.musicNames.length, filesProvider.ambienceNames.length) / colonnePerTipo).round(),
+              itemCount: (max(filesProvider.firstDirNames.length, filesProvider.secondDirNames.length) / colonnePerTipo).round(),
               itemBuilder: (BuildContext context, int index) {
                 return buildRow(context, index, filesProvider);
+              },
+              separatorBuilder: (BuildContext context, int index) {
+                return SizedBox(
+                  height: 10,
+                );
               },
             ),
           ),
@@ -274,17 +268,19 @@ class _MusicPageState extends State<MusicPage> {
   Row buildRow(BuildContext context, int index, FilesProvider provider) {
     List<Widget> sizedBoxes = [];
 
+    // for (int i = 0; i < )
+
     // Aggiunge i pulsanti musica alla riga o pulsanti vuoti se servono
     for (int i = 0; i < colonnePerTipo; i++) {
-      if (((index * colonnePerTipo) + i) < provider.musicNames.length) {
+      if (((index * colonnePerTipo) + i) < provider.firstDirNames.length) {
         sizedBoxes.add(
           SizedBox(
             width: MediaQuery.of(context).size.width * 0.23,
             child: ElevatedButton(
-              child: Text(basename(provider.musicNames[(index * colonnePerTipo) + i].path).capitalize()),
+              child: Text(basenameWithoutExtension(provider.firstDirNames[(index * colonnePerTipo) + i].path).capitalize()),
               style: ElevatedButton.styleFrom(elevation: 8.0, primary: Colors.lightGreen),
               onPressed: () {
-                playSelected("musica", provider.musicNames[(index * colonnePerTipo) + i].path);
+                playSelected("musica", provider.firstDirNames[(index * colonnePerTipo) + i].path);
               },
             ),
           ),
@@ -298,15 +294,15 @@ class _MusicPageState extends State<MusicPage> {
 
     // Aggiunge i pulsanti ambiente alla riga o pulsanti vuoti se servono
     for (int i = 0; i < colonnePerTipo; i++) {
-      if (((index * colonnePerTipo) + i) < provider.ambienceNames.length) {
+      if (((index * colonnePerTipo) + i) < provider.secondDirNames.length) {
         sizedBoxes.add(
           SizedBox(
             width: MediaQuery.of(context).size.width * 0.23,
             child: ElevatedButton(
-              child: Text(basename(provider.ambienceNames[(index * colonnePerTipo) + i].path).capitalize()),
+              child: Text(basenameWithoutExtension(provider.secondDirNames[(index * colonnePerTipo) + i].path).capitalize()),
               style: ElevatedButton.styleFrom(elevation: 8.0, primary: Colors.lightBlue),
               onPressed: () {
-                playSelected("ambientale", provider.ambienceNames[(index * colonnePerTipo) + i].path);
+                playSelected("ambientale", provider.secondDirNames[(index * colonnePerTipo) + i].path);
               },
             ),
           ),

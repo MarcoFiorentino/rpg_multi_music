@@ -9,20 +9,20 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class FilesProvider with ChangeNotifier {
   // Actual shared content
-  List<File> _musicNames = [];
-  List<File> _ambienceNames = [];
-  String _selectedDirectory;
+  List<File> _firstDirNames = [];
+  List<File> _secondDirNames = [];
+  Map<String, String> _directories = {};
 
-  List<File> get musicNames => this._musicNames;
-  List<File> get ambienceNames => this._ambienceNames;
-  String get selectedDirectory => this._selectedDirectory;
+  List<File> get firstDirNames => this._firstDirNames;
+  List<File> get secondDirNames => this._secondDirNames;
+  Map<String, String> get directories => this._directories;
 
   // Recupero le liste di file
   void getFilesList() async {
     // Recupero i file dalla cartella 'music'
-    this._musicNames = await this.getFiles("music");
+    this._firstDirNames = await this.getFiles(SharedPreferencesManager.firstDirectory);
     this.notifyListeners();
-    this._ambienceNames = await this.getFiles("ambience");
+    this._secondDirNames = await this.getFiles(SharedPreferencesManager.secondDirectory);
     this.notifyListeners();
   }
 
@@ -34,10 +34,11 @@ class FilesProvider with ChangeNotifier {
       FileManager fm;
 
       SharedPreferences sharedPreferences = await SharedPreferencesManager.getSharedPreferencesInstance();
-      this._selectedDirectory = sharedPreferences.getString(SharedPreferencesManager.selectedDirectory) ?? "";
-      if (this._selectedDirectory != "") {
+
+      this._directories[type] = sharedPreferences.getString(type) ?? "";
+      if (this._directories[type] != "") {
         fm = FileManager(
-            root: Directory(this._selectedDirectory + "/" + type));
+            root: Directory(_directories[type]));
       }
 
       if (fm != null) {
