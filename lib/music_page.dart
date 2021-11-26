@@ -26,6 +26,10 @@ class _MusicPageState extends State<MusicPage> {
   // TODO: gestire da settings il numero di tipi diversi di musiche da poter gestire
   final musicAudioPlayer = AudioPlayer();
   final ambienceAudioPlayer = AudioPlayer();
+  final randomMusicAudioPlayer = AudioPlayer();
+  final randomAmbienceAudioPlayer = AudioPlayer();
+  var currentMusicAudioPlayer;
+  var currentAmbienceAudioPlayer;
   var musicPlaying = "---";
   var ambiencePlaying = "---";
   var musicVolume = 5;
@@ -41,6 +45,10 @@ class _MusicPageState extends State<MusicPage> {
 
     musicAudioPlayer.setReleaseMode(ReleaseMode.LOOP);
     ambienceAudioPlayer.setReleaseMode(ReleaseMode.LOOP);
+    randomMusicAudioPlayer.setReleaseMode(ReleaseMode.RELEASE);
+    randomAmbienceAudioPlayer.setReleaseMode(ReleaseMode.RELEASE);
+    currentMusicAudioPlayer = musicAudioPlayer;
+    currentAmbienceAudioPlayer = ambienceAudioPlayer;
   }
 
   @override
@@ -141,6 +149,25 @@ class _MusicPageState extends State<MusicPage> {
             height: 20,
             thickness: 5,
           ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              ElevatedButton(
+                child: Text("Random"),
+                style: ElevatedButton.styleFrom(elevation: 8.0, primary: Colors.lightGreen, fixedSize: Size(MediaQuery.of(context).size.width/2.5, 40)),
+                onPressed: () {
+                  random("musica", filesProvider);
+                },
+              ),
+              ElevatedButton(
+                child: Text("Random"),
+                style: ElevatedButton.styleFrom(elevation: 8.0, primary: Colors.lightBlue, fixedSize: Size(MediaQuery.of(context).size.width/2.5, 40)),
+                onPressed: () {
+                  random("ambientale", filesProvider);
+                },
+              ),
+            ]
+          ),
           // Elenco dei file nel path impostato
           // TODO: gestire anche scorrimento in larghezza
           Expanded(
@@ -163,23 +190,27 @@ class _MusicPageState extends State<MusicPage> {
   }
 
   // Metto in play l'audio selezionato e ne visualizza il titolo
-  void playSelected(String type, String path) async {
+  void playSelected(String type, String path, bool random) async {
     switch (type) {
       case "musica":
         setState(() {
           musicFile = path;
-          musicAudioPlayer.play(musicFile, isLocal: true);
           musicPlaying = basename(path).capitalize();
-          musicAudioPlayer.setVolume(musicVolume / 10);
+          currentMusicAudioPlayer.stop();
+          currentMusicAudioPlayer = random ? randomMusicAudioPlayer : musicAudioPlayer;
+          currentMusicAudioPlayer.play(musicFile, isLocal: true);
+          currentMusicAudioPlayer.setVolume(musicVolume / 10);
         });
         break;
 
       case "ambientale":
         setState(() {
           ambienceFile = path;
-          ambienceAudioPlayer.play(ambienceFile, isLocal: true);
           ambiencePlaying = basename(path).capitalize();
-          ambienceAudioPlayer.setVolume(ambienceVolume / 10);
+          currentAmbienceAudioPlayer.stop();
+          currentAmbienceAudioPlayer = random ? randomAmbienceAudioPlayer : ambienceAudioPlayer;
+          currentAmbienceAudioPlayer.play(ambienceFile, isLocal: true);
+          currentAmbienceAudioPlayer.setVolume(ambienceVolume / 10);
         });
         break;
     }
@@ -190,15 +221,15 @@ class _MusicPageState extends State<MusicPage> {
     switch (type) {
       case "musica":
         if (musicFile != null) {
-          musicAudioPlayer.play(musicFile, isLocal: true);
-          musicAudioPlayer.setVolume(musicVolume / 10);
+          currentMusicAudioPlayer.play(musicFile, isLocal: true);
+          currentMusicAudioPlayer.setVolume(musicVolume / 10);
         }
         break;
 
       case "ambientale":
         if (ambienceFile != null) {
-          ambienceAudioPlayer.play(ambienceFile, isLocal: true);
-          ambienceAudioPlayer.setVolume(ambienceVolume / 10);
+          currentAmbienceAudioPlayer.play(ambienceFile, isLocal: true);
+          currentAmbienceAudioPlayer.setVolume(ambienceVolume / 10);
         }
         break;
     }
@@ -209,13 +240,13 @@ class _MusicPageState extends State<MusicPage> {
     switch (type) {
       case "musica":
         if (musicFile != null) {
-          musicAudioPlayer.pause();
+          currentMusicAudioPlayer.pause();
         }
         break;
 
       case "ambientale":
         if (ambienceFile != null) {
-          ambienceAudioPlayer.pause();
+          currentAmbienceAudioPlayer.pause();
         }
         break;
     }
@@ -239,7 +270,7 @@ class _MusicPageState extends State<MusicPage> {
             musicVolume = 0;
           }
 
-          musicAudioPlayer.setVolume(musicVolume / 10);
+          currentMusicAudioPlayer.setVolume(musicVolume / 10);
         });
         break;
 
@@ -258,17 +289,38 @@ class _MusicPageState extends State<MusicPage> {
             ambienceVolume = 0;
           }
 
-          ambienceAudioPlayer.setVolume(ambienceVolume / 10);
+          currentAmbienceAudioPlayer.setVolume(ambienceVolume / 10);
         });
         break;
     }
   }
 
+  // Metto in play le musiche di una categoria in ordine casuale
+  void random(String type, FilesProvider provider) {
+
+    switch (type) {
+      case "musica":
+        String path = provider.firstDirNames[new Random().nextInt(provider.firstDirNames.length)].path;
+        playSelected(type, path, true);
+        currentMusicAudioPlayer.onPlayerCompletion.listen((event) {
+          random(type, provider);
+        });
+        break;
+
+      case "ambientale":
+        String path = provider.secondDirNames[new Random().nextInt(provider.secondDirNames.length)].path;
+        playSelected(type, path, true);
+        currentAmbienceAudioPlayer.onPlayerCompletion.listen((event) {
+          random(type, provider);
+        });
+        break;
+    }
+
+  }
+
   // Creo una riga di pulsanti per le musiche
   Row buildRow(BuildContext context, int index, FilesProvider provider) {
     List<Widget> sizedBoxes = [];
-
-    // for (int i = 0; i < )
 
     // Aggiunge i pulsanti musica alla riga o pulsanti vuoti se servono
     for (int i = 0; i < colonnePerTipo; i++) {
@@ -280,7 +332,7 @@ class _MusicPageState extends State<MusicPage> {
               child: Text(basenameWithoutExtension(provider.firstDirNames[(index * colonnePerTipo) + i].path).capitalize()),
               style: ElevatedButton.styleFrom(elevation: 8.0, primary: Colors.lightGreen),
               onPressed: () {
-                playSelected("musica", provider.firstDirNames[(index * colonnePerTipo) + i].path);
+                playSelected("musica", provider.firstDirNames[(index * colonnePerTipo) + i].path, false);
               },
             ),
           ),
@@ -302,7 +354,7 @@ class _MusicPageState extends State<MusicPage> {
               child: Text(basenameWithoutExtension(provider.secondDirNames[(index * colonnePerTipo) + i].path).capitalize()),
               style: ElevatedButton.styleFrom(elevation: 8.0, primary: Colors.lightBlue),
               onPressed: () {
-                playSelected("ambientale", provider.secondDirNames[(index * colonnePerTipo) + i].path);
+                playSelected("ambientale", provider.secondDirNames[(index * colonnePerTipo) + i].path, false);
               },
             ),
           ),
