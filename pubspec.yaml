@@ -27,16 +27,23 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.3
-  path_provider: ^2.0.5
+  cupertino_icons: ^1.0.4
+  path_provider: ^2.0.7
   flutter_file_manager: ^0.2.0
-  permission_handler: ^8.1.6
-  file_support: ^1.0.3+2
+  permission_handler: ^8.3.0
+  file_support: ^1.0.3+5
   audioplayers: ^0.20.1
-  easy_folder_picker: ^1.1.1
+  easy_folder_picker: ^1.2.1
   provider: ^6.0.1
-  file_picker: ^4.1.3
-  shared_preferences: ^2.0.8
+  file_picker: ^4.2.7
+  shared_preferences: ^2.0.9
+  flutter_launcher_icons: ^0.9.2
+  flutter_color_picker_wheel: ^0.0.1
+
+flutter_icons:
+  image_path: "assets/icon_music_dice.png"
+  image_path_android: "assets/icon_music_dice.png"
+  android: true # can specify file name here e.g. "ic_launcher"
 
 dev_dependencies:
   flutter_test:

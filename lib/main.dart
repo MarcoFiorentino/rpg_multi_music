@@ -21,6 +21,7 @@ class MyApp extends StatelessWidget {
 
     final FilesProvider filesProvider = Provider.of<FilesProvider>(context, listen: true);
     filesProvider.getFilesList();
+    filesProvider.getColors();
 
     return MaterialApp(
       title: 'Music Handler',

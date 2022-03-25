@@ -9,21 +9,25 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class FilesProvider with ChangeNotifier {
   // Actual shared content
-  List<File> _firstDirNames = [];
-  List<File> _secondDirNames = [];
+  List<List<File>> _dirNames = [];
   Map<String, String> _directories = {};
+  List<String> _colors = [];
 
-  List<File> get firstDirNames => this._firstDirNames;
-  List<File> get secondDirNames => this._secondDirNames;
+  List<List<File>> get dirNames => this._dirNames;
   Map<String, String> get directories => this._directories;
+  List<String> get colors => this._colors;
 
   // Recupero le liste di file
   void getFilesList() async {
-    // Recupero i file dalla cartella 'music'
-    this._firstDirNames = await this.getFiles(SharedPreferencesManager.firstDirectory);
-    this.notifyListeners();
-    this._secondDirNames = await this.getFiles(SharedPreferencesManager.secondDirectory);
-    this.notifyListeners();
+    SharedPreferences sharedPreferences = await SharedPreferencesManager.getSharedPreferencesInstance();
+
+    print(sharedPreferences.getStringList("Directories"));
+    if (sharedPreferences.getStringList("Directories") != null) {
+      sharedPreferences.getStringList("Directories").forEach((directory) async {
+        this._dirNames.add(await this.getFiles(directory));
+        this.notifyListeners();
+      });
+    }
   }
 
   // Restituisce l'elenco dei file audio nella sotto cartella specificata
@@ -44,10 +48,29 @@ class FilesProvider with ChangeNotifier {
       if (fm != null) {
         files = await fm.filesTree(
           excludedPaths: ["/storage/emulated/0/Android"],
-          extensions: ["mp4", "m4a"],
+          extensions: ["mp4", "m4a", "mp3"],
         );
       }
     }
     return files;
+  }
+
+  Future<int> getNumDir() async {
+    SharedPreferences sharedPreferences = await SharedPreferencesManager.getSharedPreferencesInstance();
+    if (sharedPreferences.getString("NumDir") != null) {
+      return int.parse(sharedPreferences.getString("NumDir"));
+    } else {
+      return 2;
+    }
+  }
+
+  void getColors() async {
+    SharedPreferences sharedPreferences = await SharedPreferencesManager.getSharedPreferencesInstance();
+    if (sharedPreferences.getStringList("Colors") != null) {
+      sharedPreferences.getStringList("Colors").forEach((color) async {
+        this._colors.add(color);
+        this.notifyListeners();
+      });
+    }
   }
 }
