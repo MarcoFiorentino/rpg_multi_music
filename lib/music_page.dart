@@ -9,21 +9,13 @@ import 'package:provider/provider.dart';
 import 'package:music_handler/files_provider.dart';
 import 'package:music_handler/string_extension.dart';
 
-/*
-Gestisco la pagina delle colonne sonore.
-Queste sono divise in due macrogruppi:
-- ambientale: sono le musiche di background (pioggia, vento, ecc.)
-- musica: sono le musiche particolari della scena (combattimento, gruppo che suona, ecc.)
-Possono essere eseguite una musica ed un effetto ambientale in contemporanea e gestite in contemporanea.
- */
-
 class MusicPage extends StatefulWidget {
   @override
   _MusicPageState createState() => _MusicPageState();
 }
 
 class _MusicPageState extends State<MusicPage> {
-  // TODO: gestire da settings il numero di tipi diversi di musiche da poter gestire
+  // Variabili condivise
   List<AudioPlayer> players = [];
   List<String> playing = [];
   List<int> volumes = [];
@@ -42,7 +34,6 @@ class _MusicPageState extends State<MusicPage> {
     final FilesProvider filesProvider = Provider.of<FilesProvider>(context, listen: true);
 
     for (var i = 0; i < filesProvider.dirNames.length; i++) {
-      // print(filesProvider.dirNames[i]);
       players.add(AudioPlayer());
       players[i].setReleaseMode(ReleaseMode.LOOP);
       playing.add("---");
@@ -110,6 +101,14 @@ class _MusicPageState extends State<MusicPage> {
     }
   }
 
+  // Metto in pausa l'audio in memoria
+  void stop(int colIndex) {
+
+    if (files[colIndex] != null) {
+      players[colIndex].stop();
+    }
+  }
+
   // Imposto il volume
   void setVolume(String action, int colIndex) {
 
@@ -132,29 +131,33 @@ class _MusicPageState extends State<MusicPage> {
     });
   }
 
-  // Metto in play le musiche di una categoria in ordine casuale
+  // Metto in play le musiche di una directory in ordine casuale
   void random(FilesProvider provider, int colIndex) {
 
     String path = provider.dirNames[colIndex][new Random().nextInt(provider.dirNames[colIndex].length)].path;
-    playSelected(path, colIndex);
     players[colIndex].onPlayerCompletion.listen((event) {
       random(provider, colIndex);
     });
+    playSelected(path, colIndex);
+
   }
 
-  // Creo una colonna di gestione per una cartella
+  // Creo una colonna di gestione per una directory
   Column buildColumn(BuildContext context, int colIndex, FilesProvider provider) {
 
-    // Color btnCol = Color(int.parse(provider.colors[colIndex]));
-    Color btnCol = Colors.green;
-// print(provider.directories.keys.skip(colIndex).take(1));
+    Color btnCol = Color(int.parse("0xFF009000"));
+    if (provider.colors.length >= colIndex + 1) {
+      btnCol = Color(int.parse(provider.colors[colIndex]));
+    }
+
+    String dirName = basename(provider.dirNames[colIndex][0].parent.toString());
+    dirName = dirName.substring(0, dirName.length-1);
+
     return Column(
-      // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         // Visualizza titolo e volume
         Text(
-          // provider.directories.keys.skip(colIndex).take(1).first + ": ",
-          "AAA",
+          dirName + ": ",
           textAlign: TextAlign.center,
         ),
         Text(
@@ -169,6 +172,16 @@ class _MusicPageState extends State<MusicPage> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
+            ElevatedButton(
+              child: Text("Stop"),
+              style: ElevatedButton.styleFrom(elevation: 8.0, primary: btnCol, fixedSize: Size(MediaQuery.of(context).size.width/5, 40)),
+              onPressed: () {
+                stop(colIndex);
+              },
+            ),
+            SizedBox(
+              width: 10,
+            ),
             ElevatedButton(
               child: Text("Pause"),
               style: ElevatedButton.styleFrom(elevation: 8.0, primary: btnCol, fixedSize: Size(MediaQuery.of(context).size.width/5, 40)),
@@ -192,7 +205,7 @@ class _MusicPageState extends State<MusicPage> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             ElevatedButton(
-              child: Text("-"),
+              child: Text("Vol -"),
               style: ElevatedButton.styleFrom(elevation: 8.0, primary: btnCol, fixedSize: Size(MediaQuery.of(context).size.width/5, 40)),
               onPressed: () {
                 setVolume("down", colIndex);
@@ -202,7 +215,7 @@ class _MusicPageState extends State<MusicPage> {
               width: 10,
             ),
             ElevatedButton(
-              child: Text("+"),
+              child: Text("Vol +"),
               style: ElevatedButton.styleFrom(elevation: 8.0, primary: btnCol, fixedSize: Size(MediaQuery.of(context).size.width/5, 40)),
               onPressed: () {
                 setVolume("up", colIndex);

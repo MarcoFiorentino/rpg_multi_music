@@ -13,21 +13,26 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsPage> {
+  // Variabili condivise
   final ScrollController scrollController = ScrollController();
   FilesProvider provider;
   int numDir = 1;
-  List<Color> colors = [];
+  List<String> colors = [];
 
+  // Alla selezione di una directory salvo la coppia nome-path ed il nome della directory nella lista
   Future<void> _pickDirectory(BuildContext context, bool external, String dirName, int rowIndex) async {
 
     String dirPath = await FilePicker.platform.getDirectoryPath();
 
     setState(() {
       if (dirPath.isNotEmpty) {
-        SharedPreferencesManager.saveKV(dirName, dirPath);
-        SharedPreferencesManager.saveDirList(dirName, rowIndex);
+        SharedPreferencesManager.saveKV(dirName, dirPath, true);
+        SharedPreferencesManager.saveDirList(dirName, rowIndex, true);
+        SharedPreferencesManager.saveColorsList("0xFF009000", rowIndex, true);
       }
     });
+
+    //Aggiorno l'elenco di directory e file
     provider.getFilesList();
   }
 
@@ -40,10 +45,12 @@ class _SettingsScreenState extends State<SettingsPage> {
   }
 
   Widget buildSettingsList(BuildContext context) {
-    provider = Provider.of<FilesProvider>(context, listen: false);
+    provider = Provider.of<FilesProvider>(context, listen: true);
+    // Recupero il numero di directory salvate ed i colori per andare a costruire l'interfaccia
     if (numDir < provider.directories.length) {
       numDir = provider.directories.length;
     }
+    colors = provider.colors;
 
     return Center(
         child: Column(
@@ -55,27 +62,9 @@ class _SettingsScreenState extends State<SettingsPage> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'Number of directories: ',
+                  'Directories: ',
                   style: TextStyle(fontSize: 20),
                 ),
-                ElevatedButton(
-                  child: Text("-"),
-                  style: ElevatedButton.styleFrom(elevation: 8.0, primary: Colors.lightGreen, fixedSize: Size(20, 20)),
-                  onPressed: () {
-                    changeNumDir(-1);
-                  },
-                ),
-                Text(
-                  numDir.toString(),
-                  style: TextStyle(fontSize: 20),
-                ),
-                ElevatedButton(
-                  child: Text("+"),
-                  style: ElevatedButton.styleFrom(elevation: 8.0, primary: Colors.lightGreen, fixedSize: Size(20, 20)),
-                  onPressed: () {
-                    changeNumDir(1);
-                  },
-                )
               ]
             ),
             Expanded(
@@ -88,29 +77,42 @@ class _SettingsScreenState extends State<SettingsPage> {
                 separatorBuilder: (BuildContext context, int index) => const Divider(),
               ),
             ),
+            ElevatedButton(
+              child: Text("+"),
+              style: ElevatedButton.styleFrom(elevation: 8.0, primary: Color(int.parse("0xFF009000")), fixedSize: Size(20, 20)),
+              onPressed: () {
+                setState(() {
+                  numDir += 1;
+                });
+              },
+            )
           ],
         ),
     );
   }
 
-  void changeNumDir(int val) {
-    setState(() {
-      numDir += val;
-      if(numDir < 1) {
-        numDir = 1;
-      }
-    });
+  // Elimino una directory salvata
+  void deleteDir(String dirName, int rowIndex) {
+    if (provider.directories.length > rowIndex) {
+      SharedPreferencesManager.saveKV(dirName, "", false);
+      SharedPreferencesManager.saveDirList("", rowIndex, false);
+      SharedPreferencesManager.saveColorsList("", rowIndex, false);
+
+      //Aggiorno l'elenco di directory e file
+      provider.removeFromDirs(dirName);
+      provider.getFilesList();
+    }
   }
 
   // Creo una riga di pulsanti per le musiche
   Row buildMusicRow(BuildContext context, int rowIndex) {
     var dirName = "Directory"+rowIndex.toString();
     if (colors.length < rowIndex + 1) {
-      colors.add(Colors.green);
+      colors.add("0xFF009000");
     }
 
     return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
+      // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       mainAxisSize: MainAxisSize.min,
       children: [
         Text(
@@ -130,24 +132,25 @@ class _SettingsScreenState extends State<SettingsPage> {
         WheelColorPicker(
           onSelect: (Color newColor) {
             setState(() {
-              SharedPreferencesManager.saveColorsList(newColor.value.toString(), rowIndex);
+              SharedPreferencesManager.saveColorsList(newColor.value.toString(), rowIndex, true);
               provider.getColors();
             });
           },
-          /// long press to open, another behaviour is clickToOpen to open
           behaviour: ButtonBehaviour.clickToOpen,
-          /// initial color
-          defaultColor: colors[rowIndex],
-          /// fanLikeAnimationConfig is a preset, you can import this from the package
+          defaultColor: Color(int.parse(colors[rowIndex])),
           animationConfig: fanLikeAnimationConfig,
-          /// simpleColors is a preset, you can import this from the package
           colorList: defaultAvailableColors,
-          /// size of the clickable button in the middle
           buttonSize: 30,
-          /// height of each piece (outerRadius - innerRadius of a piece)
           pieceHeight: 25,
-          /// starting radius of the donut shaped wheel
           innerRadius: 30,
+        ),
+        ElevatedButton(
+          child: Text("X"),
+          style: ElevatedButton.styleFrom(elevation: 8.0, primary: Color(int.parse("0xFF009000")), fixedSize: Size(10, 20)),
+          onPressed: () {
+
+            deleteDir(dirName, rowIndex);
+          },
         )
       ],
     );

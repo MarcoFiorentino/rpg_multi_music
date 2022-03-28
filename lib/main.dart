@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final FilesProvider filesProvider = Provider.of<FilesProvider>(context, listen: true);
+    final FilesProvider filesProvider = Provider.of<FilesProvider>(context, listen: false);
     filesProvider.getFilesList();
     filesProvider.getColors();
 
