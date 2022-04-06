@@ -1,13 +1,13 @@
 import 'dart:math';
 
 import 'package:audioplayers/audioplayers.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:provider/provider.dart';
-
 import 'package:music_handler/files_provider.dart';
 import 'package:music_handler/string_extension.dart';
+import 'column_settings_dialog.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MusicPage extends StatefulWidget {
   @override
@@ -20,8 +20,10 @@ class _MusicPageState extends State<MusicPage> {
   List<String> playing = [];
   List<int> volumes = [];
   List<String> files = [];
+  List<String> states = [];
 
   final ScrollController scrollController = ScrollController();
+  FilesProvider filesProvider;
   final colonnePerTipo = 2;
 
   @override
@@ -31,14 +33,18 @@ class _MusicPageState extends State<MusicPage> {
 
   @override
   Widget build(BuildContext context) {
-    final FilesProvider filesProvider = Provider.of<FilesProvider>(context, listen: true);
+    filesProvider = Provider.of<FilesProvider>(context, listen: true);
 
-    for (var i = 0; i < filesProvider.dirNames.length; i++) {
+    // print("2: " + AppLocalizations.of(context).toString());
+    // Questo è sbagliato perchè ad ogni build aggiunge valori
+    // Io uso sempre i soliti ma le liste crescono all'infinito
+    for (var i = 0; i < filesProvider.filesPaths.length; i++) {
       players.add(AudioPlayer());
       players[i].setReleaseMode(ReleaseMode.LOOP);
       playing.add("---");
       volumes.add(5);
       files.add("");
+      states.add("");
     }
 
     return Center(
@@ -52,9 +58,34 @@ class _MusicPageState extends State<MusicPage> {
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
               controller: scrollController,
-              itemCount: filesProvider.dirNames.length,
+              itemCount: filesProvider.filesPaths.length + 1,
               itemBuilder: (BuildContext context, int colIndex) {
-                return buildColumn(context, colIndex, filesProvider);
+                // L'ultima colonna è quella con il pulsante per aggiungerne altre
+                if (colIndex == filesProvider.filesPaths.length) {
+                  return SizedBox (
+                    width: 100,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        ElevatedButton(
+                          child: Text("+"),
+                          style: ElevatedButton.styleFrom(elevation: 8.0, primary: Color(int.parse("0xFF009000")), fixedSize: Size(MediaQuery.of(context).size.width/5, 40)),
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return ColumnSettingsDialog(newCol: true);
+                              },
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                  );
+                } else {
+                  return buildColumn(context, colIndex, filesProvider);
+                }
               },
               separatorBuilder: (BuildContext context, int colIndex) {
                 return SizedBox(
@@ -69,8 +100,7 @@ class _MusicPageState extends State<MusicPage> {
   }
 
   // Metto in play l'audio selezionato e ne visualizza il titolo
-  void playSelected(String path, int colIndex) async {
-
+  void playSelected(BuildContext context, String path, int colIndex) async {
     setState(() {
       files[colIndex] = path;
       playing[colIndex] = basename(path).capitalize();
@@ -81,6 +111,8 @@ class _MusicPageState extends State<MusicPage> {
       players[colIndex].stop();
       players[colIndex].play(files[colIndex], isLocal: true);
       players[colIndex].setVolume(volumes[colIndex] / 10);
+      states[colIndex] = "Playing";
+      // states[colIndex] = AppLocalizations.of(context).playing;
     });
   }
 
@@ -90,6 +122,10 @@ class _MusicPageState extends State<MusicPage> {
     if (files[colIndex] != "") {
       players[colIndex].play(files[colIndex], isLocal: true);
       players[colIndex].setVolume(volumes[colIndex] / 10);
+
+      setState(() {
+        states[colIndex] = "Playing";
+      });
     }
   }
 
@@ -98,6 +134,10 @@ class _MusicPageState extends State<MusicPage> {
 
     if (files[colIndex] != null) {
       players[colIndex].pause();
+
+      setState(() {
+        states[colIndex] = "Paused";
+      });
     }
   }
 
@@ -106,6 +146,10 @@ class _MusicPageState extends State<MusicPage> {
 
     if (files[colIndex] != null) {
       players[colIndex].stop();
+
+      setState(() {
+        states[colIndex] = "Stopped";
+      });
     }
   }
 
@@ -132,36 +176,50 @@ class _MusicPageState extends State<MusicPage> {
   }
 
   // Metto in play le musiche di una directory in ordine casuale
-  void random(FilesProvider provider, int colIndex) {
+  void random(BuildContext context, FilesProvider provider, int colIndex) {
 
-    String path = provider.dirNames[colIndex][new Random().nextInt(provider.dirNames[colIndex].length)].path;
+    String path = provider.filesPaths[colIndex][new Random().nextInt(provider.filesPaths[colIndex].length)].path;
     players[colIndex].onPlayerCompletion.listen((event) {
-      random(provider, colIndex);
+      random(context, provider, colIndex);
     });
-    playSelected(path, colIndex);
+    playSelected(context, path, colIndex);
 
   }
 
   // Creo una colonna di gestione per una directory
   Column buildColumn(BuildContext context, int colIndex, FilesProvider provider) {
 
-    Color btnCol = Color(int.parse("0xFF009000"));
-    if (provider.colors.length >= colIndex + 1) {
-      btnCol = Color(int.parse(provider.colors[colIndex]));
-    }
-
-    String dirName = basename(provider.dirNames[colIndex][0].parent.toString());
-    dirName = dirName.substring(0, dirName.length-1);
+    Color btnCol = Color(int.parse(provider.dirsColors[colIndex]));
+    String dirName = provider.dirsNames[colIndex];
 
     return Column(
       children: [
         // Visualizza titolo e volume
-        Text(
-          dirName + ": ",
-          textAlign: TextAlign.center,
+        Row(
+          children: [
+            Text(
+              dirName,
+              textAlign: TextAlign.center,
+            ),
+            IconButton(
+              icon: Icon(Icons.more_vert),
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return ColumnSettingsDialog(newCol: false, colIndex: colIndex);
+                  },
+                );
+              },
+            ),
+          ],
         ),
         Text(
           basenameWithoutExtension(playing[colIndex]),
+          textAlign: TextAlign.center,
+        ),
+        Text(
+          "State: " + states[colIndex],
           textAlign: TextAlign.center,
         ),
         Text(
@@ -236,18 +294,18 @@ class _MusicPageState extends State<MusicPage> {
                   .size
                   .width / 2.5, 40)),
           onPressed: () {
-            random(provider, colIndex);
+            random(context, provider, colIndex);
           },
         ),
         SizedBox(
-          height: 400,
+          height: 300,
           width: 200,
           child: ListView.separated(
             scrollDirection: Axis.vertical,
             controller: scrollController,
             shrinkWrap: true,
             physics: ClampingScrollPhysics(),
-            itemCount: (provider.dirNames[colIndex].length / colonnePerTipo).round(),
+            itemCount: (provider.filesPaths[colIndex].length / colonnePerTipo).round(),
             itemBuilder: (BuildContext context, int rowIndex) {
               return buildRow(context, colIndex, rowIndex, provider, btnCol);
             },
@@ -270,7 +328,7 @@ class _MusicPageState extends State<MusicPage> {
     // Aggiunge i pulsanti musica alla riga o pulsanti vuoti se servono
     for (int i = 0; i < colonnePerTipo; i++) {
       int musicIndex = (rowIndex * colonnePerTipo) + i;
-      if (musicIndex < provider.dirNames[colIndex].length) {
+      if (musicIndex < provider.filesPaths[colIndex].length) {
         sizedBoxes.add(
           SizedBox(
             width: MediaQuery
@@ -279,12 +337,13 @@ class _MusicPageState extends State<MusicPage> {
                 .width * 0.23,
             child: ElevatedButton(
               child: Text(basenameWithoutExtension(
-                  provider.dirNames[colIndex][musicIndex].path)
+                  provider.filesPaths[colIndex][musicIndex].path)
                   .capitalize()),
               style: ElevatedButton.styleFrom(
                   elevation: 8.0, primary: btnCol),
               onPressed: () {
-                playSelected(provider.dirNames[colIndex][musicIndex].path,
+                playSelected(context,
+                    provider.filesPaths[colIndex][musicIndex].path,
                     colIndex);
               },
             ),

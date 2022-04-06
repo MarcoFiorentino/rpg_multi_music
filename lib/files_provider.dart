@@ -9,56 +9,58 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class FilesProvider with ChangeNotifier {
   // Variabili condivise
-  List<List<File>> _dirNames = [];
-  Map<String, String> _directories = {};
-  List<String> _colors = [];
+  List<List<File>> _filesPaths = [];
+  List<String> _dirsIds = [];
+  List<String> _dirsPaths = [];
+  List<String> _dirsColors = [];
+  List<String> _dirsNames = [];
 
-  List<List<File>> get dirNames => this._dirNames;
-  Map<String, String> get directories => this._directories;
-  List<String> get colors => this._colors;
+
+  List<List<File>> get filesPaths => this._filesPaths;
+  List<String> get dirsIds => this._dirsIds;
+  List<String> get dirsPaths => this._dirsPaths;
+  List<String> get dirsColors => this._dirsColors;
+  List<String> get dirsNames => this._dirsNames;
 
   // Recupero le liste di file
   void getFilesList() async {
     SharedPreferences sharedPreferences = await SharedPreferencesManager.getSharedPreferencesInstance();
 
-    if (sharedPreferences.getStringList("Directories") != null) {
-      if (sharedPreferences.getStringList("Directories").length > 0) {
-        // Aggiorno le voci in dirNames con quelle nelle SharedPreferences
-        sharedPreferences.getStringList("Directories").asMap().forEach((index, directory) async {
-          if (this._dirNames.length >= index + 1) {
-            this._dirNames[index] = await this.getFiles(directory);
-          } else {
-            this._dirNames.add(await this.getFiles(directory));
-          }
-          this.notifyListeners();
-        });
-        // Rimuovo le dirNames eccedenti
-        if (this._dirNames.length > sharedPreferences.getStringList("Directories").length) {
-          this._dirNames.removeAt(sharedPreferences.getStringList("Directories").length);
-          this.notifyListeners();
-        }
-      } else {
-        // Se le SharedPreferences non hanno directory svuoto anche dirNames e directories
-        this._dirNames = [];
-        this._directories = {};
+    // Svuoto tutte le liste
+    this._filesPaths = [];
+    this._dirsIds = [];
+    this._dirsPaths = [];
+    this._dirsColors = [];
+    this._dirsNames = [];
+
+    if (sharedPreferences.getStringList("DirsId") != null && sharedPreferences.getStringList("DirsId").length > 0) {
+      // Per ogni id salvato riempio le liste
+      sharedPreferences.getStringList("DirsId").asMap().forEach((index, dirId) async {
+        this._filesPaths.add(await this.getFiles(dirId, sharedPreferences.getStringList(dirId)[0]));
+        this._dirsIds.add(dirId);
+        this._dirsPaths.add(sharedPreferences.getStringList(dirId)[0]);
+        this._dirsColors.add(sharedPreferences.getStringList(dirId)[1]);
+        this._dirsNames.add(sharedPreferences.getStringList(dirId)[2]);
+
+        // Notifico i cambiamenti ai listener
         this.notifyListeners();
-      }
+      });
+    } else {
+      // Se ho cancellato tutte le colonne notifico i cambiamenti ai listener
+      this.notifyListeners();
     }
   }
 
   // Restituisce l'elenco dei file audio nella sotto cartella specificata
-  Future<List<File>> getFiles(String type) async {
+  Future<List<File>> getFiles(String dirId, String dirPath) async {
     List<File> files = new List<File>.empty();
 
     if (await Permission.storage.request().isGranted) {
       FileManager fm;
 
-      SharedPreferences sharedPreferences = await SharedPreferencesManager.getSharedPreferencesInstance();
-
-      this._directories[type] = sharedPreferences.getString(type) ?? "";
-      if (this._directories[type] != "") {
+      if (dirPath != "") {
         fm = FileManager(
-            root: Directory(_directories[type]));
+            root: Directory(dirPath));
       }
 
       if (fm != null) {
@@ -69,35 +71,5 @@ class FilesProvider with ChangeNotifier {
       }
     }
     return files;
-  }
-
-  // Recupero la lista di colori
-  void getColors() async {
-    SharedPreferences sharedPreferences = await SharedPreferencesManager.getSharedPreferencesInstance();
-    if (sharedPreferences.getStringList("Colors") != null) {
-      if (sharedPreferences.getStringList("Colors").length > 0) {
-        // Aggiorno le voci in colors con quelle nelle SharedPreferences
-        sharedPreferences.getStringList("Colors").asMap().forEach((index, color) async {
-          if (this._colors.length >= index + 1) {
-            this._colors[index] = color;
-          } else {
-            this._colors.add(color);
-          }
-          this.notifyListeners();
-        });
-        // Rimuovo le colors eccedenti
-        if (this._colors.length > sharedPreferences.getStringList("Colors").length) {
-          this._colors.removeAt(sharedPreferences.getStringList("Colors").length);
-        }
-      } else {
-        // Se le SharedPreferences non hanno colori svuoto anche colors
-        this._colors = [];
-      }
-    }
-  }
-
-  void removeFromDirs(String dirName) {
-    this._directories.remove(dirName);
-    print(this._directories);
   }
 }

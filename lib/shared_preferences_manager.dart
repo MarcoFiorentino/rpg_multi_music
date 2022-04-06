@@ -8,7 +8,8 @@ class SharedPreferencesManager {
   }
 
   // Aggiorna le coppie di chiave-valore
-  static void saveKV(String key, dynamic value, bool add) async {
+  static void updateKV(String key, bool add, [dynamic value = ""]) async {
+
     SharedPreferences sharedPreferences = await getSharedPreferencesInstance();
     if (add) {
       if (value is bool) {
@@ -28,44 +29,20 @@ class SharedPreferencesManager {
   }
 
   // Aggiorna la lista di directory salvate
-  static void saveDirList(String dir, int index, bool add) async {
+  static void updateDirList(String dirId) async {
+
     SharedPreferences sharedPreferences = await getSharedPreferencesInstance();
     List<String> dirs = <String>[];
-    if (sharedPreferences.getStringList("Directories") != null) {
-      dirs = sharedPreferences.getStringList("Directories");
+    if (sharedPreferences.getStringList("DirsId") != null) {
+      dirs = sharedPreferences.getStringList("DirsId");
     }
 
-    if (add) {
-      if (dirs.length >= index + 1) {
-        dirs[index] = dir;
-      } else {
-        dirs.add(dir);
-      }
+    if (dirs.contains(dirId)) {
+      dirs.remove(dirId);
     } else {
-      dirs.removeAt(index);
+      dirs.add(dirId);
     }
 
-    sharedPreferences.setStringList("Directories", dirs);
-  }
-
-  // Aggiorna la lista di colori salvati
-  static void saveColorsList(String color, int index, bool add) async {
-    SharedPreferences sharedPreferences = await getSharedPreferencesInstance();
-    List<String> colors = <String>[];
-    if (sharedPreferences.getStringList("Colors") != null) {
-      colors = sharedPreferences.getStringList("Colors");
-    }
-
-    if (add) {
-      if (colors.length >= index + 1) {
-        colors[index] = color;
-      } else {
-        colors.add(color);
-      }
-    } else {
-      colors.removeAt(index);
-    }
-
-    sharedPreferences.setStringList("Colors", colors);
+    sharedPreferences.setStringList("DirsId", dirs);
   }
 }
