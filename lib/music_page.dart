@@ -58,6 +58,7 @@ class _MusicPageState extends State<MusicPage> {
               physics: BouncingScrollPhysics(),
               scrollDirection: Axis.horizontal,
               controller: scrollController,
+              shrinkWrap: true,
               itemCount: filesProvider.filesPaths.length + 1,
               itemBuilder: (BuildContext context, int colIndex) {
                 // L'ultima colonna è quella con il pulsante per aggiungerne altre
@@ -193,6 +194,8 @@ class _MusicPageState extends State<MusicPage> {
     String dirName = provider.dirsNames[colIndex];
 
     return Column(
+      // TOCHECK Added mainAxisAlignment to evenly distribute children (can be changed or removed).
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         // Visualizza titolo e volume
         Row(
@@ -297,24 +300,28 @@ class _MusicPageState extends State<MusicPage> {
             random(context, provider, colIndex);
           },
         ),
-        SizedBox(
-          height: 300,
-          width: 200,
-          child: ListView.separated(
-            scrollDirection: Axis.vertical,
-            controller: scrollController,
-            shrinkWrap: true,
-            physics: ClampingScrollPhysics(),
-            itemCount: (provider.filesPaths[colIndex].length / colonnePerTipo).round(),
-            itemBuilder: (BuildContext context, int rowIndex) {
-              return buildRow(context, colIndex, rowIndex, provider, btnCol);
-            },
-            separatorBuilder: (BuildContext context, int rowIndex) {
-              return SizedBox(
-                height: 10,
-                width: 10,
-              );
-            },
+        // TOCHECK Added Expanded to fill all remaining space.
+        Expanded(
+          child: SizedBox(
+            // TOCHECK Removed height as it's not trivial and only forces the listview to be shrinked.
+            // height: 300,
+            width: 200,
+            child: ListView.separated(
+              scrollDirection: Axis.vertical,
+              controller: scrollController,
+              shrinkWrap: true,
+              physics: BouncingScrollPhysics(),
+              itemCount: (provider.filesPaths[colIndex].length / colonnePerTipo).round(),
+              itemBuilder: (BuildContext context, int rowIndex) {
+                return buildRow(context, colIndex, rowIndex, provider, btnCol);
+              },
+              separatorBuilder: (BuildContext context, int rowIndex) {
+                return SizedBox(
+                  height: 10,
+                  width: 10,
+                );
+              },
+            ),
           ),
         ),
       ],
