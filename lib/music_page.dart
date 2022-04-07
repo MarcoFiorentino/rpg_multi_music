@@ -7,7 +7,6 @@ import 'package:provider/provider.dart';
 import 'package:music_handler/files_provider.dart';
 import 'package:music_handler/string_extension.dart';
 import 'column_settings_dialog.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MusicPage extends StatefulWidget {
   @override
@@ -56,6 +55,7 @@ class _MusicPageState extends State<MusicPage> {
           // Elenco dei file nel path impostato
           Expanded(
             child: ListView.separated(
+              physics: BouncingScrollPhysics(),
               scrollDirection: Axis.horizontal,
               controller: scrollController,
               itemCount: filesProvider.filesPaths.length + 1,

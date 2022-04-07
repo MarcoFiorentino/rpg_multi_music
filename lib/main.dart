@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'files_provider.dart';
 import 'music_page.dart';
@@ -27,8 +26,6 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      supportedLocales: AppLocalizations.supportedLocales,
       home: HomePage(),
     );
   }
@@ -45,7 +42,7 @@ class HomePage extends StatelessWidget {
         length: 1,
         child: Scaffold(
           appBar: AppBar(
-            title: Text(AppLocalizations.of(context).title),
+            title: Text("MusicHandler"),
           ),
           body: TabBarView(
             children: [
