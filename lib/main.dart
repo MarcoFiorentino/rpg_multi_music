@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 
 import 'files_provider.dart';
 import 'music_page.dart';
-import 'settings_page.dart';
 
 void main() => runApp(
       MultiProvider(
@@ -19,7 +18,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final FilesProvider filesProvider = Provider.of<FilesProvider>(context, listen: true);
+    final FilesProvider filesProvider = Provider.of<FilesProvider>(context, listen: false);
     filesProvider.getFilesList();
 
     return MaterialApp(
@@ -40,46 +39,14 @@ class HomePage extends StatelessWidget {
     return MaterialApp(
       //Gestisco le tab dell'app
       home: DefaultTabController(
-        // length: 3,
         length: 1,
         child: Scaffold(
           appBar: AppBar(
-            title: Text('Music Handler'),
-            actions: [
-              IconButton(
-                icon: Icon(Icons.more_vert),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => SettingsPage()),
-                  );
-                },
-              ),
-            ],
-            // bottom: TabBar(
-            //   tabs: [
-            //     Tab(
-            //       icon: Icon(Icons.queue_music_outlined),
-            //       text: 'Musica',
-            //     ),
-            //     // Tab(
-            //     //   icon: Icon(Icons.flash_on_outlined),
-            //     //   text: 'Generatori',
-            //     // ),
-            //     // Tab(
-            //     //   icon: Icon(Icons.alarm_on_outlined),
-            //     //   text: 'Iniziativa',
-            //     // ),
-            //   ],
-            // ),
+            title: Text("Gdr Multi music handler"),
           ),
           body: TabBarView(
             children: [
               MusicPage(),
-              // Container(color: Colors.green),
-              // Container(color: Colors.red),
-              // GeneratorPage(),
-              // InitiativePage(),
             ],
           ),
         ),
