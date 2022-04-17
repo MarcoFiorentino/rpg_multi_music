@@ -22,7 +22,6 @@ class ColumnSettingsDialog extends StatefulWidget {
 
 class _ColumnSettingsDialogState extends State<ColumnSettingsDialog> {
   bool newCol;
-  bool fieldsEdited = false;
   int colIndex;
 
   String colTitle = "New column";
@@ -37,26 +36,26 @@ class _ColumnSettingsDialogState extends State<ColumnSettingsDialog> {
 
   @override
   void initState() {
+    super.initState();
     newCol = widget.newCol;
     colIndex = widget.colIndex;
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
 
     provider = Provider.of<FilesProvider>(context, listen: false);
-    editingController = TextEditingController(text: directoryName);
-
     // Se apro una colonna esistente e non ho fatto modifiche
     // Prepopolo i campi con i dati in memoria
-    if (!newCol && !fieldsEdited) {
+    if (!newCol) {
       colTitle = "Edit column";
       directoryId = provider.dirsIds[colIndex];
       directoryPath  = provider.dirsPaths[colIndex];
       directoryColor = provider.dirsColors[colIndex];
       directoryName = provider.dirsNames[colIndex];
     }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+
+    editingController = TextEditingController(text: directoryName);
 
     return AlertDialog(
       title: Text(colTitle),
@@ -76,7 +75,12 @@ class _ColumnSettingsDialogState extends State<ColumnSettingsDialog> {
               ),
               Flexible(
                 flex: 2,
-                child: Text(directoryPath),
+                child: GestureDetector(
+                  onTap: () {
+                    pickDirectory();
+                  },
+                  child: Text(directoryPath)
+                ),
               ),
             ],
           ),
@@ -89,7 +93,6 @@ class _ColumnSettingsDialogState extends State<ColumnSettingsDialog> {
                 onSelect: (Color newColor) {
                   setState(() {
                     directoryColor = newColor.value.toString();
-                    fieldsEdited = true;
                   });
                 },
                 behaviour: ButtonBehaviour.clickToOpen,
@@ -169,7 +172,6 @@ class _ColumnSettingsDialogState extends State<ColumnSettingsDialog> {
     setState(() {
       if (dirPath.isNotEmpty) {
         directoryPath = dirPath;
-        fieldsEdited = true;
       }
     });
   }
@@ -179,10 +181,11 @@ class _ColumnSettingsDialogState extends State<ColumnSettingsDialog> {
     if (isEditingText) {
       return Center(
         child: TextField(
+          onChanged: (newValue) {
+              directoryName = newValue;
+          },
           onSubmitted: (newValue) {
             setState(() {
-              directoryName = newValue;
-              fieldsEdited = true;
               isEditingText = false;
             });
           },
