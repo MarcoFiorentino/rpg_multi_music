@@ -66,7 +66,6 @@ class _MusicPageState extends State<MusicPage> {
           // Elenco dei file nel path impostato
           Expanded(
             child: ListView.separated(
-              physics: BouncingScrollPhysics(),
               scrollDirection: Axis.horizontal,
               controller: scrollController,
               physics: BouncingScrollPhysics(),
