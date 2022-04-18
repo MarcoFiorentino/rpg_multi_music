@@ -1,0 +1,32 @@
+[
+  {
+    "MAIN_PAGE": "*********************************************************",
+      "state": "Stato",
+      "playing": "In riproduzione",
+      "paused": "In pausa",
+      "stopped": "Fermo",
+      "volume": "Volume",
+      "vol": "Vol",
+      "stop": "Stop",
+      "pause": "Pausa",
+      "play": "Riproduci",
+      "random": "Casuale",
+    "POPUP": "*************************************************************",
+      "new_column": "Nuova colonna",
+      "edit_column": "Modifica colonna",
+      "directory_path": "Percorso della cartella",
+      "color": "Colore",
+      "name": "Nome",
+      "directory_name": "Nome della cartella",
+      "delete_column": "Elimina colonna",
+      "abort": "Annulla",
+      "save": "Salva",
+    "SETTINGS_PAGE": "*****************************************************",
+      "settings": "Impostazioni",
+      "language": "Lingua",
+      "screen_always_on": "Mantieni schermo sempre attivo",
+      "signal_bug_request_feature": "Vuoi segnalare un bug o richiedere una feature?",
+      "click_here": "Clicca qui!",
+      "url_error": "Errore nell'apertura del link"
+  }
+]

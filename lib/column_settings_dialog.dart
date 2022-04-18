@@ -24,15 +24,15 @@ class _ColumnSettingsDialogState extends State<ColumnSettingsDialog> {
   bool newCol;
   int colIndex;
 
-  String colTitle = "New column";
-  String directoryId = nanoid(10);
-  String directoryPath = "Directory path";
-  String directoryColor = "0xFF009000";
-  String directoryName = "Directory name";
+  String colTitle;
+  String directoryId;
+  String directoryPath;
+  String directoryColor;
+  String directoryName;
 
   bool isEditingText = false;
   TextEditingController editingController;
-  FilesProvider provider;
+  FilesProvider filesProvider;
 
   @override
   void initState() {
@@ -40,15 +40,21 @@ class _ColumnSettingsDialogState extends State<ColumnSettingsDialog> {
     newCol = widget.newCol;
     colIndex = widget.colIndex;
 
-    provider = Provider.of<FilesProvider>(context, listen: false);
+    filesProvider = Provider.of<FilesProvider>(context, listen: false);
+    colTitle = filesProvider.translations[0]["new_column"];
+    directoryId = nanoid(10);
+    directoryPath = filesProvider.translations[0]["directory_path"];
+    directoryColor = "0xFF009000";
+    directoryName = filesProvider.translations[0]["directory_name"];
+
     // Se apro una colonna esistente e non ho fatto modifiche
     // Prepopolo i campi con i dati in memoria
     if (!newCol) {
-      colTitle = "Edit column";
-      directoryId = provider.dirsIds[colIndex];
-      directoryPath  = provider.dirsPaths[colIndex];
-      directoryColor = provider.dirsColors[colIndex];
-      directoryName = provider.dirsNames[colIndex];
+      colTitle = filesProvider.translations[0]["edit_column"];
+      directoryId = filesProvider.dirsIds[colIndex];
+      directoryPath  = filesProvider.dirsPaths[colIndex];
+      directoryColor = filesProvider.dirsColors[colIndex];
+      directoryName = filesProvider.dirsNames[colIndex];
     }
   }
 
@@ -88,7 +94,7 @@ class _ColumnSettingsDialogState extends State<ColumnSettingsDialog> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text("Color: "),
+              Text(filesProvider.translations[0]["color"] + ": "),
               WheelColorPicker(
                 onSelect: (Color newColor) {
                   setState(() {
@@ -108,7 +114,7 @@ class _ColumnSettingsDialogState extends State<ColumnSettingsDialog> {
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text("Name: "),
+              Text(filesProvider.translations[0]["name"] + ": "),
               Flexible(
                 flex: 2,
                 child: editTitleTextField(),
@@ -119,7 +125,7 @@ class _ColumnSettingsDialogState extends State<ColumnSettingsDialog> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text("Delete Column: "),
+              Text(filesProvider.translations[0]["delete_column"] + ": "),
               ElevatedButton(
                 child: Text("X"),
                 style: ElevatedButton.styleFrom(elevation: 8.0, primary: Color(int.parse("0xFF009000")), fixedSize: Size(10, 20)),
@@ -145,7 +151,7 @@ class _ColumnSettingsDialogState extends State<ColumnSettingsDialog> {
                 style: TextButton.styleFrom(
                   textStyle: const TextStyle(fontSize: 20),
                 ),
-                child: const Text('Abort'),
+                child: Text(filesProvider.translations[0]["abort"]),
               ),
               TextButton(
                 onPressed: () {
@@ -156,7 +162,7 @@ class _ColumnSettingsDialogState extends State<ColumnSettingsDialog> {
                 style: TextButton.styleFrom(
                   textStyle: const TextStyle(fontSize: 20),
                 ),
-                child: const Text('Save'),
+                child: Text(filesProvider.translations[0]["save"]),
               ),
             ]
         )
@@ -222,7 +228,7 @@ class _ColumnSettingsDialogState extends State<ColumnSettingsDialog> {
     List<String> dirCharacteristics = [directoryPath, directoryColor, directoryName];
     SharedPreferencesManager.updateKV(directoryId, true, dirCharacteristics);
 
-    provider.getFilesList();
+    filesProvider.getFilesList();
   }
 
   // Elimino una directory salvata
@@ -233,6 +239,6 @@ class _ColumnSettingsDialogState extends State<ColumnSettingsDialog> {
     // Cancello il trittico come lista usando l'id come chiave
     SharedPreferencesManager.updateKV(directoryId, false);
 
-    provider.getFilesList();
+    filesProvider.getFilesList();
   }
 }

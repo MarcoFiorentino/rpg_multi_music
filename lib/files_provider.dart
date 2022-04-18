@@ -1,7 +1,9 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_file_manager/flutter_file_manager.dart';
 import 'package:music_handler/shared_preferences_manager.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -14,6 +16,9 @@ class FilesProvider with ChangeNotifier {
   List<String> _dirsPaths = [];
   List<String> _dirsColors = [];
   List<String> _dirsNames = [];
+  List<String> _settings = [];
+  List _translations = [];
+  List<String> _languages = [];
 
 
   List<List<File>> get filesPaths => this._filesPaths;
@@ -21,6 +26,9 @@ class FilesProvider with ChangeNotifier {
   List<String> get dirsPaths => this._dirsPaths;
   List<String> get dirsColors => this._dirsColors;
   List<String> get dirsNames => this._dirsNames;
+  List<String> get settings => this._settings;
+  List get translations => this._translations;
+  List<String> get languages => this._languages;
 
   // Recupero le liste di file
   void getFilesList() async {
@@ -71,5 +79,33 @@ class FilesProvider with ChangeNotifier {
       }
     }
     return files;
+  }
+
+  // Recupera la lista di settings generici
+  void getSettings() async {
+    SharedPreferences sharedPreferences = await SharedPreferencesManager.getSharedPreferencesInstance();
+    if (sharedPreferences.getStringList("Settings") != null) {
+      this._settings = sharedPreferences.getStringList("Settings");
+      this.getTranslations();
+      this.notifyListeners();
+    }
+  }
+
+  // Recupera la lista di lingue disponibili
+  void getLanguages(BuildContext context) async {
+    final manifestJson = await DefaultAssetBundle.of(context).loadString('AssetManifest.json');
+    final languages = json.decode(manifestJson).keys.where((String key) => key.startsWith('assets/Languages')).toList();
+    this._languages = [];
+    for (var lang in languages) {
+      this._languages.add(lang.split("/")[2].split(".")[0]);
+    }
+  }
+
+  // Recupera le traduzioni dal file
+  void getTranslations() async {
+    // print(this._settings);
+    var lang = this._settings.length > 0 ? this._settings[0] : "en";
+    var jsonText = await rootBundle.loadString('assets/Languages/' + lang + '.json');
+    this._translations = json.decode(jsonText);
   }
 }

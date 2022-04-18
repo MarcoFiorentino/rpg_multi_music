@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:music_handler/settings_page.dart';
 import 'package:provider/provider.dart';
 
 import 'files_provider.dart';
@@ -20,6 +21,8 @@ class MyApp extends StatelessWidget {
 
     final FilesProvider filesProvider = Provider.of<FilesProvider>(context, listen: false);
     filesProvider.getFilesList();
+    filesProvider.getSettings();
+    filesProvider.getLanguages(context);
 
     return MaterialApp(
       title: 'Music Handler',
@@ -36,13 +39,25 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp(
       //Gestisco le tab dell'app
       home: DefaultTabController(
         length: 1,
         child: Scaffold(
           appBar: AppBar(
-            title: Text("Gdr Multi music handler"),
+            title: Text("Multi music handler"),
+            actions: [
+              IconButton(
+                icon: Icon(Icons.more_vert),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SettingsPage()),
+                  );
+                },
+              ),
+            ],
           ),
           body: TabBarView(
             children: [

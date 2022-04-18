@@ -6,6 +6,7 @@ import 'package:path/path.dart';
 import 'package:provider/provider.dart';
 import 'package:music_handler/files_provider.dart';
 import 'package:music_handler/string_extension.dart';
+import 'package:wakelock/wakelock.dart';
 import 'column_settings_dialog.dart';
 
 class MusicPage extends StatefulWidget {
@@ -33,6 +34,10 @@ class _MusicPageState extends State<MusicPage> {
   @override
   Widget build(BuildContext context) {
     filesProvider = Provider.of<FilesProvider>(context, listen: true);
+
+    if (filesProvider.settings.length > 0) {
+      Wakelock.toggle(enable: filesProvider.settings[1].toBoolean());
+    }
 
     // Se il numero di players correnti è diverso da quelli salvati
     // stoppo i player, azzero i correnti e li reinizializzo
@@ -123,7 +128,7 @@ class _MusicPageState extends State<MusicPage> {
       players[colIndex].stop();
       players[colIndex].play(files[colIndex], isLocal: true);
       players[colIndex].setVolume(volumes[colIndex] / 10);
-      states[colIndex] = "Playing";
+      states[colIndex] = filesProvider.translations[0]["playing"];
     });
   }
 
@@ -135,7 +140,7 @@ class _MusicPageState extends State<MusicPage> {
       players[colIndex].setVolume(volumes[colIndex] / 10);
 
       setState(() {
-        states[colIndex] = "Playing";
+        states[colIndex] = filesProvider.translations[0]["playing"];
       });
     }
   }
@@ -147,7 +152,7 @@ class _MusicPageState extends State<MusicPage> {
       players[colIndex].pause();
 
       setState(() {
-        states[colIndex] = "Paused";
+        states[colIndex] = filesProvider.translations[0]["paused"];
       });
     }
   }
@@ -159,7 +164,7 @@ class _MusicPageState extends State<MusicPage> {
       players[colIndex].stop();
 
       setState(() {
-        states[colIndex] = "Stopped";
+        states[colIndex] = filesProvider.translations[0]["stopped"];
       });
     }
   }
@@ -231,11 +236,11 @@ class _MusicPageState extends State<MusicPage> {
           textAlign: TextAlign.center,
         ),
         Text(
-          "State: " + states[colIndex],
+          filesProvider.translations[0]["state"] + ": " + states[colIndex],
           textAlign: TextAlign.center,
         ),
         Text(
-          "Vol: " + volumes[colIndex].toString(),
+          filesProvider.translations[0]["volume"] + ": " + volumes[colIndex].toString(),
           textAlign: TextAlign.center,
         ),
         // Pulsanti di gestione musica e volume musica
@@ -243,7 +248,7 @@ class _MusicPageState extends State<MusicPage> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             ElevatedButton(
-              child: Text("Stop"),
+              child: Text(filesProvider.translations[0]["stop"]),
               style: ElevatedButton.styleFrom(elevation: 8.0, primary: btnCol, fixedSize: Size(MediaQuery.of(context).size.width/5, 40)),
               onPressed: () {
                 stop(colIndex);
@@ -253,7 +258,7 @@ class _MusicPageState extends State<MusicPage> {
               width: 10,
             ),
             ElevatedButton(
-              child: Text("Pause"),
+              child: Text(filesProvider.translations[0]["pause"]),
               style: ElevatedButton.styleFrom(elevation: 8.0, primary: btnCol, fixedSize: Size(MediaQuery.of(context).size.width/5, 40)),
               onPressed: () {
                 pause(colIndex);
@@ -263,7 +268,7 @@ class _MusicPageState extends State<MusicPage> {
               width: 10,
             ),
             ElevatedButton(
-              child: Text("Play"),
+              child: Text(filesProvider.translations[0]["play"]),
               style: ElevatedButton.styleFrom(elevation: 8.0, primary: btnCol, fixedSize: Size(MediaQuery.of(context).size.width/5, 40)),
               onPressed: () {
                 play(colIndex);
@@ -275,7 +280,7 @@ class _MusicPageState extends State<MusicPage> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             ElevatedButton(
-              child: Text("Vol -"),
+              child: Text(filesProvider.translations[0]["vol"] + " -"),
               style: ElevatedButton.styleFrom(elevation: 8.0, primary: btnCol, fixedSize: Size(MediaQuery.of(context).size.width/5, 40)),
               onPressed: () {
                 setVolume("down", colIndex);
@@ -285,7 +290,7 @@ class _MusicPageState extends State<MusicPage> {
               width: 10,
             ),
             ElevatedButton(
-              child: Text("Vol +"),
+              child: Text(filesProvider.translations[0]["vol"] + " +"),
               style: ElevatedButton.styleFrom(elevation: 8.0, primary: btnCol, fixedSize: Size(MediaQuery.of(context).size.width/5, 40)),
               onPressed: () {
                 setVolume("up", colIndex);
@@ -298,7 +303,7 @@ class _MusicPageState extends State<MusicPage> {
           thickness: 5
         ),
         ElevatedButton(
-          child: Text("Random"),
+          child: Text(filesProvider.translations[0]["random"]),
           style: ElevatedButton.styleFrom(elevation: 8.0,
               primary: btnCol,
               fixedSize: Size(MediaQuery
