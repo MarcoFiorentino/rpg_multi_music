@@ -41,7 +41,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return MaterialApp(
-      //Gestisco le tab dell'app
+      //Gestisco le tab dell`app
       home: DefaultTabController(
         length: 1,
         child: Scaffold(
@@ -49,7 +49,7 @@ class HomePage extends StatelessWidget {
             title: Text("Multi music handler"),
             actions: [
               IconButton(
-                icon: Icon(Icons.more_vert),
+                icon: Icon(Icons.settings_rounded),
                 onPressed: () {
                   Navigator.push(
                     context,

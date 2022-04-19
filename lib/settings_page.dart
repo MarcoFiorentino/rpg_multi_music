@@ -49,15 +49,20 @@ class _SettingsScreenState extends State<SettingsPage> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                filesProvider.translations[0]["language"] + " :",
-                style: TextStyle(fontSize: 20),
+                filesProvider.translations[0]["language"] + ": ",
+                style: TextStyle(
+                  fontSize: 18
+                ),
               ),
               DropdownButton<String>(
                 value: settings[0],
                 icon: Icon(Icons.arrow_drop_down),
                 iconSize: 24,
                 elevation: 16,
-                style: TextStyle(color: Colors.black, fontSize: 18),
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 18
+                ),
                 underline: Container(
                   height: 2,
                   color: Colors.black,
@@ -82,7 +87,12 @@ class _SettingsScreenState extends State<SettingsPage> {
             mainAxisAlignment: MainAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(filesProvider.translations[0]["screen_always_on"]),
+              Text(
+                filesProvider.translations[0]["screen_always_on"],
+                style: TextStyle(
+                  fontSize: 18
+                ),
+              ),
               Switch(
                 value: settings[1].toBoolean(),
                 onChanged: (value) {
@@ -95,13 +105,19 @@ class _SettingsScreenState extends State<SettingsPage> {
               ),
             ],
           ),
+          Spacer(),
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
               Flexible(
                 flex: 2,
-                child: Text(filesProvider.translations[0]["signal_bug_request_feature"]),
+                child: Text(
+                  filesProvider.translations[0]["signal_bug_request_feature"],
+                  style: TextStyle(
+                    fontSize: 15
+                  ),
+                ),
               )
             ]
           ),
@@ -113,14 +129,20 @@ class _SettingsScreenState extends State<SettingsPage> {
                 child: Text(
                   filesProvider.translations[0]["click_here"],
                   style: TextStyle(
-                      color: Colors.blue, decoration: TextDecoration.underline),
+                    fontSize: 15,
+                    color: Colors.blue,
+                    decoration: TextDecoration.underline
+                  ),
                 ),
                 onTap: () async => await canLaunch("https://docs.google.com/forms/d/157plh_pe5kAZxtOqZdbcnqFMjr-uagaaqKPa_szpP-c/edit?usp=sharing")
                     ? await launch("https://docs.google.com/forms/d/157plh_pe5kAZxtOqZdbcnqFMjr-uagaaqKPa_szpP-c/edit?usp=sharing")
                     : throw filesProvider.translations[0]["url_error"],
               ),
             ],
-          )
+          ),
+          SizedBox(
+            height: 30,
+          ),
         ],
       ),
     );

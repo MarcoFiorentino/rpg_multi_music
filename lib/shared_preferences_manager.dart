@@ -2,7 +2,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreferencesManager {
 
-  // Recupero l'istanza delle sharedPreferences
+  // Recupero l`istanza delle sharedPreferences
   static Future<SharedPreferences> getSharedPreferencesInstance() async {
     return await SharedPreferences.getInstance();
   }

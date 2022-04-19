@@ -59,7 +59,7 @@ class FilesProvider with ChangeNotifier {
     }
   }
 
-  // Restituisce l'elenco dei file audio nella sotto cartella specificata
+  // Restituisce l`elenco dei file audio nella sotto cartella specificata
   Future<List<File>> getFiles(String dirId, String dirPath) async {
     List<File> files = new List<File>.empty();
 

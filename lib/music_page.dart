@@ -40,7 +40,7 @@ class _MusicPageState extends State<MusicPage> {
     }
 
     // Se il numero di players correnti è diverso da quelli salvati
-    // stoppo i player, azzero i correnti e li reinizializzo
+    // stoppo i player, azzero i correnti e li inizializzo di nuovo
     if (players.length != filesProvider.filesPaths.length) {
       for (var i = 0; i < players.length; i++) {
         players[i].stop();
@@ -55,10 +55,10 @@ class _MusicPageState extends State<MusicPage> {
       for (var i = 0; i < filesProvider.filesPaths.length; i++) {
         players.add(AudioPlayer());
         players[i].setReleaseMode(ReleaseMode.LOOP);
-        playing.add("---");
+        playing.add("-----");
         volumes.add(5);
         files.add("");
-        states.add("");
+        states.add("---");
       }
     }
 
@@ -67,17 +67,17 @@ class _MusicPageState extends State<MusicPage> {
         mainAxisAlignment: MainAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(""),
           // Elenco dei file nel path impostato
           Expanded(
             child: ListView.separated(
+              padding: EdgeInsets.only(left: 10),
               scrollDirection: Axis.horizontal,
               controller: scrollController,
               physics: BouncingScrollPhysics(),
               shrinkWrap: true,
               itemCount: filesProvider.filesPaths.length + 1,
               itemBuilder: (BuildContext context, int colIndex) {
-                // L'ultima colonna è quella con il pulsante per aggiungerne altre
+                // L`ultima colonna è quella con il pulsante per aggiungere altri player
                 if (colIndex == filesProvider.filesPaths.length) {
                   return SizedBox (
                     width: 100,
@@ -86,7 +86,7 @@ class _MusicPageState extends State<MusicPage> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         ElevatedButton(
-                          child: Text("+"),
+                          child: Icon(Icons.add_rounded),
                           style: ElevatedButton.styleFrom(elevation: 8.0, primary: Color(int.parse("0xFF009000")), fixedSize: Size(MediaQuery.of(context).size.width/5, 40)),
                           onPressed: () {
                             showDialog(
@@ -105,8 +105,12 @@ class _MusicPageState extends State<MusicPage> {
                 }
               },
               separatorBuilder: (BuildContext context, int colIndex) {
-                return SizedBox(
-                  width: 30,
+                return VerticalDivider(
+                  color: Colors.black,
+                  thickness: 0.5,
+                  width: 20,
+                  indent: 15,
+                  endIndent: 50
                 );
               },
             ),
@@ -116,7 +120,7 @@ class _MusicPageState extends State<MusicPage> {
     );
   }
 
-  // Metto in play l'audio selezionato e ne visualizza il titolo
+  // Metto in play l`audio selezionato e ne visualizza il titolo
   void playSelected(BuildContext context, String path, int colIndex) async {
     setState(() {
       files[colIndex] = path;
@@ -132,7 +136,7 @@ class _MusicPageState extends State<MusicPage> {
     });
   }
 
-  // Metto in play l'audio in memoria
+  // Metto in play l`audio in memoria
   void play(int colIndex) {
 
     if (files[colIndex] != "") {
@@ -145,7 +149,7 @@ class _MusicPageState extends State<MusicPage> {
     }
   }
 
-  // Metto in pausa l'audio in memoria
+  // Metto in pausa l`audio in memoria
   void pause(int colIndex) {
 
     if (files[colIndex] != null) {
@@ -157,7 +161,7 @@ class _MusicPageState extends State<MusicPage> {
     }
   }
 
-  // Metto in pausa l'audio in memoria
+  // Metto in pausa l`audio in memoria
   void stop(int colIndex) {
 
     if (files[colIndex] != null) {
@@ -203,140 +207,159 @@ class _MusicPageState extends State<MusicPage> {
   }
 
   // Creo una colonna di gestione per una directory
-  Column buildColumn(BuildContext context, int colIndex, FilesProvider provider) {
+  IntrinsicWidth buildColumn(BuildContext context, int colIndex, FilesProvider provider) {
 
     Color btnCol = Color(int.parse(provider.dirsColors[colIndex]));
     String dirName = provider.dirsNames[colIndex];
 
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        // Visualizza titolo e volume
-        Row(
-          children: [
-            Text(
-              dirName,
-              textAlign: TextAlign.center,
-            ),
-            IconButton(
-              icon: Icon(Icons.more_vert),
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return ColumnSettingsDialog(newCol: false, colIndex: colIndex);
-                  },
-                );
-              },
-            ),
-          ],
-        ),
-        Text(
-          basenameWithoutExtension(playing[colIndex]),
-          textAlign: TextAlign.center,
-        ),
-        Text(
-          filesProvider.translations[0]["state"] + ": " + states[colIndex],
-          textAlign: TextAlign.center,
-        ),
-        Text(
-          filesProvider.translations[0]["volume"] + ": " + volumes[colIndex].toString(),
-          textAlign: TextAlign.center,
-        ),
-        // Pulsanti di gestione musica e volume musica
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            ElevatedButton(
-              child: Text(filesProvider.translations[0]["stop"]),
-              style: ElevatedButton.styleFrom(elevation: 8.0, primary: btnCol, fixedSize: Size(MediaQuery.of(context).size.width/5, 40)),
-              onPressed: () {
-                stop(colIndex);
-              },
-            ),
-            SizedBox(
-              width: 10,
-            ),
-            ElevatedButton(
-              child: Text(filesProvider.translations[0]["pause"]),
-              style: ElevatedButton.styleFrom(elevation: 8.0, primary: btnCol, fixedSize: Size(MediaQuery.of(context).size.width/5, 40)),
-              onPressed: () {
-                pause(colIndex);
-              },
-            ),
-            SizedBox(
-              width: 10,
-            ),
-            ElevatedButton(
-              child: Text(filesProvider.translations[0]["play"]),
-              style: ElevatedButton.styleFrom(elevation: 8.0, primary: btnCol, fixedSize: Size(MediaQuery.of(context).size.width/5, 40)),
-              onPressed: () {
-                play(colIndex);
-              },
-            ),
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            ElevatedButton(
-              child: Text(filesProvider.translations[0]["vol"] + " -"),
-              style: ElevatedButton.styleFrom(elevation: 8.0, primary: btnCol, fixedSize: Size(MediaQuery.of(context).size.width/5, 40)),
-              onPressed: () {
-                setVolume("down", colIndex);
-              },
-            ),
-            SizedBox(
-              width: 10,
-            ),
-            ElevatedButton(
-              child: Text(filesProvider.translations[0]["vol"] + " +"),
-              style: ElevatedButton.styleFrom(elevation: 8.0, primary: btnCol, fixedSize: Size(MediaQuery.of(context).size.width/5, 40)),
-              onPressed: () {
-                setVolume("up", colIndex);
-              },
-            ),
-          ],
-        ),
-        Divider(
-          height: 10,
-          thickness: 5
-        ),
-        ElevatedButton(
-          child: Text(filesProvider.translations[0]["random"]),
-          style: ElevatedButton.styleFrom(elevation: 8.0,
-              primary: btnCol,
-              fixedSize: Size(MediaQuery
-                  .of(context)
-                  .size
-                  .width / 2.5, 40)),
-          onPressed: () {
-            random(context, provider, colIndex);
-          },
-        ),
-        Expanded(
-          child: SizedBox(
-            // height: 300,
-            width: 200,
-            child: ListView.separated(
-              scrollDirection: Axis.vertical,
-              controller: scrollController,
-              shrinkWrap: true,
-              physics: ClampingScrollPhysics(),
-              itemCount: (provider.filesPaths[colIndex].length / colonnePerTipo).round(),
-              itemBuilder: (BuildContext context, int rowIndex) {
-                return buildRow(context, colIndex, rowIndex, provider, btnCol);
-              },
-              separatorBuilder: (BuildContext context, int rowIndex) {
-                return SizedBox(
-                  height: 10,
-                  width: 10,
-                );
-              },
+    // return Column(
+    return IntrinsicWidth(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                dirName,
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 15),
+              ),
+              IconButton(
+                icon: Icon(Icons.settings_rounded),
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return ColumnSettingsDialog(newCol: false, colIndex: colIndex);
+                    },
+                  );
+                },
+              ),
+            ],
+          ),
+          Text(
+            basenameWithoutExtension(playing[colIndex]),
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold
             ),
           ),
-        ),
-      ],
+          Text(
+            filesProvider.translations[0]["state"] + ": " + states[colIndex],
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                fontSize: 15
+            ),
+          ),
+          Text(
+            filesProvider.translations[0]["volume"] + ": " + volumes[colIndex].toString(),
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                fontSize: 15
+            ),
+          ),
+          // Pulsanti di gestione musica e volume musica
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              ElevatedButton(
+                child: Icon(Icons.stop_rounded),
+                style: ElevatedButton.styleFrom(elevation: 8.0, primary: btnCol, fixedSize: Size(MediaQuery.of(context).size.width/5, 40)),
+                onPressed: () {
+                  stop(colIndex);
+                },
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              ElevatedButton(
+                child: Icon(Icons.pause_rounded),
+                style: ElevatedButton.styleFrom(elevation: 8.0, primary: btnCol, fixedSize: Size(MediaQuery.of(context).size.width/5, 40)),
+                onPressed: () {
+                  pause(colIndex);
+                },
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              ElevatedButton(
+                child: Icon(Icons.play_arrow_rounded),
+                style: ElevatedButton.styleFrom(elevation: 8.0, primary: btnCol, fixedSize: Size(MediaQuery.of(context).size.width/5, 40)),
+                onPressed: () {
+                  play(colIndex);
+                },
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              ElevatedButton(
+                child: Icon(Icons.volume_down_rounded),
+                style: ElevatedButton.styleFrom(elevation: 8.0, primary: btnCol, fixedSize: Size(MediaQuery.of(context).size.width/5, 40)),
+                onPressed: () {
+                  setVolume("down", colIndex);
+                },
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              ElevatedButton(
+                child: Icon(Icons.volume_up_rounded),
+                style: ElevatedButton.styleFrom(elevation: 8.0, primary: btnCol, fixedSize: Size(MediaQuery.of(context).size.width/5, 40)),
+                onPressed: () {
+                  setVolume("up", colIndex);
+                },
+              ),
+            ],
+          ),
+          ElevatedButton.icon(
+            label: Text(
+              filesProvider.translations[0]["random"],
+              style: TextStyle(
+                fontSize: 15,
+              ),
+            ),
+            icon: Icon(Icons.shuffle_rounded),
+            style: ElevatedButton.styleFrom(elevation: 8.0,
+                primary: btnCol,
+                fixedSize: Size(MediaQuery.of(context).size.width / 2.5, 40)),
+            onPressed: () {
+              random(context, provider, colIndex);
+            },
+          ),
+          SizedBox(
+            height: 10,
+            width: 10,
+          ),
+          Expanded(
+            child: SizedBox(
+              width: 200,
+              child: Scrollbar(
+                radius: Radius.circular(30),
+                child: ListView.separated(
+                  scrollDirection: Axis.vertical,
+                  controller: scrollController,
+                  shrinkWrap: true,
+                  physics: ClampingScrollPhysics(),
+                  itemCount: (provider.filesPaths[colIndex].length / colonnePerTipo).round(),
+                  itemBuilder: (BuildContext context, int rowIndex) {
+                    return buildRow(context, colIndex, rowIndex, provider, btnCol);
+                  },
+                  separatorBuilder: (BuildContext context, int rowIndex) {
+                    return SizedBox(
+                      height: 10,
+                      width: 10,
+                    );
+                  },
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -355,11 +378,8 @@ class _MusicPageState extends State<MusicPage> {
                 .size
                 .width * 0.23,
             child: ElevatedButton(
-              child: Text(basenameWithoutExtension(
-                  provider.filesPaths[colIndex][musicIndex].path)
-                  .capitalize()),
-              style: ElevatedButton.styleFrom(
-                  elevation: 8.0, primary: btnCol),
+              child: Text(basenameWithoutExtension(provider.filesPaths[colIndex][musicIndex].path).capitalize()),
+              style: ElevatedButton.styleFrom(elevation: 8.0, primary: btnCol),
               onPressed: () {
                 playSelected(context,
                     provider.filesPaths[colIndex][musicIndex].path,

@@ -48,7 +48,7 @@ class _ColumnSettingsDialogState extends State<ColumnSettingsDialog> {
     directoryName = filesProvider.translations[0]["directory_name"];
 
     // Se apro una colonna esistente e non ho fatto modifiche
-    // Prepopolo i campi con i dati in memoria
+    // Pre-popolo i campi con i dati in memoria
     if (!newCol) {
       colTitle = filesProvider.translations[0]["edit_column"];
       directoryId = filesProvider.dirsIds[colIndex];
@@ -64,7 +64,12 @@ class _ColumnSettingsDialogState extends State<ColumnSettingsDialog> {
     editingController = TextEditingController(text: directoryName);
 
     return AlertDialog(
-      title: Text(colTitle),
+      title: Text(
+        colTitle,
+        style: TextStyle(
+            fontSize: 20
+        ),
+      ),
       content: new Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -74,7 +79,7 @@ class _ColumnSettingsDialogState extends State<ColumnSettingsDialog> {
             mainAxisSize: MainAxisSize.min,
             children: [
               IconButton(
-                icon: Icon(Icons.file_download),
+                icon: Icon(Icons.folder_rounded),
                 onPressed: () {
                   pickDirectory();
                 },
@@ -85,7 +90,13 @@ class _ColumnSettingsDialogState extends State<ColumnSettingsDialog> {
                   onTap: () {
                     pickDirectory();
                   },
-                  child: Text(directoryPath)
+                  child: Text(
+                    directoryPath,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 18
+                    ),
+                  ),
                 ),
               ),
             ],
@@ -94,7 +105,13 @@ class _ColumnSettingsDialogState extends State<ColumnSettingsDialog> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(filesProvider.translations[0]["color"] + ": "),
+              //Icon(Icons.color_lens_rounded),
+              Text(
+                  filesProvider.translations[0]["color"] + ": ",
+                  style: TextStyle(
+                      fontSize: 15
+                  ),
+              ),
               WheelColorPicker(
                 onSelect: (Color newColor) {
                   setState(() {
@@ -105,7 +122,7 @@ class _ColumnSettingsDialogState extends State<ColumnSettingsDialog> {
                 defaultColor: Color(int.parse(directoryColor)),
                 animationConfig: fanLikeAnimationConfig,
                 colorList: defaultAvailableColors,
-                buttonSize: 30,
+                buttonSize: 25,
                 pieceHeight: 25,
                 innerRadius: 30,
               ),
@@ -114,7 +131,12 @@ class _ColumnSettingsDialogState extends State<ColumnSettingsDialog> {
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(filesProvider.translations[0]["name"] + ": "),
+              Text(
+                  filesProvider.translations[0]["name"] + ": ",
+                  style: TextStyle(
+                      fontSize: 15
+                  ),
+              ),
               Flexible(
                 flex: 2,
                 child: editTitleTextField(),
@@ -125,10 +147,15 @@ class _ColumnSettingsDialogState extends State<ColumnSettingsDialog> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(filesProvider.translations[0]["delete_column"] + ": "),
+              Text(
+                  filesProvider.translations[0]["delete_column"] + ": ",
+                  style: TextStyle(
+                      fontSize: 15
+                  ),
+              ),
               ElevatedButton(
-                child: Text("X"),
-                style: ElevatedButton.styleFrom(elevation: 8.0, primary: Color(int.parse("0xFF009000")), fixedSize: Size(10, 20)),
+                child: Icon(Icons.delete_rounded),
+                style: ElevatedButton.styleFrom(elevation: 8.0, primary: Color(int.parse(directoryColor)), fixedSize: Size(10, 20)),
                 onPressed: () {
                   // Cancello la directory e chiudo il popup
                   deleteDir();
@@ -210,7 +237,7 @@ class _ColumnSettingsDialogState extends State<ColumnSettingsDialog> {
             directoryName,
             style: TextStyle(
               color: Colors.black,
-              fontSize: 18.0,
+              fontSize: 18,
             ),
           )
       );
@@ -219,12 +246,12 @@ class _ColumnSettingsDialogState extends State<ColumnSettingsDialog> {
 
   // Salvo la nuova colonna
   void saveColumn() {
-    // Salvo l'id in DirsId
+    // Salvo l`id in DirsId
     if (newCol) {
       SharedPreferencesManager.updateDirList(directoryId);
     }
 
-    // Salvo il trittico come lista usando l'id come chiave
+    // Salvo il trittico come lista usando l`id come chiave
     List<String> dirCharacteristics = [directoryPath, directoryColor, directoryName];
     SharedPreferencesManager.updateKV(directoryId, true, dirCharacteristics);
 
@@ -233,10 +260,10 @@ class _ColumnSettingsDialogState extends State<ColumnSettingsDialog> {
 
   // Elimino una directory salvata
   void deleteDir() {
-    // Cancello l'id da DirsId
+    // Cancello l`id da DirsId
     SharedPreferencesManager.updateDirList(directoryId);
 
-    // Cancello il trittico come lista usando l'id come chiave
+    // Cancello il trittico come lista usando l`id come chiave
     SharedPreferencesManager.updateKV(directoryId, false);
 
     filesProvider.getFilesList();
