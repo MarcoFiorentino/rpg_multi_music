@@ -4,8 +4,8 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:provider/provider.dart';
-import 'package:music_handler/files_provider.dart';
-import 'package:music_handler/string_extension.dart';
+import 'package:multi_music_handler/files_provider.dart';
+import 'package:multi_music_handler/string_extension.dart';
 import 'package:wakelock/wakelock.dart';
 import 'column_settings_dialog.dart';
 
@@ -85,10 +85,8 @@ class _MusicPageState extends State<MusicPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        ElevatedButton(
-                          child: Icon(Icons.add_rounded),
-                          style: ElevatedButton.styleFrom(elevation: 8.0, primary: Color(int.parse("0xFF009000")), fixedSize: Size(MediaQuery.of(context).size.width/5, 40)),
-                          onPressed: () {
+                        GestureDetector(
+                          onTap: () {
                             showDialog(
                               context: context,
                               builder: (BuildContext context) {
@@ -96,6 +94,27 @@ class _MusicPageState extends State<MusicPage> {
                               },
                             );
                           },
+                          child: Container(
+                            width: MediaQuery.of(context).size.width/5,
+                            height: 40,
+                            alignment: Alignment.center,
+                            child: Padding(
+                              padding: const EdgeInsets.all(0.0),
+                              child: Icon(
+                                Icons.add_rounded,
+                                color: Colors.black,
+                              ),
+                            ),
+                            decoration: BoxDecoration(
+                              // borderRadius: BorderRadius.circular(5),
+                              color: Color(int.parse("0x85009000")),
+                              image: DecorationImage (
+                                image: AssetImage("assets/btn-double-border.png"),
+                                fit: BoxFit.fill,
+                                centerSlice: Rect.fromLTWH(2500, 2500, 2500, 2500),
+                              ),
+                            ),
+                          ),
                         ),
                       ],
                     ),
@@ -212,123 +231,266 @@ class _MusicPageState extends State<MusicPage> {
     Color btnCol = Color(int.parse(provider.dirsColors[colIndex]));
     String dirName = provider.dirsNames[colIndex];
 
-    // return Column(
     return IntrinsicWidth(
+      stepWidth: MediaQuery.of(context).size.width/3,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                dirName,
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 15),
+          SizedBox(
+            height: 10,
+            width: 10,
+          ),
+          DecoratedBox(
+            decoration: BoxDecoration(
+              // borderRadius: BorderRadius.circular(5),
+              color: btnCol,
+              image: DecorationImage (
+                image: AssetImage("assets/btn-single-border.png"),
+                fit: BoxFit.fill,
+                centerSlice: Rect.fromLTWH(2500, 2500, 2500, 2500),
               ),
-              IconButton(
-                icon: Icon(Icons.settings_rounded),
-                onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return ColumnSettingsDialog(newCol: false, colIndex: colIndex);
-                    },
-                  );
-                },
+            ),
+            child: Padding(
+              padding: EdgeInsets.all(10.0),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        dirName,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 15),
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.settings_rounded),
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return ColumnSettingsDialog(newCol: false, colIndex: colIndex);
+                            },
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                  Text(
+                    basenameWithoutExtension(playing[colIndex]),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold
+                    ),
+                  ),
+                  Text(
+                    filesProvider.translations[0]["state"] + ": " + states[colIndex],
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: 15
+                    ),
+                  ),
+                  Text(
+                    filesProvider.translations[0]["volume"] + ": " + volumes[colIndex].toString(),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: 15
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
-          Text(
-            basenameWithoutExtension(playing[colIndex]),
-            textAlign: TextAlign.center,
-            style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold
             ),
           ),
-          Text(
-            filesProvider.translations[0]["state"] + ": " + states[colIndex],
-            textAlign: TextAlign.center,
-            style: TextStyle(
-                fontSize: 15
-            ),
-          ),
-          Text(
-            filesProvider.translations[0]["volume"] + ": " + volumes[colIndex].toString(),
-            textAlign: TextAlign.center,
-            style: TextStyle(
-                fontSize: 15
-            ),
+          SizedBox(
+            height: 10,
+            width: 10,
           ),
           // Pulsanti di gestione musica e volume musica
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              ElevatedButton(
-                child: Icon(Icons.stop_rounded),
-                style: ElevatedButton.styleFrom(elevation: 8.0, primary: btnCol, fixedSize: Size(MediaQuery.of(context).size.width/5, 40)),
-                onPressed: () {
+              (states[colIndex] == filesProvider.translations[0]["playing"]) ?
+                GestureDetector(
+                  onTap: () {
+                    pause(colIndex);
+                  },
+                  child: Container(
+                    width: MediaQuery.of(context).size.width/5,
+                    height: 40,
+                    margin: EdgeInsets.all(1.0),
+                    alignment: Alignment.center,
+                    child: Padding(
+                      padding: const EdgeInsets.all(0.0),
+                      child: Icon(
+                        Icons.pause_rounded,
+                        color: Colors.black,
+                      ),
+                    ),
+                    decoration: BoxDecoration(
+                      // borderRadius: BorderRadius.circular(5),
+                      color: btnCol,
+                      image: DecorationImage (
+                        image: AssetImage("assets/btn-double-border.png"),
+                        fit: BoxFit.fill,
+                        centerSlice: Rect.fromLTWH(2500, 2500, 2500, 2500),
+                      ),
+                    ),
+                  ),
+                )
+                  :
+                GestureDetector(
+                  onTap: () {
+                    play(colIndex);
+                  },
+                  child: Container(
+                    width: MediaQuery.of(context).size.width/5,
+                    height: 40,
+                    margin: EdgeInsets.all(1.0),
+                    alignment: Alignment.center,
+                    child: Padding(
+                      padding: const EdgeInsets.all(0.0),
+                      child: Icon(
+                        Icons.play_arrow_rounded,
+                        color: Colors.black,
+                      ),
+                    ),
+                    decoration: BoxDecoration(
+                      // borderRadius: BorderRadius.circular(5),
+                      color: btnCol,
+                      image: DecorationImage (
+                        image: AssetImage("assets/btn-double-border.png"),
+                        fit: BoxFit.fill,
+                        centerSlice: Rect.fromLTWH(2500, 2500, 2500, 2500),
+                      ),
+                    ),
+                  ),
+                ),
+              GestureDetector(
+                onTap: () {
                   stop(colIndex);
                 },
-              ),
-              SizedBox(
-                width: 10,
-              ),
-              ElevatedButton(
-                child: Icon(Icons.pause_rounded),
-                style: ElevatedButton.styleFrom(elevation: 8.0, primary: btnCol, fixedSize: Size(MediaQuery.of(context).size.width/5, 40)),
-                onPressed: () {
-                  pause(colIndex);
-                },
-              ),
-              SizedBox(
-                width: 10,
-              ),
-              ElevatedButton(
-                child: Icon(Icons.play_arrow_rounded),
-                style: ElevatedButton.styleFrom(elevation: 8.0, primary: btnCol, fixedSize: Size(MediaQuery.of(context).size.width/5, 40)),
-                onPressed: () {
-                  play(colIndex);
-                },
+                child: Container(
+                  width: MediaQuery.of(context).size.width/5,
+                  height: 40,
+                  margin: EdgeInsets.all(1.0),
+                  alignment: Alignment.center,
+                  child: Padding(
+                    padding: const EdgeInsets.all(0.0),
+                    child: Icon(
+                      Icons.stop_rounded,
+                      color: Colors.black,
+                    ),
+                  ),
+                  decoration: BoxDecoration(
+                    // borderRadius: BorderRadius.circular(5),
+                    color: btnCol,
+                    image: DecorationImage (
+                      image: AssetImage("assets/btn-double-border.png"),
+                      fit: BoxFit.fill,
+                      centerSlice: Rect.fromLTWH(2500, 2500, 2500, 2500),
+                    ),
+                  ),
+                ),
               ),
             ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              ElevatedButton(
-                child: Icon(Icons.volume_down_rounded),
-                style: ElevatedButton.styleFrom(elevation: 8.0, primary: btnCol, fixedSize: Size(MediaQuery.of(context).size.width/5, 40)),
-                onPressed: () {
+              GestureDetector(
+                onTap: () {
                   setVolume("down", colIndex);
                 },
+                child: Container(
+                  width: MediaQuery.of(context).size.width/5,
+                  height: 40,
+                  margin: EdgeInsets.all(1.0),
+                  alignment: Alignment.center,
+                  child: Padding(
+                    padding: const EdgeInsets.all(0.0),
+                    child: Icon(
+                      Icons.volume_down_rounded,
+                      color: Colors.black,
+                    ),
+                  ),
+                  decoration: BoxDecoration(
+                    // borderRadius: BorderRadius.circular(5),
+                    color: btnCol,
+                    image: DecorationImage (
+                      image: AssetImage("assets/btn-double-border.png"),
+                      fit: BoxFit.fill,
+                      centerSlice: Rect.fromLTWH(2500, 2500, 2500, 2500),
+                    ),
+                  ),
+                ),
               ),
-              SizedBox(
-                width: 10,
-              ),
-              ElevatedButton(
-                child: Icon(Icons.volume_up_rounded),
-                style: ElevatedButton.styleFrom(elevation: 8.0, primary: btnCol, fixedSize: Size(MediaQuery.of(context).size.width/5, 40)),
-                onPressed: () {
+              GestureDetector(
+                onTap: () {
                   setVolume("up", colIndex);
                 },
+                child: Container(
+                  width: MediaQuery.of(context).size.width/5,
+                  height: 40,
+                  margin: EdgeInsets.all(1.0),
+                  alignment: Alignment.center,
+                  child: Padding(
+                    padding: const EdgeInsets.all(0.0),
+                    child: Icon(
+                      Icons.volume_up_rounded,
+                      color: Colors.black,
+                    ),
+                  ),
+                  decoration: BoxDecoration(
+                    // borderRadius: BorderRadius.circular(5),
+                    color: btnCol,
+                    image: DecorationImage (
+                      image: AssetImage("assets/btn-double-border.png"),
+                      fit: BoxFit.fill,
+                      centerSlice: Rect.fromLTWH(2500, 2500, 2500, 2500),
+                    ),
+                  ),
+                ),
               ),
             ],
           ),
-          ElevatedButton.icon(
-            label: Text(
-              filesProvider.translations[0]["random"],
-              style: TextStyle(
-                fontSize: 15,
-              ),
-            ),
-            icon: Icon(Icons.shuffle_rounded),
-            style: ElevatedButton.styleFrom(elevation: 8.0,
-                primary: btnCol,
-                fixedSize: Size(MediaQuery.of(context).size.width / 2.5, 40)),
-            onPressed: () {
+          GestureDetector(
+            onTap: () {
               random(context, provider, colIndex);
             },
+            child: Container(
+              width: MediaQuery.of(context).size.width/3.5,
+              height: 40,
+              margin: EdgeInsets.all(1.0),
+              alignment: Alignment.center,
+              child: Padding(
+                padding: const EdgeInsets.all(0.0),
+                child: Row (
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.shuffle_rounded,
+                      color: Colors.black
+                    ),
+                    Text(
+                      filesProvider.translations[0]["random"],
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: Colors.black
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              decoration: BoxDecoration(
+                // borderRadius: BorderRadius.circular(5),
+                color: btnCol,
+                image: DecorationImage (
+                  image: AssetImage("assets/btn-double-border.png"),
+                  fit: BoxFit.fill,
+                  centerSlice: Rect.fromLTWH(2500, 2500, 2500, 2500),
+                ),
+              ),
+            ),
           ),
           SizedBox(
             height: 10,
@@ -377,14 +539,39 @@ class _MusicPageState extends State<MusicPage> {
                 .of(context)
                 .size
                 .width * 0.23,
-            child: ElevatedButton(
-              child: Text(basenameWithoutExtension(provider.filesPaths[colIndex][musicIndex].path).capitalize()),
-              style: ElevatedButton.styleFrom(elevation: 8.0, primary: btnCol),
-              onPressed: () {
+            child: GestureDetector(
+              onTap: () {
                 playSelected(context,
-                    provider.filesPaths[colIndex][musicIndex].path,
-                    colIndex);
+                  provider.filesPaths[colIndex][musicIndex].path,
+                  colIndex);
               },
+              child: Container(
+                width: MediaQuery.of(context).size.width/5,
+                height: 40,
+                margin: EdgeInsets.all(1.0),
+                alignment: Alignment.center,
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
+                  child: Text(
+                    basenameWithoutExtension(provider.filesPaths[colIndex][musicIndex].path).capitalize(),
+                    maxLines: 2,
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: Colors.black,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ),
+                decoration: BoxDecoration(
+                  // borderRadius: BorderRadius.circular(5),
+                  color: btnCol,
+                  image: DecorationImage (
+                    image: AssetImage("assets/btn-double-border.png"),
+                    fit: BoxFit.fill,
+                    centerSlice: Rect.fromLTWH(2500, 2500, 2500, 2500)
+                  ),
+                ),
+              ),
             ),
           ),
         );

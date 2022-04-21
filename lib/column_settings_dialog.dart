@@ -4,8 +4,8 @@ import 'package:flutter_color_picker_wheel/models/button_behaviour.dart';
 import 'package:flutter_color_picker_wheel/presets/animation_config_presets.dart';
 import 'package:flutter_color_picker_wheel/presets/color_presets.dart';
 import 'package:flutter_color_picker_wheel/widgets/flutter_color_picker_wheel.dart';
+import 'package:multi_music_handler/shared_preferences_manager.dart';
 import 'package:nanoid/nanoid.dart';
-import 'package:music_handler/shared_preferences_manager.dart';
 import 'package:provider/provider.dart';
 
 import 'files_provider.dart';
@@ -44,7 +44,7 @@ class _ColumnSettingsDialogState extends State<ColumnSettingsDialog> {
     colTitle = filesProvider.translations[0]["new_column"];
     directoryId = nanoid(10);
     directoryPath = filesProvider.translations[0]["directory_path"];
-    directoryColor = "0xFF009000";
+    directoryColor = "0x85009000";
     directoryName = filesProvider.translations[0]["directory_name"];
 
     // Se apro una colonna esistente e non ho fatto modifiche
@@ -115,7 +115,7 @@ class _ColumnSettingsDialogState extends State<ColumnSettingsDialog> {
               WheelColorPicker(
                 onSelect: (Color newColor) {
                   setState(() {
-                    directoryColor = newColor.value.toString();
+                    directoryColor = newColor.withOpacity(0.85).value.toString();
                   });
                 },
                 behaviour: ButtonBehaviour.clickToOpen,

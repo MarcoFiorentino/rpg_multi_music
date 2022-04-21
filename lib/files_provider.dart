@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_file_manager/flutter_file_manager.dart';
-import 'package:music_handler/shared_preferences_manager.dart';
+import 'package:multi_music_handler/shared_preferences_manager.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -86,9 +86,9 @@ class FilesProvider with ChangeNotifier {
     SharedPreferences sharedPreferences = await SharedPreferencesManager.getSharedPreferencesInstance();
     if (sharedPreferences.getStringList("Settings") != null) {
       this._settings = sharedPreferences.getStringList("Settings");
-      this.getTranslations();
-      this.notifyListeners();
     }
+    this.getTranslations();
+    this.notifyListeners();
   }
 
   // Recupera la lista di lingue disponibili
@@ -103,7 +103,6 @@ class FilesProvider with ChangeNotifier {
 
   // Recupera le traduzioni dal file
   void getTranslations() async {
-    // print(this._settings);
     var lang = this._settings.length > 0 ? this._settings[0] : "en";
     var jsonText = await rootBundle.loadString('assets/Languages/' + lang + '.json');
     this._translations = json.decode(jsonText);

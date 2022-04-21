@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:music_handler/settings_page.dart';
+import 'package:multi_music_handler/settings_page.dart';
 import 'package:provider/provider.dart';
 
 import 'files_provider.dart';
@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
     filesProvider.getLanguages(context);
 
     return MaterialApp(
-      title: 'Music Handler',
+      title: 'Multi music Handler',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -42,27 +42,29 @@ class HomePage extends StatelessWidget {
 
     return MaterialApp(
       //Gestisco le tab dell`app
-      home: DefaultTabController(
-        length: 1,
-        child: Scaffold(
-          appBar: AppBar(
-            title: Text("Multi music handler"),
-            actions: [
-              IconButton(
-                icon: Icon(Icons.settings_rounded),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => SettingsPage()),
-                  );
-                },
-              ),
-            ],
-          ),
-          body: TabBarView(
-            children: [
-              MusicPage(),
-            ],
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text("Multi music handler"),
+          actions: [
+            IconButton(
+              icon: Icon(Icons.settings_rounded),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SettingsPage()),
+                );
+              },
+            ),
+          ],
+        ),
+        body: Container(
+          child: MusicPage(),
+          decoration: BoxDecoration(
+            image: DecorationImage (
+              image: AssetImage("assets/app-background.png"),
+              opacity: 0.7,
+              fit: BoxFit.fitHeight,
+            ),
           ),
         ),
       ),

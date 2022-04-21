@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:music_handler/shared_preferences_manager.dart';
-import 'package:music_handler/string_extension.dart';
+import 'package:multi_music_handler/shared_preferences_manager.dart';
+import 'package:multi_music_handler/string_extension.dart';
 import 'package:provider/provider.dart';
 
-import 'package:music_handler/files_provider.dart';
+import 'package:multi_music_handler/files_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -134,8 +134,8 @@ class _SettingsScreenState extends State<SettingsPage> {
                     decoration: TextDecoration.underline
                   ),
                 ),
-                onTap: () async => await canLaunch("https://docs.google.com/forms/d/157plh_pe5kAZxtOqZdbcnqFMjr-uagaaqKPa_szpP-c/edit?usp=sharing")
-                    ? await launch("https://docs.google.com/forms/d/157plh_pe5kAZxtOqZdbcnqFMjr-uagaaqKPa_szpP-c/edit?usp=sharing")
+                onTap: () async => await canLaunch("https://docs.google.com/forms/d/e/1FAIpQLSf17hcBM-AR98ZYEFxo323qyTJ-tDpf-4OQQBevsMgZ_Z-sKw/viewform")
+                    ? await launch("https://docs.google.com/forms/d/e/1FAIpQLSf17hcBM-AR98ZYEFxo323qyTJ-tDpf-4OQQBevsMgZ_Z-sKw/viewform")
                     : throw filesProvider.translations[0]["url_error"],
               ),
             ],
