@@ -10,6 +10,10 @@ import 'package:wakelock/wakelock.dart';
 import 'column_settings_dialog.dart';
 
 class MusicPage extends StatefulWidget {
+  final ValueNotifier<double> notifier;
+
+  const MusicPage({Key key, this.notifier}) : super(key: key);
+
   @override
   _MusicPageState createState() => _MusicPageState();
 }
@@ -22,9 +26,21 @@ class _MusicPageState extends State<MusicPage> {
   List<String> files = [];
   List<String> states = [];
 
-  final ScrollController scrollController = ScrollController();
+  final ScrollController horizontalScrollController = ScrollController();
+  final ScrollController verticalScrollController = ScrollController();
+
   FilesProvider filesProvider;
   final colonnePerTipo = 2;
+
+  int colIndex = 0;
+
+  void onScroll(BuildContext context) {
+    double pageIndex = (horizontalScrollController.offset / MediaQuery.of(context).size.width);
+    double fractionOfPages = pageIndex / (filesProvider.filesPaths.length + 1);
+    double viewportWidth = MediaQuery.of(context).size.width;
+    double fractionOfViewport = fractionOfPages * viewportWidth;
+    widget.notifier.value = fractionOfViewport;
+  }
 
   @override
   void initState() {
@@ -37,6 +53,8 @@ class _MusicPageState extends State<MusicPage> {
 
     if (filesProvider.settings.length > 0) {
       Wakelock.toggle(enable: filesProvider.settings[1].toBoolean());
+    } else {
+      Wakelock.toggle(enable: true);
     }
 
     // Se il numero di players correnti è diverso da quelli salvati
@@ -69,69 +87,77 @@ class _MusicPageState extends State<MusicPage> {
         children: [
           // Elenco dei file nel path impostato
           Expanded(
-            child: ListView.separated(
-              padding: EdgeInsets.only(left: 10),
-              scrollDirection: Axis.horizontal,
-              controller: scrollController,
-              physics: BouncingScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: filesProvider.filesPaths.length + 1,
-              itemBuilder: (BuildContext context, int colIndex) {
-                // L`ultima colonna è quella con il pulsante per aggiungere altri player
-                if (colIndex == filesProvider.filesPaths.length) {
-                  return SizedBox (
-                    width: 100,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return ColumnSettingsDialog(newCol: true);
-                              },
-                            );
-                          },
-                          child: Container(
-                            width: MediaQuery.of(context).size.width/5,
-                            height: 40,
-                            alignment: Alignment.center,
-                            child: Padding(
-                              padding: const EdgeInsets.all(0.0),
-                              child: Icon(
-                                Icons.add_rounded,
-                                color: Colors.black,
+            child: NotificationListener(
+              onNotification: (t) {
+                setState(() {
+                  onScroll(context);
+                });
+                return true;
+              },
+              child: ListView.separated(
+                padding: EdgeInsets.only(left: 10),
+                scrollDirection: Axis.horizontal,
+                controller: horizontalScrollController,
+                physics: BouncingScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: filesProvider.filesPaths.length + 1,
+                itemBuilder: (BuildContext context, int colIndex) {
+                  // L`ultima colonna è quella con il pulsante per aggiungere altri player
+                  if (colIndex == filesProvider.filesPaths.length) {
+                    return SizedBox (
+                      width: 100,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return ColumnSettingsDialog(newCol: true);
+                                },
+                              );
+                            },
+                            child: Container(
+                              width: MediaQuery.of(context).size.width/5,
+                              height: 40,
+                              alignment: Alignment.center,
+                              child: Padding(
+                                padding: const EdgeInsets.all(0.0),
+                                child: Icon(
+                                  Icons.add_rounded,
+                                  color: Colors.black,
+                                ),
                               ),
-                            ),
-                            decoration: BoxDecoration(
-                              // borderRadius: BorderRadius.circular(5),
-                              color: Color(int.parse("0x85009000")),
-                              image: DecorationImage (
-                                image: AssetImage("assets/btn-double-border.png"),
-                                fit: BoxFit.fill,
-                                centerSlice: Rect.fromLTWH(2500, 2500, 2500, 2500),
+                              decoration: BoxDecoration(
+                                // borderRadius: BorderRadius.circular(5),
+                                color: Color(int.parse("0x85009000")),
+                                image: DecorationImage (
+                                  image: AssetImage("assets/btn-double-border.png"),
+                                  fit: BoxFit.fill,
+                                  centerSlice: Rect.fromLTWH(2500, 2500, 2500, 2500),
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
+                        ],
+                      ),
+                    );
+                  } else {
+                    return buildColumn(context, colIndex, filesProvider);
+                  }
+                },
+                separatorBuilder: (BuildContext context, int colIndex) {
+                  return VerticalDivider(
+                    color: Colors.black,
+                    thickness: 0.5,
+                    width: 20,
+                    indent: 15,
+                    endIndent: 50
                   );
-                } else {
-                  return buildColumn(context, colIndex, filesProvider);
-                }
-              },
-              separatorBuilder: (BuildContext context, int colIndex) {
-                return VerticalDivider(
-                  color: Colors.black,
-                  thickness: 0.5,
-                  width: 20,
-                  indent: 15,
-                  endIndent: 50
-                );
-              },
+                },
+              ),
             ),
           ),
         ],
@@ -503,7 +529,7 @@ class _MusicPageState extends State<MusicPage> {
                 radius: Radius.circular(30),
                 child: ListView.separated(
                   scrollDirection: Axis.vertical,
-                  controller: scrollController,
+                  controller: verticalScrollController,
                   shrinkWrap: true,
                   physics: ClampingScrollPhysics(),
                   itemCount: (provider.filesPaths[colIndex].length / colonnePerTipo).round(),

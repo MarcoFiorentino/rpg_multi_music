@@ -34,8 +34,26 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class HomePage extends StatelessWidget {
-  HomePage({Key key}) : super(key: key);
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage>{
+
+  ValueNotifier<double> _notifier;
+
+  @override
+  void dispose() {
+    _notifier?.dispose();
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _notifier = ValueNotifier<double>(0);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,16 +75,36 @@ class HomePage extends StatelessWidget {
             ),
           ],
         ),
-        body: Container(
-          child: MusicPage(),
-          decoration: BoxDecoration(
-            image: DecorationImage (
-              image: AssetImage("assets/app-background.png"),
-              opacity: 0.7,
-              fit: BoxFit.fitHeight,
+        body: Stack(
+          children: <Widget>[
+            AnimatedBuilder(
+              animation: _notifier,
+              builder: (context, _) {
+                return Transform.translate(
+                  offset: Offset(-_notifier.value, 0),
+                  child: Image.asset(
+                      "assets/app-background.png",
+                      height: MediaQuery.of(context).size.height,
+                      fit: BoxFit.fitHeight
+                  ),
+                );
+              },
             ),
-          ),
+            MusicPage(
+              notifier: _notifier,
+            ),
+          ],
         ),
+        // body: Container(
+        //   child: MusicPage(),
+        //   decoration: BoxDecoration(
+        //     image: DecorationImage (
+        //       image: AssetImage("assets/app-background.png"),
+        //       opacity: 0.7,
+        //       fit: BoxFit.fitHeight,
+        //     ),
+        //   ),
+        // ),
       ),
     );
   }
