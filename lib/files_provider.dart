@@ -16,7 +16,12 @@ class FilesProvider with ChangeNotifier {
   List<String> _dirsPaths = [];
   List<String> _dirsColors = [];
   List<String> _dirsNames = [];
-  List<String> _settings = [];
+  List<String> _settings = [
+    "en", // Lingua di default
+    "true", // Schermo sempre attivo di default
+    "4292927712", // Colore grigio chiaro come colore della barra
+    "4292927713" // Colore grigio chiaro come sfondo
+  ];
   List _translations = [];
   List<String> _languages = [];
 
@@ -87,6 +92,7 @@ class FilesProvider with ChangeNotifier {
     if (sharedPreferences.getStringList("Settings") != null) {
       this._settings = sharedPreferences.getStringList("Settings");
     }
+    print(this._settings);
     this.getTranslations();
     this.notifyListeners();
   }

@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_color_picker_wheel/models/button_behaviour.dart';
+import 'package:flutter_color_picker_wheel/presets/animation_config_presets.dart';
+import 'package:flutter_color_picker_wheel/presets/color_presets.dart';
+import 'package:flutter_color_picker_wheel/widgets/flutter_color_picker_wheel.dart';
 import 'package:multi_music_handler/shared_preferences_manager.dart';
 import 'package:multi_music_handler/string_extension.dart';
 import 'package:provider/provider.dart';
@@ -15,29 +19,21 @@ class _SettingsScreenState extends State<SettingsPage> {
 
   FilesProvider filesProvider;
 
-  List<String> languages = [];
-
-  List<String> settings = [
-    "en", // Lingua di default
-    "true" // Schermo sempre attivo di default
-  ];
-
   @override
   Widget build(BuildContext context) {
     filesProvider = Provider.of<FilesProvider>(context, listen: true);
 
-    languages = filesProvider.languages;
-
     return Scaffold(
-      appBar: AppBar(title: Text(filesProvider.translations[0]["settings"])),
+      backgroundColor: Color(int.parse(filesProvider.settings[3])),
+      appBar: AppBar(
+          title: Text(filesProvider.translations[0]["settings"]),
+          backgroundColor: Color(int.parse(filesProvider.settings[2])),
+      ),
       body: buildSettings(context),
     );
   }
 
   Widget buildSettings(BuildContext context) {
-    if (filesProvider.settings.length > 0) {
-      settings = filesProvider.settings;
-    }
 
     return Center(
       child: Column(
@@ -55,7 +51,7 @@ class _SettingsScreenState extends State<SettingsPage> {
                 ),
               ),
               DropdownButton<String>(
-                value: settings[0],
+                value: filesProvider.settings[0],
                 icon: Icon(Icons.arrow_drop_down),
                 iconSize: 24,
                 elevation: 16,
@@ -69,12 +65,12 @@ class _SettingsScreenState extends State<SettingsPage> {
                 ),
                 onChanged: (String data) {
                   setState(() {
-                    settings[0] = data;
-                    SharedPreferencesManager.updateKV("Settings", true, settings);
+                    filesProvider.settings[0] = data;
+                    SharedPreferencesManager.updateKV("Settings", true, filesProvider.settings);
                     filesProvider.getSettings();
                   });
                 },
-                items: languages.map<DropdownMenuItem<String>>((String value) {
+                items: filesProvider.languages.map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
                     child: Text(value),
@@ -94,14 +90,72 @@ class _SettingsScreenState extends State<SettingsPage> {
                 ),
               ),
               Switch(
-                value: settings[1].toBoolean(),
+                value: filesProvider.settings[1].toBoolean(),
                 onChanged: (value) {
                   setState(() {
-                    settings[1] = value.toString();
-                    SharedPreferencesManager.updateKV("Settings", true, settings);
+                    filesProvider.settings[1] = value.toString();
+                    SharedPreferencesManager.updateKV("Settings", true, filesProvider.settings);
                     filesProvider.getSettings();
                   });
                 },
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              //Icon(Icons.color_lens_rounded),
+              Text(
+                filesProvider.translations[0]["appbar_color"] + ": ",
+                style: TextStyle(
+                    fontSize: 15
+                ),
+              ),
+              WheelColorPicker(
+                onSelect: (Color newColor) {
+                  setState(() {
+                    filesProvider.settings[2] = newColor.value.toString();
+                    SharedPreferencesManager.updateKV("Settings", true, filesProvider.settings);
+                    filesProvider.getSettings();
+                  });
+                },
+                behaviour: ButtonBehaviour.clickToOpen,
+                defaultColor: Color(int.parse(filesProvider.settings[2])),
+                animationConfig: fanLikeAnimationConfig,
+                colorList: defaultAvailableColors,
+                buttonSize: 25,
+                pieceHeight: 25,
+                innerRadius: 30,
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              //Icon(Icons.color_lens_rounded),
+              Text(
+                filesProvider.translations[0]["background_color"] + ": ",
+                style: TextStyle(
+                    fontSize: 15
+                ),
+              ),
+              WheelColorPicker(
+                onSelect: (Color newColor) {
+                  setState(() {
+                    filesProvider.settings[3] = newColor.value.toString();
+                    SharedPreferencesManager.updateKV("Settings", true, filesProvider.settings);
+                    filesProvider.getSettings();
+                  });
+                },
+                behaviour: ButtonBehaviour.clickToOpen,
+                defaultColor: Color(int.parse(filesProvider.settings[3])),
+                animationConfig: fanLikeAnimationConfig,
+                colorList: defaultAvailableColors,
+                buttonSize: 25,
+                pieceHeight: 25,
+                innerRadius: 30,
               ),
             ],
           ),

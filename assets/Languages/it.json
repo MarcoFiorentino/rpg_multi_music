@@ -25,6 +25,8 @@
       "settings": "Impostazioni",
       "language": "Lingua",
       "screen_always_on": "Mantieni schermo sempre attivo",
+      "appbar_color": "Colore della barra",
+      "background_color": "Colore di sfondo",
       "signal_bug_request_feature": "Vuoi segnalare un bug o richiedere una feature?",
       "click_here": "Clicca qui!",
       "url_error": "Errore nell`apertura del link"
