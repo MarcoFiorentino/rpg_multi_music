@@ -20,7 +20,7 @@ class FilesProvider with ChangeNotifier {
     "en", // Lingua di default
     "true", // Schermo sempre attivo di default
     "4292927712", // Colore grigio chiaro come colore della barra
-    "4292927713" // Colore grigio chiaro come sfondo
+    "4292927713" // Colore grigio chiaro come sfondo dietro la mappa
   ];
   List _translations = [];
   List<String> _languages = [];

@@ -131,8 +131,7 @@ class _MusicPageState extends State<MusicPage> {
                                 ),
                               ),
                               decoration: BoxDecoration(
-                                // borderRadius: BorderRadius.circular(5),
-                                color: Color(int.parse("0x85009000")),
+                                color: Color(int.parse(filesProvider.settings[2])),
                                 image: DecorationImage (
                                   image: AssetImage("assets/btn-double-border.png"),
                                   fit: BoxFit.fill,

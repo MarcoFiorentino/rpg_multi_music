@@ -24,7 +24,6 @@ class _SettingsScreenState extends State<SettingsPage> {
     filesProvider = Provider.of<FilesProvider>(context, listen: true);
 
     return Scaffold(
-      backgroundColor: Color(int.parse(filesProvider.settings[3])),
       appBar: AppBar(
           title: Text(filesProvider.translations[0]["settings"]),
           backgroundColor: Color(int.parse(filesProvider.settings[2])),
@@ -102,14 +101,14 @@ class _SettingsScreenState extends State<SettingsPage> {
             ],
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
               //Icon(Icons.color_lens_rounded),
               Text(
                 filesProvider.translations[0]["appbar_color"] + ": ",
                 style: TextStyle(
-                    fontSize: 15
+                    fontSize: 18
                 ),
               ),
               WheelColorPicker(
@@ -131,14 +130,14 @@ class _SettingsScreenState extends State<SettingsPage> {
             ],
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
               //Icon(Icons.color_lens_rounded),
               Text(
                 filesProvider.translations[0]["background_color"] + ": ",
                 style: TextStyle(
-                    fontSize: 15
+                    fontSize: 18
                 ),
               ),
               WheelColorPicker(
