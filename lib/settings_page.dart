@@ -8,7 +8,7 @@ import 'package:multi_music_handler/string_extension.dart';
 import 'package:provider/provider.dart';
 
 import 'package:multi_music_handler/files_provider.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class SettingsPage extends StatefulWidget {
   @override
@@ -25,7 +25,13 @@ class _SettingsScreenState extends State<SettingsPage> {
 
     return Scaffold(
       appBar: AppBar(
-          title: Text(filesProvider.translations[0]["settings"]),
+          title: Text(
+              filesProvider.translations[0]["settings"],
+              style: TextStyle(color: Color(int.parse(filesProvider.settings[3]))),
+          ),
+          iconTheme: IconThemeData(
+            color: Color(int.parse(filesProvider.settings[3])),
+          ),
           backgroundColor: Color(int.parse(filesProvider.settings[2])),
       ),
       body: buildSettings(context),
@@ -133,28 +139,41 @@ class _SettingsScreenState extends State<SettingsPage> {
             mainAxisAlignment: MainAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              //Icon(Icons.color_lens_rounded),
               Text(
-                filesProvider.translations[0]["background_color"] + ": ",
+                filesProvider.translations[0]["font_color"] + ": ",
                 style: TextStyle(
                     fontSize: 18
                 ),
               ),
-              WheelColorPicker(
-                onSelect: (Color newColor) {
+              DropdownButton<String>(
+                value: filesProvider.settings[3],
+                icon: Icon(Icons.arrow_drop_down),
+                iconSize: 24,
+                elevation: 16,
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 18
+                ),
+                underline: Container(
+                  height: 2,
+                  color: Colors.black,
+                ),
+                onChanged: (String data) {
                   setState(() {
-                    filesProvider.settings[3] = newColor.value.toString();
+                    filesProvider.settings[3] = data;
                     SharedPreferencesManager.updateKV("Settings", true, filesProvider.settings);
                     filesProvider.getSettings();
                   });
                 },
-                behaviour: ButtonBehaviour.clickToOpen,
-                defaultColor: Color(int.parse(filesProvider.settings[3])),
-                animationConfig: fanLikeAnimationConfig,
-                colorList: defaultAvailableColors,
-                buttonSize: 25,
-                pieceHeight: 25,
-                innerRadius: 30,
+                items: filesProvider.appFontColors.map((String name, String value) {
+                  return MapEntry(
+                      name,
+                    DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(name),
+                    )
+                  );
+                }).values.toList(),
               ),
             ],
           ),
@@ -187,8 +206,8 @@ class _SettingsScreenState extends State<SettingsPage> {
                     decoration: TextDecoration.underline
                   ),
                 ),
-                onTap: () async => await canLaunch("https://docs.google.com/forms/d/e/1FAIpQLSf17hcBM-AR98ZYEFxo323qyTJ-tDpf-4OQQBevsMgZ_Z-sKw/viewform")
-                    ? await launch("https://docs.google.com/forms/d/e/1FAIpQLSf17hcBM-AR98ZYEFxo323qyTJ-tDpf-4OQQBevsMgZ_Z-sKw/viewform")
+                onTap: () async => await canLaunchUrlString("https://docs.google.com/forms/d/e/1FAIpQLSf17hcBM-AR98ZYEFxo323qyTJ-tDpf-4OQQBevsMgZ_Z-sKw/viewform")
+                    ? await launchUrlString("https://docs.google.com/forms/d/e/1FAIpQLSf17hcBM-AR98ZYEFxo323qyTJ-tDpf-4OQQBevsMgZ_Z-sKw/viewform")
                     : throw filesProvider.translations[0]["url_error"],
               ),
             ],

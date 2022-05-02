@@ -16,24 +16,30 @@ class FilesProvider with ChangeNotifier {
   List<String> _dirsPaths = [];
   List<String> _dirsColors = [];
   List<String> _dirsNames = [];
+  List<String> _fontsColors = [];
   List<String> _settings = [
-    "en", // Lingua di default
+    "English", // Lingua di default
     "true", // Schermo sempre attivo di default
-    "4292927712", // Colore grigio chiaro come colore della barra
-    "4292927713" // Colore grigio chiaro come sfondo dietro la mappa
+    "4292927712", // Colore grigio chiaro come colore della barra e di sfondo dietro la mappa
+    "4280361249" // Colore nero del font
   ];
   List _translations = [];
   List<String> _languages = [];
-
+  Map<String, String> _appFontColors = {
+    "black": "4280361249",
+    "white": "4294638330"
+  };
 
   List<List<File>> get filesPaths => this._filesPaths;
   List<String> get dirsIds => this._dirsIds;
   List<String> get dirsPaths => this._dirsPaths;
   List<String> get dirsColors => this._dirsColors;
   List<String> get dirsNames => this._dirsNames;
+  List<String> get fontsColors => this._fontsColors;
   List<String> get settings => this._settings;
   List get translations => this._translations;
   List<String> get languages => this._languages;
+  Map<String, String> get appFontColors => this._appFontColors;
 
   // Recupero le liste di file
   void getFilesList() async {
@@ -45,6 +51,7 @@ class FilesProvider with ChangeNotifier {
     this._dirsPaths = [];
     this._dirsColors = [];
     this._dirsNames = [];
+    this._fontsColors = [];
 
     if (sharedPreferences.getStringList("DirsId") != null && sharedPreferences.getStringList("DirsId").length > 0) {
       // Per ogni id salvato riempio le liste
@@ -54,6 +61,7 @@ class FilesProvider with ChangeNotifier {
         this._dirsPaths.add(sharedPreferences.getStringList(dirId)[0]);
         this._dirsColors.add(sharedPreferences.getStringList(dirId)[1]);
         this._dirsNames.add(sharedPreferences.getStringList(dirId)[2]);
+        this._fontsColors.add(sharedPreferences.getStringList(dirId)[3]);
 
         // Notifico i cambiamenti ai listener
         this.notifyListeners();

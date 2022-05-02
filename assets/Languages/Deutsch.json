@@ -1,0 +1,30 @@
+[
+  {
+    "MAIN_PAGE": "*********************************************************",
+      "state": "Zustand",
+      "playing": "Läuft gerade",
+      "paused": "Pausieren",
+      "stopped": "Gestoppt",
+      "volume": "Volumen",
+      "random": "Wahllos",
+    "POPUP": "*************************************************************",
+      "new_column": "Neue Spalte",
+      "edit_column": "Spalte bearbeiten",
+      "directory_path": "Pfad zum Verzeichnis",
+      "color": "Farbe",
+      "name": "Vorname",
+      "directory_name": "Name des Ordners",
+      "delete_column": "Spalte löschen",
+      "abort": "Annulla",
+      "save": "Sparen",
+    "SETTINGS_PAGE": "*****************************************************",
+      "settings": "Einstellungen",
+      "language": "Sprache",
+      "screen_always_on": "Bildschirm immer eingeschaltet lassen",
+      "appbar_color": "Balkenfarbe",
+      "font_color": "Schriftfarbe",
+      "signal_bug_request_feature": "Möchten Sie einen Fehler melden oder eine Funktion anfordern?",
+      "click_here": "Klicke hier!",
+      "url_error": "Fehler beim Öffnen des Links"
+  }
+]

@@ -127,7 +127,7 @@ class _MusicPageState extends State<MusicPage> {
                                 padding: const EdgeInsets.all(0.0),
                                 child: Icon(
                                   Icons.add_rounded,
-                                  color: Colors.black,
+                                  color: Color(int.parse(filesProvider.settings[3])),
                                 ),
                               ),
                               decoration: BoxDecoration(
@@ -144,6 +144,7 @@ class _MusicPageState extends State<MusicPage> {
                       ),
                     );
                   } else {
+                    // Tutte le altre colonne vengono costruite
                     return buildColumn(context, colIndex, filesProvider);
                   }
                 },
@@ -254,6 +255,7 @@ class _MusicPageState extends State<MusicPage> {
   IntrinsicWidth buildColumn(BuildContext context, int colIndex, FilesProvider provider) {
 
     Color btnCol = Color(int.parse(provider.dirsColors[colIndex]));
+    Color fontCol = Color(int.parse(provider.fontsColors[colIndex]));
     String dirName = provider.dirsNames[colIndex];
 
     return IntrinsicWidth(
@@ -267,7 +269,6 @@ class _MusicPageState extends State<MusicPage> {
           ),
           DecoratedBox(
             decoration: BoxDecoration(
-              // borderRadius: BorderRadius.circular(5),
               color: btnCol,
               image: DecorationImage (
                 image: AssetImage("assets/btn-single-border.png"),
@@ -285,10 +286,15 @@ class _MusicPageState extends State<MusicPage> {
                       Text(
                         dirName,
                         textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 15),
+                        style: TextStyle(
+                            fontSize: 15,
+                            color: fontCol),
                       ),
                       IconButton(
-                        icon: Icon(Icons.settings_rounded),
+                        icon: Icon(
+                            Icons.settings_rounded,
+                            color: fontCol
+                        ),
                         onPressed: () {
                           showDialog(
                             context: context,
@@ -305,21 +311,24 @@ class _MusicPageState extends State<MusicPage> {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: 20,
-                        fontWeight: FontWeight.bold
+                        fontWeight: FontWeight.bold,
+                        color: fontCol,
                     ),
                   ),
                   Text(
                     filesProvider.translations[0]["state"] + ": " + states[colIndex],
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                        fontSize: 15
+                        fontSize: 15,
+                        color: fontCol,
                     ),
                   ),
                   Text(
                     filesProvider.translations[0]["volume"] + ": " + volumes[colIndex].toString(),
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                        fontSize: 15
+                        fontSize: 15,
+                        color: fontCol,
                     ),
                   ),
                 ],
@@ -348,7 +357,7 @@ class _MusicPageState extends State<MusicPage> {
                       padding: const EdgeInsets.all(0.0),
                       child: Icon(
                         Icons.pause_rounded,
-                        color: Colors.black,
+                        color: fontCol,
                       ),
                     ),
                     decoration: BoxDecoration(
@@ -376,7 +385,7 @@ class _MusicPageState extends State<MusicPage> {
                       padding: const EdgeInsets.all(0.0),
                       child: Icon(
                         Icons.play_arrow_rounded,
-                        color: Colors.black,
+                        color: fontCol,
                       ),
                     ),
                     decoration: BoxDecoration(
@@ -403,7 +412,7 @@ class _MusicPageState extends State<MusicPage> {
                     padding: const EdgeInsets.all(0.0),
                     child: Icon(
                       Icons.stop_rounded,
-                      color: Colors.black,
+                      color: fontCol,
                     ),
                   ),
                   decoration: BoxDecoration(
@@ -435,7 +444,7 @@ class _MusicPageState extends State<MusicPage> {
                     padding: const EdgeInsets.all(0.0),
                     child: Icon(
                       Icons.volume_down_rounded,
-                      color: Colors.black,
+                      color: fontCol,
                     ),
                   ),
                   decoration: BoxDecoration(
@@ -462,7 +471,7 @@ class _MusicPageState extends State<MusicPage> {
                     padding: const EdgeInsets.all(0.0),
                     child: Icon(
                       Icons.volume_up_rounded,
-                      color: Colors.black,
+                      color: fontCol,
                     ),
                   ),
                   decoration: BoxDecoration(
@@ -494,13 +503,13 @@ class _MusicPageState extends State<MusicPage> {
                   children: [
                     Icon(
                       Icons.shuffle_rounded,
-                      color: Colors.black
+                      color: fontCol,
                     ),
                     Text(
                       filesProvider.translations[0]["random"],
                       style: TextStyle(
                         fontSize: 15,
-                        color: Colors.black
+                        color: fontCol,
                       ),
                     ),
                   ],
@@ -533,7 +542,7 @@ class _MusicPageState extends State<MusicPage> {
                   physics: ClampingScrollPhysics(),
                   itemCount: (provider.filesPaths[colIndex].length / colonnePerTipo).round(),
                   itemBuilder: (BuildContext context, int rowIndex) {
-                    return buildRow(context, colIndex, rowIndex, provider, btnCol);
+                    return buildRow(context, colIndex, rowIndex, provider, btnCol, fontCol);
                   },
                   separatorBuilder: (BuildContext context, int rowIndex) {
                     return SizedBox(
@@ -551,7 +560,7 @@ class _MusicPageState extends State<MusicPage> {
   }
 
   // Creo una riga di pulsanti per le musiche
-  Row buildRow(BuildContext context, int colIndex, int rowIndex, FilesProvider provider, Color btnCol) {
+  Row buildRow(BuildContext context, int colIndex, int rowIndex, FilesProvider provider, Color btnCol, Color fontCol) {
     List<Widget> sizedBoxes = [];
 
     // Aggiunge i pulsanti musica alla riga o pulsanti vuoti se servono
@@ -582,7 +591,7 @@ class _MusicPageState extends State<MusicPage> {
                     maxLines: 2,
                     style: TextStyle(
                       fontSize: 15,
-                      color: Colors.black,
+                      color: fontCol,
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),

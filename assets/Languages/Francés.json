@@ -1,0 +1,30 @@
+[
+  {
+    "MAIN_PAGE": "*********************************************************",
+      "state": "État",
+      "playing": "Jouer",
+      "paused": "Pause",
+      "stopped": "Arrêté",
+      "volume": "Volume",
+      "random": "Aléatoire",
+    "POPUP": "*************************************************************",
+      "new_column": "Nouvelle colonne",
+      "edit_column": "Modifier la colonne",
+      "directory_path": "Chemin du répertoire",
+      "color": "Couleur",
+      "name": "Nom",
+      "directory_name": "Nom du répertoire",
+      "delete_column": "Supprimer la colonne",
+      "abort": "Annuler",
+      "save": "Sauver",
+    "SETTINGS_PAGE": "*****************************************************",
+      "settings": "Réglages",
+      "language": "Langue",
+      "screen_always_on": "Écran toujours allumé",
+      "appbar_color": "Couleur de la barre",
+      "font_color": "Couleur de police",
+      "signal_bug_request_feature": "Vous souhaitez signaler un bug ou demander une fonctionnalité?",
+      "click_here": "Cliquez ici!",
+      "url_error": "Erreur dans l'ouverture du lien"
+  }
+]

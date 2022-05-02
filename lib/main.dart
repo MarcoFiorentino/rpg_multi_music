@@ -26,9 +26,6 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp(
       title: 'Multi music Handler',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
       home: HomePage(),
     );
   }
@@ -63,12 +60,19 @@ class _HomePageState extends State<HomePage>{
     return MaterialApp(
       //Gestisco le tab dell`app
       home: Scaffold(
-        backgroundColor: Color(int.parse(filesProvider.settings[3])),
+        backgroundColor: Color(int.parse(filesProvider.settings[2])),
         appBar: AppBar(
-          title: Text("Multi music handler"),
+          backgroundColor: Color(int.parse(filesProvider.settings[2])),
+          title: Text(
+              "Multi music handler",
+              style: TextStyle(color: Color(int.parse(filesProvider.settings[3]))),
+          ),
           actions: [
             IconButton(
-              icon: Icon(Icons.settings_rounded),
+              icon: Icon(
+                  Icons.settings_rounded,
+                  color: Color(int.parse(filesProvider.settings[3])),
+              ),
               onPressed: () {
                 Navigator.push(
                   context,
@@ -77,7 +81,6 @@ class _HomePageState extends State<HomePage>{
               },
             ),
           ],
-          backgroundColor: Color(int.parse(filesProvider.settings[2])),
         ),
         body: Stack(
           children: <Widget>[

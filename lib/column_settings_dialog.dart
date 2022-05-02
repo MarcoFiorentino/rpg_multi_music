@@ -29,6 +29,7 @@ class _ColumnSettingsDialogState extends State<ColumnSettingsDialog> {
   String directoryPath;
   String directoryColor;
   String directoryName;
+  String fontColor;
 
   bool isEditingText = false;
   TextEditingController editingController;
@@ -44,8 +45,9 @@ class _ColumnSettingsDialogState extends State<ColumnSettingsDialog> {
     colTitle = filesProvider.translations[0]["new_column"];
     directoryId = nanoid(10);
     directoryPath = filesProvider.translations[0]["directory_path"];
-    directoryColor = "0x85009000";
+    directoryColor = filesProvider.settings[2];
     directoryName = filesProvider.translations[0]["directory_name"];
+    fontColor = "4280361249";
 
     // Se apro una colonna esistente e non ho fatto modifiche
     // Pre-popolo i campi con i dati in memoria
@@ -55,6 +57,7 @@ class _ColumnSettingsDialogState extends State<ColumnSettingsDialog> {
       directoryPath  = filesProvider.dirsPaths[colIndex];
       directoryColor = filesProvider.dirsColors[colIndex];
       directoryName = filesProvider.dirsNames[colIndex];
+      fontColor = filesProvider.fontsColors[colIndex];
     }
   }
 
@@ -80,6 +83,7 @@ class _ColumnSettingsDialogState extends State<ColumnSettingsDialog> {
             children: [
               IconButton(
                 icon: Icon(Icons.folder_rounded),
+                color: Colors.grey,
                 onPressed: () {
                   pickDirectory();
                 },
@@ -105,7 +109,10 @@ class _ColumnSettingsDialogState extends State<ColumnSettingsDialog> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             mainAxisSize: MainAxisSize.min,
             children: [
-              //Icon(Icons.color_lens_rounded),
+              // IconButton(
+              //   icon: Icon(Icons.color_lens_rounded),
+              //   color: Colors.grey,
+              // ),
               Text(
                   filesProvider.translations[0]["color"] + ": ",
                   style: TextStyle(
@@ -131,6 +138,10 @@ class _ColumnSettingsDialogState extends State<ColumnSettingsDialog> {
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [
+              // IconButton(
+              //   icon: Icon(Icons.drive_file_rename_outline),
+              //   color: Colors.grey,
+              // ),
               Text(
                   filesProvider.translations[0]["name"] + ": ",
                   style: TextStyle(
@@ -140,6 +151,46 @@ class _ColumnSettingsDialogState extends State<ColumnSettingsDialog> {
               Flexible(
                 flex: 2,
                 child: editTitleTextField(),
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                filesProvider.translations[0]["font_color"] + ": ",
+                style: TextStyle(
+                    fontSize: 18
+                ),
+              ),
+              DropdownButton<String>(
+                value: fontColor,
+                icon: Icon(Icons.arrow_drop_down),
+                iconSize: 24,
+                elevation: 16,
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 18
+                ),
+                underline: Container(
+                  height: 2,
+                  color: Colors.black,
+                ),
+                onChanged: (String data) {
+                  setState(() {
+                    fontColor = data;
+                  });
+                },
+                items: filesProvider.appFontColors.map((String name, String value) {
+                  return MapEntry(
+                      name,
+                      DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(name),
+                      )
+                  );
+                }).values.toList(),
               ),
             ],
           ),
@@ -252,7 +303,7 @@ class _ColumnSettingsDialogState extends State<ColumnSettingsDialog> {
     }
 
     // Salvo il trittico come lista usando l`id come chiave
-    List<String> dirCharacteristics = [directoryPath, directoryColor, directoryName];
+    List<String> dirCharacteristics = [directoryPath, directoryColor, directoryName, fontColor];
     SharedPreferencesManager.updateKV(directoryId, true, dirCharacteristics);
 
     filesProvider.getFilesList();
