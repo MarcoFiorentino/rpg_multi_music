@@ -100,7 +100,6 @@ class FilesProvider with ChangeNotifier {
     if (sharedPreferences.getStringList("Settings") != null) {
       this._settings = sharedPreferences.getStringList("Settings");
     }
-    print(this._settings);
     this.getTranslations();
     this.notifyListeners();
   }

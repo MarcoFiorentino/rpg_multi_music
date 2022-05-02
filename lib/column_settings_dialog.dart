@@ -67,14 +67,28 @@ class _ColumnSettingsDialogState extends State<ColumnSettingsDialog> {
     editingController = TextEditingController(text: directoryName);
 
     return AlertDialog(
-      title: Text(
-        colTitle,
-        style: TextStyle(
-            fontSize: 20
+      title: Container(
+        padding: EdgeInsets.all(15.0),
+        alignment: Alignment.center,
+        child: Text(
+          colTitle,
+          style: TextStyle(
+            fontSize: 20,
+            color: Color(int.parse(fontColor)),
+          ),
+        ),
+        decoration: BoxDecoration(
+          color: Color(int.parse(directoryColor)),
+          image: DecorationImage (
+            image: AssetImage("assets/btn-single-border.png"),
+            fit: BoxFit.fill,
+            centerSlice: Rect.fromLTWH(2500, 2500, 2500, 2500),
+          ),
         ),
       ),
       content: new Column(
         mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
@@ -109,16 +123,17 @@ class _ColumnSettingsDialogState extends State<ColumnSettingsDialog> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             mainAxisSize: MainAxisSize.min,
             children: [
-              // IconButton(
-              //   icon: Icon(Icons.color_lens_rounded),
-              //   color: Colors.grey,
-              // ),
-              Text(
-                  filesProvider.translations[0]["color"] + ": ",
-                  style: TextStyle(
-                      fontSize: 15
-                  ),
+              IconButton(
+                icon: Icon(Icons.color_lens_rounded),
+                color: Colors.grey,
+                onPressed: () {},
               ),
+              // Text(
+              //     filesProvider.translations[0]["color"] + ": ",
+              //     style: TextStyle(
+              //         fontSize: 15
+              //     ),
+              // ),
               WheelColorPicker(
                 onSelect: (Color newColor) {
                   setState(() {
@@ -138,16 +153,17 @@ class _ColumnSettingsDialogState extends State<ColumnSettingsDialog> {
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              // IconButton(
-              //   icon: Icon(Icons.drive_file_rename_outline),
-              //   color: Colors.grey,
-              // ),
-              Text(
-                  filesProvider.translations[0]["name"] + ": ",
-                  style: TextStyle(
-                      fontSize: 15
-                  ),
+              IconButton(
+                icon: Icon(Icons.drive_file_rename_outline),
+                color: Colors.grey,
+                onPressed: () {},
               ),
+              // Text(
+              //     filesProvider.translations[0]["name"] + ": ",
+              //     style: TextStyle(
+              //         fontSize: 15
+              //     ),
+              // ),
               Flexible(
                 flex: 2,
                 child: editTitleTextField(),
@@ -158,12 +174,17 @@ class _ColumnSettingsDialogState extends State<ColumnSettingsDialog> {
             mainAxisAlignment: MainAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(
-                filesProvider.translations[0]["font_color"] + ": ",
-                style: TextStyle(
-                    fontSize: 18
-                ),
+              IconButton(
+                icon: Icon(Icons.format_color_text),
+                color: Colors.grey,
+                onPressed: () {},
               ),
+              // Text(
+              //   filesProvider.translations[0]["font_color"] + ": ",
+              //   style: TextStyle(
+              //       fontSize: 15
+              //   ),
+              // ),
               DropdownButton<String>(
                 value: fontColor,
                 icon: Icon(Icons.arrow_drop_down),
@@ -187,7 +208,7 @@ class _ColumnSettingsDialogState extends State<ColumnSettingsDialog> {
                       name,
                       DropdownMenuItem<String>(
                         value: value,
-                        child: Text(name),
+                        child: Text(filesProvider.translations[0][filesProvider.appFontColors.entries.firstWhere((element) => element.value == value).key]),
                       )
                   );
                 }).values.toList(),
@@ -195,24 +216,25 @@ class _ColumnSettingsDialogState extends State<ColumnSettingsDialog> {
             ],
           ),
           newCol? Container() : Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.end,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(
-                  filesProvider.translations[0]["delete_column"] + ": ",
-                  style: TextStyle(
-                      fontSize: 15
-                  ),
-              ),
+              // Text(
+              //     filesProvider.translations[0]["delete_column"] + ": ",
+              //     style: TextStyle(
+              //         fontSize: 15
+              //     ),
+              // ),
+              Spacer(),
               ElevatedButton(
-                child: Icon(Icons.delete_rounded),
-                style: ElevatedButton.styleFrom(elevation: 8.0, primary: Color(int.parse(directoryColor)), fixedSize: Size(10, 20)),
-                onPressed: () {
-                  // Cancello la directory e chiudo il popup
-                  deleteDir();
-                  Navigator.of(context).pop();
-                },
-              ),
+                  child: Icon(Icons.delete_rounded),
+                  style: ElevatedButton.styleFrom(elevation: 8.0, primary: Color(int.parse(directoryColor)), fixedSize: Size(10, 20)),
+                  onPressed: () {
+                    // Cancello la directory e chiudo il popup
+                    deleteDir();
+                    Navigator.of(context).pop();
+                  },
+                ),
             ],
           ),
         ],

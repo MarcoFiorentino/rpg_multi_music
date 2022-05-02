@@ -554,6 +554,10 @@ class _MusicPageState extends State<MusicPage> {
               ),
             ),
           ),
+          SizedBox(
+            height: 10,
+            width: 10,
+          ),
         ],
       ),
     );

@@ -7,6 +7,8 @@
       "stopped": "Stopped",
       "volume": "Volume",
       "random": "Random",
+      "black": "Black",
+      "white": "White",
     "POPUP": "*************************************************************",
       "new_column": "New column",
       "edit_column": "Edit column",

@@ -7,6 +7,8 @@
       "stopped": "Arrêté",
       "volume": "Volume",
       "random": "Aléatoire",
+      "black": "Noir",
+      "white": "Blanc",
     "POPUP": "*************************************************************",
       "new_column": "Nouvelle colonne",
       "edit_column": "Modifier la colonne",

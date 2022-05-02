@@ -182,16 +182,17 @@ class _SettingsScreenState extends State<SettingsPage> {
             mainAxisAlignment: MainAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Flexible(
-                flex: 2,
+              LimitedBox(
+                maxWidth: MediaQuery.of(context).size.width,
                 child: Text(
                   filesProvider.translations[0]["signal_bug_request_feature"],
                   style: TextStyle(
-                    fontSize: 15
+                      fontSize: 15
                   ),
+                  textAlign: TextAlign.center,
                 ),
               )
-            ]
+            ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
