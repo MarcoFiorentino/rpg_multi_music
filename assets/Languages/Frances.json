@@ -25,6 +25,9 @@
       "screen_always_on": "Écran toujours allumé",
       "appbar_color": "Couleur de la barre",
       "font_color": "Couleur de police",
+      "background_img": "Image de fond",
+      "none": "Aucun",
+      "background_color": "Couleur de fond",
       "signal_bug_request_feature": "Vous souhaitez signaler un bug ou demander une fonctionnalité?",
       "click_here": "Cliquez ici!",
       "url_error": "Erreur dans l'ouverture du lien"

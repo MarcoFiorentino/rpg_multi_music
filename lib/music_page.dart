@@ -133,7 +133,7 @@ class _MusicPageState extends State<MusicPage> {
                               decoration: BoxDecoration(
                                 color: Color(int.parse(filesProvider.settings[2])),
                                 image: DecorationImage (
-                                  image: AssetImage("assets/btn-double-border.png"),
+                                  image: AssetImage("assets/Btn/btn-double-border.png"),
                                   fit: BoxFit.fill,
                                   centerSlice: Rect.fromLTWH(2500, 2500, 2500, 2500),
                                 ),
@@ -271,7 +271,7 @@ class _MusicPageState extends State<MusicPage> {
             decoration: BoxDecoration(
               color: btnCol,
               image: DecorationImage (
-                image: AssetImage("assets/btn-single-border.png"),
+                image: AssetImage("assets/Btn/btn-single-border.png"),
                 fit: BoxFit.fill,
                 centerSlice: Rect.fromLTWH(2500, 2500, 2500, 2500),
               ),
@@ -364,7 +364,7 @@ class _MusicPageState extends State<MusicPage> {
                       // borderRadius: BorderRadius.circular(5),
                       color: btnCol,
                       image: DecorationImage (
-                        image: AssetImage("assets/btn-double-border.png"),
+                        image: AssetImage("assets/Btn/btn-double-border.png"),
                         fit: BoxFit.fill,
                         centerSlice: Rect.fromLTWH(2500, 2500, 2500, 2500),
                       ),
@@ -392,7 +392,7 @@ class _MusicPageState extends State<MusicPage> {
                       // borderRadius: BorderRadius.circular(5),
                       color: btnCol,
                       image: DecorationImage (
-                        image: AssetImage("assets/btn-double-border.png"),
+                        image: AssetImage("assets/Btn/btn-double-border.png"),
                         fit: BoxFit.fill,
                         centerSlice: Rect.fromLTWH(2500, 2500, 2500, 2500),
                       ),
@@ -419,7 +419,7 @@ class _MusicPageState extends State<MusicPage> {
                     // borderRadius: BorderRadius.circular(5),
                     color: btnCol,
                     image: DecorationImage (
-                      image: AssetImage("assets/btn-double-border.png"),
+                      image: AssetImage("assets/Btn/btn-double-border.png"),
                       fit: BoxFit.fill,
                       centerSlice: Rect.fromLTWH(2500, 2500, 2500, 2500),
                     ),
@@ -451,7 +451,7 @@ class _MusicPageState extends State<MusicPage> {
                     // borderRadius: BorderRadius.circular(5),
                     color: btnCol,
                     image: DecorationImage (
-                      image: AssetImage("assets/btn-double-border.png"),
+                      image: AssetImage("assets/Btn/btn-double-border.png"),
                       fit: BoxFit.fill,
                       centerSlice: Rect.fromLTWH(2500, 2500, 2500, 2500),
                     ),
@@ -478,7 +478,7 @@ class _MusicPageState extends State<MusicPage> {
                     // borderRadius: BorderRadius.circular(5),
                     color: btnCol,
                     image: DecorationImage (
-                      image: AssetImage("assets/btn-double-border.png"),
+                      image: AssetImage("assets/Btn/btn-double-border.png"),
                       fit: BoxFit.fill,
                       centerSlice: Rect.fromLTWH(2500, 2500, 2500, 2500),
                     ),
@@ -519,7 +519,7 @@ class _MusicPageState extends State<MusicPage> {
                 // borderRadius: BorderRadius.circular(5),
                 color: btnCol,
                 image: DecorationImage (
-                  image: AssetImage("assets/btn-double-border.png"),
+                  image: AssetImage("assets/Btn/btn-double-border.png"),
                   fit: BoxFit.fill,
                   centerSlice: Rect.fromLTWH(2500, 2500, 2500, 2500),
                 ),
@@ -604,7 +604,7 @@ class _MusicPageState extends State<MusicPage> {
                   // borderRadius: BorderRadius.circular(5),
                   color: btnCol,
                   image: DecorationImage (
-                    image: AssetImage("assets/btn-double-border.png"),
+                    image: AssetImage("assets/Btn/btn-double-border.png"),
                     fit: BoxFit.fill,
                     centerSlice: Rect.fromLTWH(2500, 2500, 2500, 2500)
                   ),

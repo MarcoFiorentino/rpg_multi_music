@@ -80,7 +80,7 @@ class _ColumnSettingsDialogState extends State<ColumnSettingsDialog> {
         decoration: BoxDecoration(
           color: Color(int.parse(directoryColor)),
           image: DecorationImage (
-            image: AssetImage("assets/btn-single-border.png"),
+            image: AssetImage("assets/Btn/btn-single-border.png"),
             fit: BoxFit.fill,
             centerSlice: Rect.fromLTWH(2500, 2500, 2500, 2500),
           ),
@@ -205,11 +205,11 @@ class _ColumnSettingsDialogState extends State<ColumnSettingsDialog> {
                 },
                 items: filesProvider.appFontColors.map((String name, String value) {
                   return MapEntry(
-                      name,
-                      DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(filesProvider.translations[0][filesProvider.appFontColors.entries.firstWhere((element) => element.value == value).key]),
-                      )
+                    name,
+                    DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(filesProvider.translations[0][filesProvider.appFontColors.entries.firstWhere((element) => element.value == value).key]),
+                    )
                   );
                 }).values.toList(),
               ),

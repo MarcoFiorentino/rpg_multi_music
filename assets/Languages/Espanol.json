@@ -25,6 +25,9 @@
       "screen_always_on": "Mantén la pantalla siempre encendida",
       "appbar_color": "Color de barra",
       "font_color": "Color de letra",
+      "background_img": "Imagen de fondo",
+      "none": "Nadie",
+      "background_color": "Color de fondo",
       "signal_bug_request_feature": "¿Desea informar un error o solicitar una característica?",
       "click_here": "Haga clic aquí!",
       "url_error": "Error al abrir el enlace"

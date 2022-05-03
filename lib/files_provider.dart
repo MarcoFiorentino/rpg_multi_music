@@ -20,8 +20,10 @@ class FilesProvider with ChangeNotifier {
   List<String> _settings = [
     "English", // Lingua di default
     "true", // Schermo sempre attivo di default
-    "4292927712", // Colore grigio chiaro come colore della barra e di sfondo dietro la mappa
-    "4280361249" // Colore nero del font
+    "4292927712", // Colore della barra
+    "4280361249", // Colore del font
+    "assets/Background/app-background.png", // Immagine di sfondo
+    "4292927712" // Colore di sfondo dietro la mappa
   ];
   List _translations = [];
   List<String> _languages = [];
@@ -29,6 +31,7 @@ class FilesProvider with ChangeNotifier {
     "black": "4280361249",
     "white": "4294638330"
   };
+  List<String> _backgroundImgs = [];
 
   List<List<File>> get filesPaths => this._filesPaths;
   List<String> get dirsIds => this._dirsIds;
@@ -40,6 +43,7 @@ class FilesProvider with ChangeNotifier {
   List get translations => this._translations;
   List<String> get languages => this._languages;
   Map<String, String> get appFontColors => this._appFontColors;
+  List<String> get backgroundImgs => this._backgroundImgs;
 
   // Recupero le liste di file
   void getFilesList() async {
@@ -119,5 +123,15 @@ class FilesProvider with ChangeNotifier {
     var lang = this._settings.length > 0 ? this._settings[0] : "en";
     var jsonText = await rootBundle.loadString('assets/Languages/' + lang + '.json');
     this._translations = json.decode(jsonText);
+  }
+
+  // Recupera le immagini di sfondo
+  void getBackgroundImgs() async {
+    String manifestContent = await rootBundle.loadString('AssetManifest.json');
+    Map<String, dynamic> manifestMap = json.decode(manifestContent);
+    this._backgroundImgs = manifestMap.keys
+        .where((String key) => key.contains("assets/Background/"))
+        .toList();
+    this._backgroundImgs.add("none");
   }
 }

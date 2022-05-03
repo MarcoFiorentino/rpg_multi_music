@@ -25,6 +25,9 @@
       "screen_always_on": "Bildschirm immer eingeschaltet lassen",
       "appbar_color": "Balkenfarbe",
       "font_color": "Schriftfarbe",
+      "background_img": "Hintergrundbild",
+      "none": "Niemand",
+      "background_color": "Hintergrundfarbe",
       "signal_bug_request_feature": "Möchten Sie einen Fehler melden oder eine Funktion anfordern?",
       "click_here": "Klicke hier!",
       "url_error": "Fehler beim Öffnen des Links"

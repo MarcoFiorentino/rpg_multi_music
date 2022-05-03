@@ -6,6 +6,7 @@ import 'package:flutter_color_picker_wheel/widgets/flutter_color_picker_wheel.da
 import 'package:multi_music_handler/shared_preferences_manager.dart';
 import 'package:multi_music_handler/string_extension.dart';
 import 'package:provider/provider.dart';
+import 'package:path/path.dart';
 
 import 'package:multi_music_handler/files_provider.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -167,13 +168,80 @@ class _SettingsScreenState extends State<SettingsPage> {
                 },
                 items: filesProvider.appFontColors.map((String name, String value) {
                   return MapEntry(
-                      name,
+                    name,
                     DropdownMenuItem<String>(
                       value: value,
-                      child: Text(name),
+                      child: Text(filesProvider.translations[0][filesProvider.appFontColors.entries.firstWhere((element) => element.value == value).key]),
                     )
                   );
                 }).values.toList(),
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                filesProvider.translations[0]["background_img"] + ": ",
+                style: TextStyle(
+                    fontSize: 18
+                ),
+              ),
+              DropdownButton<String>(
+                value: filesProvider.settings[4],
+                icon: Icon(Icons.arrow_drop_down),
+                iconSize: 24,
+                elevation: 16,
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 18
+                ),
+                underline: Container(
+                  height: 2,
+                  color: Colors.black,
+                ),
+                onChanged: (String data) {
+                  setState(() {
+                    filesProvider.settings[4] = data;
+                    SharedPreferencesManager.updateKV("Settings", true, filesProvider.settings);
+                    filesProvider.getSettings();
+                  });
+                },
+                items: filesProvider.backgroundImgs.map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text((value != "none") ? basenameWithoutExtension(value.split("/")[2]).capitalize() : filesProvider.translations[0][value]),
+                  );
+                }).toList(),
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                filesProvider.translations[0]["background_color"] + ": ",
+                style: TextStyle(
+                    fontSize: 18
+                ),
+              ),
+              WheelColorPicker(
+                onSelect: (Color newColor) {
+                  setState(() {
+                    filesProvider.settings[5] = newColor.value.toString();
+                    SharedPreferencesManager.updateKV("Settings", true, filesProvider.settings);
+                    filesProvider.getSettings();
+                  });
+                },
+                behaviour: ButtonBehaviour.clickToOpen,
+                defaultColor: Color(int.parse(filesProvider.settings[5])),
+                animationConfig: fanLikeAnimationConfig,
+                colorList: defaultAvailableColors,
+                buttonSize: 25,
+                pieceHeight: 25,
+                innerRadius: 30,
               ),
             ],
           ),

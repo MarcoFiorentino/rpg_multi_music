@@ -23,6 +23,7 @@ class MyApp extends StatelessWidget {
     filesProvider.getFilesList();
     filesProvider.getSettings();
     filesProvider.getLanguages(context);
+    filesProvider.getBackgroundImgs();
 
     return MaterialApp(
       title: 'Multi music Handler',
@@ -60,7 +61,7 @@ class _HomePageState extends State<HomePage>{
     return MaterialApp(
       //Gestisco le tab dell`app
       home: Scaffold(
-        backgroundColor: Color(int.parse(filesProvider.settings[2])),
+        backgroundColor: Color(int.parse(filesProvider.settings[5])),
         appBar: AppBar(
           backgroundColor: Color(int.parse(filesProvider.settings[2])),
           title: Text(
@@ -84,22 +85,24 @@ class _HomePageState extends State<HomePage>{
         ),
         body: Stack(
           children: <Widget>[
-            OverflowBox(
-              maxWidth: MediaQuery.of(context).size.width * 2,
-              child: AnimatedBuilder(
-                animation: _notifier,
-                builder: (context, _) {
-                  return Transform.translate(
-                    offset: Offset(-_notifier.value, 0),
-                    child: Image.asset(
-                        "assets/mappa.jpg",
-                        height: MediaQuery.of(context).size.height,
-                        fit: BoxFit.fitHeight
-                    ),
-                  );
-                },
+            (filesProvider.settings[4] == "none") ?
+              Container() :
+              OverflowBox(
+                maxWidth: MediaQuery.of(context).size.width * 2,
+                child: AnimatedBuilder(
+                  animation: _notifier,
+                  builder: (context, _) {
+                    return Transform.translate(
+                      offset: Offset(-_notifier.value, 0),
+                      child: Image.asset(
+                          filesProvider.settings[4],
+                          height: MediaQuery.of(context).size.height,
+                          fit: BoxFit.fitHeight
+                      ),
+                    );
+                  },
+                ),
               ),
-            ),
             MusicPage(
               notifier: _notifier,
             ),
