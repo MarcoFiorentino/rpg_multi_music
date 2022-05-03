@@ -253,6 +253,41 @@ class _SettingsScreenState extends State<SettingsPage> {
               LimitedBox(
                 maxWidth: MediaQuery.of(context).size.width,
                 child: Text(
+                  filesProvider.translations[0]["2-minute-tabletop-attribution"],
+                  style: TextStyle(
+                      fontSize: 15
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              )
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              GestureDetector(
+                child: Text(
+                  filesProvider.translations[0]["attribution-link"],
+                  style: TextStyle(
+                      fontSize: 15,
+                      color: Colors.blue,
+                      decoration: TextDecoration.underline
+                  ),
+                ),
+                onTap: () async => await canLaunchUrlString("https://2minutetabletop.com/")
+                    ? await launchUrlString("https://2minutetabletop.com/")
+                    : throw filesProvider.translations[0]["url_error"],
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              LimitedBox(
+                maxWidth: MediaQuery.of(context).size.width,
+                child: Text(
                   filesProvider.translations[0]["signal_bug_request_feature"],
                   style: TextStyle(
                       fontSize: 15

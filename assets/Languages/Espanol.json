@@ -30,6 +30,8 @@
       "background_color": "Color de fondo",
       "signal_bug_request_feature": "¿Desea informar un error o solicitar una característica?",
       "click_here": "Haga clic aquí!",
+      "2-minute-tabletop-attribution": "Los magníficos mapas están dibujados por 2-Minute Tabletop",
+      "attribution-link": "Click aquí para ver su trabajo!",
       "url_error": "Error al abrir el enlace"
   }
 ]

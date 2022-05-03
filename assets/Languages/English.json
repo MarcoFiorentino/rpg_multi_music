@@ -30,6 +30,8 @@
       "background_color": "Background color",
       "signal_bug_request_feature": "Do you want to signal a bug o request a feature?",
       "click_here": "Click here!",
+      "2-minute-tabletop-attribution": "The astounding maps are drawn by 2-Minute Tabletop",
+      "attribution-link": "Click here to see their works!",
       "url_error": "Error while opening the link"
   }
 ]
