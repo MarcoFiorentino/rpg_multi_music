@@ -1,16 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:multi_music_handler/settings_page.dart';
 import 'package:provider/provider.dart';
 
 import 'files_provider.dart';
 import 'music_page.dart';
 
-void main() => runApp(
-      MultiProvider(
-        providers: [ChangeNotifierProvider(create: (_) => FilesProvider())],
-        child: MyApp(),
-      ),
-    );
+void main() {
+  runApp(
+    MultiProvider(
+      providers: [ChangeNotifierProvider(create: (_) => FilesProvider())],
+      child: MyApp(),
+    ),
+  );
+
+  // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+  //   systemNavigationBarColor: Color(857809185),
+  // ));
+}
 
 class MyApp extends StatelessWidget {
   MyApp({Key key}) : super(key: key);
@@ -23,7 +30,7 @@ class MyApp extends StatelessWidget {
     filesProvider.getFilesList();
     filesProvider.getSettings();
     filesProvider.getLanguages(context);
-    filesProvider.getBackgroundImgs();
+    filesProvider.getBackgroundImages();
 
     return MaterialApp(
       title: 'Multi music Handler',
@@ -88,7 +95,8 @@ class _HomePageState extends State<HomePage>{
             (filesProvider.settings[4] == "none") ?
               Container() :
               OverflowBox(
-                maxWidth: MediaQuery.of(context).size.width * 2,
+                maxWidth: MediaQuery.of(context).size.width * 4,
+                // alignment: Alignment.topLeft, // Se si vuole l'immagine di sfondo che comincia dal bordo sinistro, altrimenti comincia dal centro
                 child: AnimatedBuilder(
                   animation: _notifier,
                   builder: (context, _) {
@@ -108,6 +116,21 @@ class _HomePageState extends State<HomePage>{
             ),
           ],
         ),
+        // Usabile per la pubblicità?
+        // bottomNavigationBar: BottomNavigationBar(
+        //   items: <BottomNavigationBarItem>[
+        //     new BottomNavigationBarItem(
+        //       icon: new Icon(Icons.library_books, size: 22.0),
+        //       label: "Text",
+        //       backgroundColor: Colors.pink,
+        //     ),
+        //     new BottomNavigationBarItem(
+        //       icon: new Icon(Icons.library_books, size: 22.0),
+        //       label: "Text",
+        //       backgroundColor: Colors.pink,
+        //     ),
+        //   ],
+        // ),
       ),
     );
   }

@@ -208,7 +208,7 @@ class _SettingsScreenState extends State<SettingsPage> {
                     filesProvider.getSettings();
                   });
                 },
-                items: filesProvider.backgroundImgs.map<DropdownMenuItem<String>>((String value) {
+                items: filesProvider.backgroundImages.map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
                     child: Text((value != "none") ? basenameWithoutExtension(value.split("/")[2]).capitalize() : filesProvider.translations[0][value]),

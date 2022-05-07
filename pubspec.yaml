@@ -50,7 +50,8 @@ dev_dependencies:
 flutter_icons:
   android: true # can specify file name here e.g. "ic_launcher"
   ios: true
-  image_path: "assets/icon_music_dice.png"
+  image_path: "assets/logo.png"
+  remove_alpha_ios: true
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

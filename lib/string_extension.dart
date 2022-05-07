@@ -1,5 +1,5 @@
 extension StringExtension on String {
-  // Restituisce la strinca con la prima lettera maiuscola
+  // Restituisce la stringa con la prima lettera maiuscola
   String capitalize() {
     return "${this[0].toUpperCase()}${this.substring(1)}";
   }
