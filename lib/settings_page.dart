@@ -76,12 +76,15 @@ class _SettingsScreenState extends State<SettingsPage> {
                     filesProvider.getSettings();
                   });
                 },
-                items: filesProvider.languages.map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
+                items: filesProvider.languages.map((String name, String value) {
+                  return MapEntry(
+                      name,
+                      DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(filesProvider.languages.entries.firstWhere((element) => element.value == value).value),
+                      )
                   );
-                }).toList(),
+                }).values.toList(),
               ),
             ],
           ),

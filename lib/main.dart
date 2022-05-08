@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:multi_music_handler/settings_page.dart';
 import 'package:provider/provider.dart';
 
@@ -13,10 +12,6 @@ void main() {
       child: MyApp(),
     ),
   );
-
-  // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-  //   systemNavigationBarColor: Color(857809185),
-  // ));
 }
 
 class MyApp extends StatelessWidget {
@@ -29,7 +24,7 @@ class MyApp extends StatelessWidget {
     final FilesProvider filesProvider = Provider.of<FilesProvider>(context, listen: false);
     filesProvider.getFilesList();
     filesProvider.getSettings();
-    filesProvider.getLanguages(context);
+    filesProvider.getLanguages();
     filesProvider.getBackgroundImages();
 
     return MaterialApp(

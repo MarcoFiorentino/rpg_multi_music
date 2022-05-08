@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:devicelocale/devicelocale.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -20,13 +21,20 @@ class FilesProvider with ChangeNotifier {
   List<String> _settings = [
     "English", // Lingua di default
     "true", // Schermo sempre attivo di default
-    "4292927712", // Colore della barra
+    "4294688813", // Colore della barra e del pulsante del più
     "4280361249", // Colore del font
-    "assets/Background/Onsen-Hot-Springs.jpg", // Immagine di sfondo
+    "assets/Background/Shipyard.jpg", // Immagine di sfondo
     "4292927712" // Colore di sfondo dietro la mappa
   ];
   List _translations = [];
-  List<String> _languages = [];
+  Map<String, String> _languages = {
+    "IT": "Italiano",
+    "GB": "English",
+    "ES": "Espanol",
+    "FR": "Frances",
+    "DE": "Deutsch"
+  };
+  String _deviceLanguage = "";
   Map<String, String> _appFontColors = {
     "black": "4280361249",
     "white": "4294638330"
@@ -41,7 +49,8 @@ class FilesProvider with ChangeNotifier {
   List<String> get fontsColors => this._fontsColors;
   List<String> get settings => this._settings;
   List get translations => this._translations;
-  List<String> get languages => this._languages;
+  Map<String, String> get languages => this._languages;
+  String get deviceLanguage => this._deviceLanguage;
   Map<String, String> get appFontColors => this._appFontColors;
   List<String> get backgroundImages => this._backgroundImages;
 
@@ -109,13 +118,9 @@ class FilesProvider with ChangeNotifier {
   }
 
   // Recupera la lista di lingue disponibili
-  void getLanguages(BuildContext context) async {
-    final manifestJson = await DefaultAssetBundle.of(context).loadString('AssetManifest.json');
-    final languages = json.decode(manifestJson).keys.where((String key) => key.startsWith('assets/Languages')).toList();
-    this._languages = [];
-    for (var lang in languages) {
-      this._languages.add(lang.split("/")[2].split(".")[0]);
-    }
+  void getLanguages() async {
+    String devicelocale = await Devicelocale.currentLocale;
+    this._settings[0] = _languages[devicelocale.split("-")[1]];
   }
 
   // Recupera le traduzioni dal file
