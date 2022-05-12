@@ -3,12 +3,12 @@ import 'package:flutter_color_picker_wheel/models/button_behaviour.dart';
 import 'package:flutter_color_picker_wheel/presets/animation_config_presets.dart';
 import 'package:flutter_color_picker_wheel/presets/color_presets.dart';
 import 'package:flutter_color_picker_wheel/widgets/flutter_color_picker_wheel.dart';
-import 'package:multi_music_handler/shared_preferences_manager.dart';
-import 'package:multi_music_handler/string_extension.dart';
+import 'package:gdr_multi_music_handler/shared_preferences_manager.dart';
+import 'package:gdr_multi_music_handler/string_extension.dart';
 import 'package:provider/provider.dart';
 import 'package:path/path.dart';
 
-import 'package:multi_music_handler/files_provider.dart';
+import 'package:gdr_multi_music_handler/files_provider.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class SettingsPage extends StatefulWidget {

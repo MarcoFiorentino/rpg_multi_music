@@ -4,7 +4,7 @@ import 'package:flutter_color_picker_wheel/models/button_behaviour.dart';
 import 'package:flutter_color_picker_wheel/presets/animation_config_presets.dart';
 import 'package:flutter_color_picker_wheel/presets/color_presets.dart';
 import 'package:flutter_color_picker_wheel/widgets/flutter_color_picker_wheel.dart';
-import 'package:multi_music_handler/shared_preferences_manager.dart';
+import 'package:gdr_multi_music_handler/shared_preferences_manager.dart';
 import 'package:nanoid/nanoid.dart';
 import 'package:provider/provider.dart';
 
@@ -128,12 +128,6 @@ class _ColumnSettingsDialogState extends State<ColumnSettingsDialog> {
                 color: Colors.grey,
                 onPressed: () {},
               ),
-              // Text(
-              //     filesProvider.translations[0]["color"] + ": ",
-              //     style: TextStyle(
-              //         fontSize: 15
-              //     ),
-              // ),
               WheelColorPicker(
                 onSelect: (Color newColor) {
                   setState(() {
@@ -158,12 +152,6 @@ class _ColumnSettingsDialogState extends State<ColumnSettingsDialog> {
                 color: Colors.grey,
                 onPressed: () {},
               ),
-              // Text(
-              //     filesProvider.translations[0]["name"] + ": ",
-              //     style: TextStyle(
-              //         fontSize: 15
-              //     ),
-              // ),
               Flexible(
                 flex: 2,
                 child: editTitleTextField(),
@@ -179,12 +167,6 @@ class _ColumnSettingsDialogState extends State<ColumnSettingsDialog> {
                 color: Colors.grey,
                 onPressed: () {},
               ),
-              // Text(
-              //   filesProvider.translations[0]["font_color"] + ": ",
-              //   style: TextStyle(
-              //       fontSize: 15
-              //   ),
-              // ),
               DropdownButton<String>(
                 value: fontColor,
                 icon: Icon(Icons.arrow_drop_down),
@@ -219,22 +201,28 @@ class _ColumnSettingsDialogState extends State<ColumnSettingsDialog> {
             mainAxisAlignment: MainAxisAlignment.end,
             mainAxisSize: MainAxisSize.min,
             children: [
-              // Text(
-              //     filesProvider.translations[0]["delete_column"] + ": ",
-              //     style: TextStyle(
-              //         fontSize: 15
-              //     ),
-              // ),
               Spacer(),
-              ElevatedButton(
-                  child: Icon(Icons.delete_rounded),
-                  style: ElevatedButton.styleFrom(elevation: 8.0, primary: Color(int.parse(directoryColor)), fixedSize: Size(10, 20)),
+              Container(
+                child: ElevatedButton(
+                  child: Icon(Icons.refresh_rounded),
+                  style: ElevatedButton.styleFrom(elevation: 8.0, primary: Color(int.parse(directoryColor)), fixedSize: Size(10, 20), padding: EdgeInsets.all(5)),
                   onPressed: () {
-                    // Cancello la directory e chiudo il popup
-                    deleteDir();
+                    // Aggiorno la directory e chiudo il popup
+                    updateDir();
                     Navigator.of(context).pop();
                   },
                 ),
+                margin: const EdgeInsets.only(right: 5),
+              ),
+              ElevatedButton(
+                child: Icon(Icons.delete_rounded),
+                style: ElevatedButton.styleFrom(elevation: 8.0, primary: Color(int.parse(directoryColor)), fixedSize: Size(10, 20)),
+                onPressed: () {
+                  // Cancello la directory e chiudo il popup
+                  deleteDir();
+                  Navigator.of(context).pop();
+                },
+              ),
             ],
           ),
         ],
@@ -339,6 +327,11 @@ class _ColumnSettingsDialogState extends State<ColumnSettingsDialog> {
     // Cancello il trittico come lista usando l`id come chiave
     SharedPreferencesManager.updateKV(directoryId, false);
 
+    filesProvider.getFilesList();
+  }
+
+  // Aggiorno le musiche nella directory
+  void updateDir() {
     filesProvider.getFilesList();
   }
 }

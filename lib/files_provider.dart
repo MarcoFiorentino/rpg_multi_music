@@ -6,7 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_file_manager/flutter_file_manager.dart';
-import 'package:multi_music_handler/shared_preferences_manager.dart';
+import 'package:gdr_multi_music_handler/shared_preferences_manager.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -24,7 +24,8 @@ class FilesProvider with ChangeNotifier {
     "4294688813", // Colore della barra e del pulsante del più
     "4280361249", // Colore del font
     "assets/Background/Shipyard.jpg", // Immagine di sfondo
-    "4292927712" // Colore di sfondo dietro la mappa
+    "4292927712", // Colore di sfondo dietro la mappa
+    "true" // Tutorial visto
   ];
   List _translations = [];
   Map<String, String> _languages = {

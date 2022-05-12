@@ -4,8 +4,8 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:provider/provider.dart';
-import 'package:multi_music_handler/files_provider.dart';
-import 'package:multi_music_handler/string_extension.dart';
+import 'package:gdr_multi_music_handler/files_provider.dart';
+import 'package:gdr_multi_music_handler/string_extension.dart';
 import 'package:wakelock/wakelock.dart';
 import 'column_settings_dialog.dart';
 
@@ -81,85 +81,128 @@ class _MusicPageState extends State<MusicPage> {
     }
 
     return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
+      child: Stack(
         children: [
-          // Elenco dei file nel path impostato
-          Expanded(
-            child: NotificationListener(
-              onNotification: (t) {
-                setState(() {
-                  onScroll(context);
-                });
-                return true;
-              },
-              child: ListView.separated(
-                padding: EdgeInsets.only(left: 10),
-                scrollDirection: Axis.horizontal,
-                controller: horizontalScrollController,
-                physics: BouncingScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: filesProvider.filesPaths.length + 1,
-                itemBuilder: (BuildContext context, int colIndex) {
-                  // L`ultima colonna è quella con il pulsante per aggiungere altri player
-                  if (colIndex == filesProvider.filesPaths.length) {
-                    return SizedBox (
-                      width: 100,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return ColumnSettingsDialog(newCol: true);
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Elenco dei file nel path impostato
+              Expanded(
+                child: NotificationListener(
+                  onNotification: (t) {
+                    setState(() {
+                      onScroll(context);
+                    });
+                    return true;
+                  },
+                  child: ListView.separated(
+                    padding: EdgeInsets.only(left: 10),
+                    scrollDirection: Axis.horizontal,
+                    controller: horizontalScrollController,
+                    physics: BouncingScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: filesProvider.filesPaths.length + 1,
+                    itemBuilder: (BuildContext context, int colIndex) {
+                      // L`ultima colonna è quella con il pulsante per aggiungere altri player
+                      if (colIndex == filesProvider.filesPaths.length) {
+                        return SizedBox (
+                          width: 100,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return ColumnSettingsDialog(newCol: true);
+                                    },
+                                  );
                                 },
-                              );
-                            },
-                            child: Container(
-                              width: MediaQuery.of(context).size.width/5,
-                              height: 40,
-                              alignment: Alignment.center,
-                              child: Padding(
-                                padding: const EdgeInsets.all(0.0),
-                                child: Icon(
-                                  Icons.add_rounded,
-                                  color: Color(int.parse(filesProvider.settings[3])),
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width/5,
+                                  height: 40,
+                                  alignment: Alignment.center,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(0.0),
+                                    child: Icon(
+                                      Icons.add_rounded,
+                                      color: Color(int.parse(filesProvider.settings[3])),
+                                    ),
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: Color(int.parse(filesProvider.settings[2])),
+                                    image: DecorationImage (
+                                      image: AssetImage("assets/Btn/btn-double-border.png"),
+                                      fit: BoxFit.fill,
+                                      centerSlice: Rect.fromLTWH(2500, 2500, 2500, 2500),
+                                    ),
+                                  ),
                                 ),
                               ),
-                              decoration: BoxDecoration(
-                                color: Color(int.parse(filesProvider.settings[2])),
-                                image: DecorationImage (
-                                  image: AssetImage("assets/Btn/btn-double-border.png"),
-                                  fit: BoxFit.fill,
-                                  centerSlice: Rect.fromLTWH(2500, 2500, 2500, 2500),
-                                ),
-                              ),
-                            ),
+                            ],
                           ),
-                        ],
-                      ),
-                    );
-                  } else {
-                    // Tutte le altre colonne vengono costruite
-                    return buildColumn(context, colIndex, filesProvider);
-                  }
-                },
-                separatorBuilder: (BuildContext context, int colIndex) {
-                  return VerticalDivider(
-                    color: Colors.black,
-                    thickness: 0.5,
-                    width: 20,
-                    indent: 15,
-                    endIndent: 50
-                  );
-                },
+                        );
+                      } else {
+                        // Tutte le altre colonne vengono costruite
+                        return buildColumn(context, colIndex, filesProvider);
+                      }
+                    },
+                    separatorBuilder: (BuildContext context, int colIndex) {
+                      return VerticalDivider(
+                          color: Colors.black,
+                          thickness: 0.5,
+                          width: 20,
+                          indent: 15,
+                          endIndent: 50
+                      );
+                    },
+                  ),
+                ),
               ),
-            ),
+            ],
           ),
+          // (filesProvider.settings[6].toBoolean()) ?
+          //   Container() :
+            Opacity( //Wrap any widget with Opacity()
+              opacity: 0.7,
+              child: Stack(
+                children: [
+                  Container(
+                    color: Colors.black,
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Ciao e benvenuto!",
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.white
+                        ),
+                      ),
+                      Text(
+                        "Quassù troverai la pagina delle impostazioni, tramite la quale è possibile cambiare lingua, colore della barra e del font, ecc...",
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.white
+                        ),
+                      ),
+                      Text(
+                        "Cliccando qui invece potrai aggiungere una nuova cartella di musiche e specificare nome, percorso e colore; Ogni path ",
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.white
+                        ),
+                      ),
+                    ]
+                  ),
+                ],
+              )
+            ),
         ],
       ),
     );
@@ -628,4 +671,21 @@ class _MusicPageState extends State<MusicPage> {
       children: sizedBoxes,
     );
   }
+}
+
+class DashedLineVerticalPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    double dashHeight = 5, dashSpace = 3, startY = 0;
+    final paint = Paint()
+      ..color = Colors.grey[300]
+      ..strokeWidth = 1;
+    while (startY < size.height) {
+      canvas.drawLine(Offset(0, startY), Offset(0, startY + dashHeight), paint);
+      startY += dashHeight + dashSpace;
+    }
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) => false;
 }

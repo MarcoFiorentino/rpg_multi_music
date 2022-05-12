@@ -2,7 +2,7 @@
     package="gdr.fiore.music_handler">
    <application
         android:requestLegacyExternalStorage="true"
-        android:label="Multi music handler"
+        android:label="Gdr Multi music handler"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

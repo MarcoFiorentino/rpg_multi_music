@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:multi_music_handler/settings_page.dart';
+import 'package:gdr_multi_music_handler/settings_page.dart';
 import 'package:provider/provider.dart';
 
 import 'files_provider.dart';
