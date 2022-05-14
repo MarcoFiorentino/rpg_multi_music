@@ -1,6 +1,6 @@
 {
-    "name": "music_handler",
-    "short_name": "music_handler",
+    "name": "gdr_multi_music",
+    "short_name": "gdr_multi_music",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

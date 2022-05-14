@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:gdr_multi_music_handler/settings_page.dart';
+import 'package:gdr_multi_music/settings_page.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 
+import 'ad_helper.dart';
 import 'files_provider.dart';
 import 'music_page.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  MobileAds.instance.initialize();
   runApp(
     MultiProvider(
       providers: [ChangeNotifierProvider(create: (_) => FilesProvider())],
@@ -52,6 +56,7 @@ class _HomePageState extends State<HomePage>{
   @override
   void initState() {
     _notifier = ValueNotifier<double>(0);
+    AdHelper.myBanner.load();
     super.initState();
   }
 
@@ -59,6 +64,7 @@ class _HomePageState extends State<HomePage>{
   Widget build(BuildContext context) {
 
     final FilesProvider filesProvider = Provider.of<FilesProvider>(context, listen: true);
+    final AdWidget adWidget = AdWidget(ad: AdHelper.myBanner);
 
     return MaterialApp(
       //Gestisco le tab dell`app
@@ -111,21 +117,11 @@ class _HomePageState extends State<HomePage>{
             ),
           ],
         ),
-        // Usabile per la pubblicità?
-        // bottomNavigationBar: BottomNavigationBar(
-        //   items: <BottomNavigationBarItem>[
-        //     new BottomNavigationBarItem(
-        //       icon: new Icon(Icons.library_books, size: 22.0),
-        //       label: "Text",
-        //       backgroundColor: Colors.pink,
-        //     ),
-        //     new BottomNavigationBarItem(
-        //       icon: new Icon(Icons.library_books, size: 22.0),
-        //       label: "Text",
-        //       backgroundColor: Colors.pink,
-        //     ),
-        //   ],
-        // ),
+        bottomNavigationBar: Container(
+          height: 50,
+          color: Color(int.parse(filesProvider.settings[2])),
+          child: adWidget
+        ),
       ),
     );
   }

@@ -4,7 +4,7 @@ import 'package:flutter_color_picker_wheel/models/button_behaviour.dart';
 import 'package:flutter_color_picker_wheel/presets/animation_config_presets.dart';
 import 'package:flutter_color_picker_wheel/presets/color_presets.dart';
 import 'package:flutter_color_picker_wheel/widgets/flutter_color_picker_wheel.dart';
-import 'package:gdr_multi_music_handler/shared_preferences_manager.dart';
+import 'package:gdr_multi_music/shared_preferences_manager.dart';
 import 'package:nanoid/nanoid.dart';
 import 'package:provider/provider.dart';
 

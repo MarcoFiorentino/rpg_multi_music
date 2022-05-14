@@ -4,8 +4,8 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:provider/provider.dart';
-import 'package:gdr_multi_music_handler/files_provider.dart';
-import 'package:gdr_multi_music_handler/string_extension.dart';
+import 'package:gdr_multi_music/files_provider.dart';
+import 'package:gdr_multi_music/string_extension.dart';
 import 'package:wakelock/wakelock.dart';
 import 'column_settings_dialog.dart';
 
@@ -164,8 +164,8 @@ class _MusicPageState extends State<MusicPage> {
               ),
             ],
           ),
-          // (filesProvider.settings[6].toBoolean()) ?
-          //   Container() :
+          (filesProvider.settings[6].toBoolean()) ?
+            Container() :
             Opacity( //Wrap any widget with Opacity()
               opacity: 0.7,
               child: Stack(
