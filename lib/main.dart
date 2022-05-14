@@ -97,7 +97,7 @@ class _HomePageState extends State<HomePage>{
               Container() :
               OverflowBox(
                 maxWidth: MediaQuery.of(context).size.width * 4,
-                // alignment: Alignment.topLeft, // Se si vuole l'immagine di sfondo che comincia dal bordo sinistro, altrimenti comincia dal centro
+                // alignment: Alignment.topLeft, // Se si vuole lo sfondo che comincia dal bordo sinistro, altrimenti comincia dal centro
                 child: AnimatedBuilder(
                   animation: _notifier,
                   builder: (context, _) {
