@@ -5,11 +5,14 @@ import 'package:flutter_color_picker_wheel/presets/color_presets.dart';
 import 'package:flutter_color_picker_wheel/widgets/flutter_color_picker_wheel.dart';
 import 'package:gdr_multi_music/shared_preferences_manager.dart';
 import 'package:gdr_multi_music/string_extension.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 import 'package:path/path.dart';
 
 import 'package:gdr_multi_music/files_provider.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+
+import 'ad_helper.dart';
 
 class SettingsPage extends StatefulWidget {
   @override
@@ -21,8 +24,15 @@ class _SettingsScreenState extends State<SettingsPage> {
   FilesProvider filesProvider;
 
   @override
+  void initState() {
+    AdHelper.settingsBanner.load();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     filesProvider = Provider.of<FilesProvider>(context, listen: true);
+    final AdWidget adWidget = AdWidget(ad: AdHelper.settingsBanner);
 
     return Scaffold(
       appBar: AppBar(
@@ -36,6 +46,11 @@ class _SettingsScreenState extends State<SettingsPage> {
           backgroundColor: Color(int.parse(filesProvider.settings[2])),
       ),
       body: buildSettings(context),
+      bottomNavigationBar: Container(
+          height: 50,
+          color: Color(int.parse(filesProvider.settings[2])),
+          child: adWidget
+      ),
     );
   }
 

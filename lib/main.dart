@@ -56,7 +56,7 @@ class _HomePageState extends State<HomePage>{
   @override
   void initState() {
     _notifier = ValueNotifier<double>(0);
-    AdHelper.myBanner.load();
+    AdHelper.homeBanner.load();
     super.initState();
   }
 
@@ -64,7 +64,7 @@ class _HomePageState extends State<HomePage>{
   Widget build(BuildContext context) {
 
     final FilesProvider filesProvider = Provider.of<FilesProvider>(context, listen: true);
-    final AdWidget adWidget = AdWidget(ad: AdHelper.myBanner);
+    final AdWidget adWidget = AdWidget(ad: AdHelper.homeBanner);
 
     return MaterialApp(
       //Gestisco le tab dell`app
