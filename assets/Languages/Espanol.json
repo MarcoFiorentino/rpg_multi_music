@@ -28,6 +28,7 @@
       "background_img": "Imagen de fondo",
       "none": "Nadie",
       "background_color": "Color de fondo",
+      "show_tutorial": "Mostrar tutorial al principio",
       "signal_bug_request_feature": "¿Desea informar un error o solicitar una característica?",
       "click_here": "Haga clic aquí!",
       "2-minute-tabletop-attribution": "Los magníficos mapas están dibujados por 2-Minute Tabletop",

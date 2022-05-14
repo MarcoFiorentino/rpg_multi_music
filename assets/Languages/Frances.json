@@ -28,6 +28,7 @@
       "background_img": "Image de fond",
       "none": "Aucun",
       "background_color": "Couleur de fond",
+      "show_tutorial": "Afficher le didacticiel au démarrage",
       "signal_bug_request_feature": "Vous souhaitez signaler un bug ou demander une fonctionnalité?",
       "click_here": "Cliquez ici!",
       "2-minute-tabletop-attribution": "Les magnifiques cartes sont dessinées par 2-Minute Tabletop",

@@ -248,6 +248,28 @@ class _SettingsScreenState extends State<SettingsPage> {
               ),
             ],
           ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                filesProvider.translations[0]["show_tutorial"],
+                style: TextStyle(
+                    fontSize: 18
+                ),
+              ),
+              Switch(
+                value: !(filesProvider.settings[6].toBoolean()),
+                onChanged: (value) {
+                  setState(() {
+                    filesProvider.settings[6] = (!value).toString();
+                    SharedPreferencesManager.updateKV("Settings", true, filesProvider.settings);
+                    filesProvider.getSettings();
+                  });
+                },
+              ),
+            ],
+          ),
           Spacer(),
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
