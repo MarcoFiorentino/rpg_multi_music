@@ -172,13 +172,13 @@ class _MusicPageState extends State<MusicPage> {
           Stack(
             children: [
               Opacity(
-                opacity: 0.6,
+                opacity: 0.4,
                 child: Container(
                   color: Colors.black,
                 ),
               ),
               Opacity(
-                opacity: 0.8,
+                opacity: 1,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -198,10 +198,12 @@ class _MusicPageState extends State<MusicPage> {
                             child: Padding(
                               padding: const EdgeInsets.all(15.0),
                               child: Text(
-                                "Quassù troverai la pagina delle impostazioni, tramite la quale è possibile cambiare lingua, colore della barra e del font, ecc...",
+                                filesProvider.translations[0]["settings_tutorial"],
+                                maxLines: 7,
                                 style: TextStyle(
-                                    fontSize: 15,
-                                    color: Colors.black
+                                  fontSize: 15,
+                                  color: Color(int.parse(filesProvider.settings[3])),
+                                  overflow: TextOverflow.ellipsis,
                                 ),
                               ),
                             ),
@@ -244,7 +246,7 @@ class _MusicPageState extends State<MusicPage> {
                             child: CustomPaint(
                               painter: ArrowPainter(
                                   MediaQuery.of(context).size.width/2, (MediaQuery.of(context).size.height/3)/2,
-                                  70, 50,
+                                  70, 20,
                                   filesProvider.settings[2],
                               ),
                               child: Container(
@@ -267,10 +269,12 @@ class _MusicPageState extends State<MusicPage> {
                             child: Padding(
                               padding: const EdgeInsets.all(15.0),
                               child: Text(
-                                "Cliccando qui invece potrai aggiungere una nuova cartella di musiche e specificare percorso, colore di sfondo, nome e colore del testo.",
+                                filesProvider.translations[0]["button_tutorial"],
+                                maxLines: 7,
                                 style: TextStyle(
-                                    fontSize: 15,
-                                    color: Colors.black
+                                  fontSize: 15,
+                                  color: Color(int.parse(filesProvider.settings[3])),
+                                  overflow: TextOverflow.ellipsis,
                                 ),
                               ),
                             ),
@@ -286,7 +290,6 @@ class _MusicPageState extends State<MusicPage> {
                         ),
                       ],
                     ),
-                    Spacer(),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -299,14 +302,16 @@ class _MusicPageState extends State<MusicPage> {
                           child: Container(
                             width: MediaQuery.of(context).size.width/5,
                             height: 40,
+                            margin: EdgeInsets.only(bottom:10.0),
                             alignment: Alignment.center,
                             child: Padding(
-                              padding: const EdgeInsets.all(0.0),
+                              padding: const EdgeInsets.all(1.0),
                               child: Text(
-                                "Capito",
+                                filesProvider.translations[0]["done_tutorial"],
+                                maxLines: 2,
                                 style: TextStyle(
-                                    fontSize: 15,
-                                    color: Colors.black
+                                  color: Color(int.parse(filesProvider.settings[3])),
+                                  overflow: TextOverflow.ellipsis,
                                 ),
                               ),
                             ),
@@ -322,7 +327,6 @@ class _MusicPageState extends State<MusicPage> {
                         ),
                       ],
                     ),
-                    Spacer(),
                   ],
                 ),
               ),
@@ -675,9 +679,11 @@ class _MusicPageState extends State<MusicPage> {
                     ),
                     Text(
                       filesProvider.translations[0]["random"],
+                      maxLines: 2,
                       style: TextStyle(
                         fontSize: 15,
                         color: fontCol,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
                   ],
