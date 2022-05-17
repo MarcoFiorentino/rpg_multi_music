@@ -25,7 +25,7 @@ class FilesProvider with ChangeNotifier {
     "4280361249", // Colore del font
     "assets/Background/Shipyard.jpg", // Immagine di sfondo
     "4292927712", // Colore di sfondo dietro la mappa
-    "true" // Tutorial visto
+    "false" // Tutorial visto
   ];
   List _translations = [];
   Map<String, String> _languages = {
