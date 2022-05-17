@@ -198,8 +198,9 @@ class _MusicPageState extends State<MusicPage> {
                             child: Padding(
                               padding: const EdgeInsets.all(15.0),
                               child: Text(
+                                filesProvider.translations[0]["welcome_tutorial"] + "\n\n" +
                                 filesProvider.translations[0]["settings_tutorial"],
-                                maxLines: 7,
+                                maxLines: 10,
                                 style: TextStyle(
                                   fontSize: 15,
                                   color: Color(int.parse(filesProvider.settings[3])),
@@ -270,7 +271,7 @@ class _MusicPageState extends State<MusicPage> {
                               padding: const EdgeInsets.all(15.0),
                               child: Text(
                                 filesProvider.translations[0]["button_tutorial"],
-                                maxLines: 7,
+                                maxLines: 10,
                                 style: TextStyle(
                                   fontSize: 15,
                                   color: Color(int.parse(filesProvider.settings[3])),

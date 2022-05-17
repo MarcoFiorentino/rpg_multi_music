@@ -1,6 +1,7 @@
 [
   {
     "TUTORIAL": "**********************************************************",
+      "welcome_tutorial": "Hola y bienvenidos!",
       "settings_tutorial": "Aquí encontrará la página de configuración, donde puede cambiar el idioma, el color de la barra, el color de la fuente, el imagen de fondo, etc...",
       "button_tutorial": "Al hacer clic aquí, puede agregar una nueva carpeta de música y definir la ruta, el color de fondo, el nombre y el color de fuente.",
       "done_tutorial": "Entendido",
