@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gdr_multi_music/settings_page.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -94,7 +95,7 @@ class _HomePageState extends State<HomePage>{
         body: Stack(
           children: <Widget>[
             (filesProvider.settings[4] == "none") ?
-              Container() :
+              SizedBox.shrink() :
               OverflowBox(
                 maxWidth: MediaQuery.of(context).size.width * 4,
                 // alignment: Alignment.topLeft, // Se si vuole lo sfondo che comincia dal bordo sinistro, altrimenti comincia dal centro

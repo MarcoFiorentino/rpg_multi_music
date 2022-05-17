@@ -2,11 +2,13 @@ import 'dart:math';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:gdr_multi_music/shared_preferences_manager.dart';
 import 'package:path/path.dart';
 import 'package:provider/provider.dart';
 import 'package:gdr_multi_music/files_provider.dart';
 import 'package:gdr_multi_music/string_extension.dart';
 import 'package:wakelock/wakelock.dart';
+import 'arrow_painter.dart';
 import 'column_settings_dialog.dart';
 
 class MusicPage extends StatefulWidget {
@@ -85,6 +87,7 @@ class _MusicPageState extends State<MusicPage> {
         children: [
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: [
               // Elenco dei file nel path impostato
@@ -165,44 +168,162 @@ class _MusicPageState extends State<MusicPage> {
             ],
           ),
           (filesProvider.settings[6].toBoolean()) ?
-            Container() :
-            Opacity( //Wrap any widget with Opacity()
-              opacity: 0.7,
-              child: Stack(
-                children: [
-                  Container(
-                    color: Colors.black,
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Ciao e benvenuto!",
-                        style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.white
+          SizedBox.shrink() :
+          Stack(
+            children: [
+              Opacity(
+                opacity: 0.6,
+                child: Container(
+                  color: Colors.black,
+                ),
+              ),
+              Opacity(
+                opacity: 0.8,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: Container(
+                            constraints: BoxConstraints(
+                                maxWidth: MediaQuery.of(context).size.width/2,
+                                maxHeight: MediaQuery.of(context).size.height/3
+                            ),
+                            margin: EdgeInsets.only(left:10.0, top:10.0),
+                            alignment: Alignment.center,
+                            child: Padding(
+                              padding: const EdgeInsets.all(15.0),
+                              child: Text(
+                                "Quassù troverai la pagina delle impostazioni, tramite la quale è possibile cambiare lingua, colore della barra e del font, ecc...",
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.black
+                                ),
+                              ),
+                            ),
+                            decoration: BoxDecoration(
+                              color: Color(int.parse(filesProvider.settings[2])),
+                              image: DecorationImage (
+                                image: AssetImage("assets/Btn/btn-single-border.png"),
+                                fit: BoxFit.fill,
+                                centerSlice: Rect.fromLTWH(2500, 2500, 2500, 2500),
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
-                      Text(
-                        "Quassù troverai la pagina delle impostazioni, tramite la quale è possibile cambiare lingua, colore della barra e del font, ecc...",
-                        style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.white
+                        Expanded(
+                          flex: 1,
+                          child: CustomPaint(
+                            painter: ArrowPainter(
+                                0, (MediaQuery.of(context).size.height/3)/2,
+                                MediaQuery.of(context).size.width/2 - 35, 0),
+                            child: Container(
+                              constraints: BoxConstraints(
+                                  maxWidth: MediaQuery.of(context).size.width/2,
+                                  maxHeight: MediaQuery.of(context).size.height/3
+                              ),
+                              margin: EdgeInsets.only(left:5.0, top:5.0),
+                              alignment: Alignment.center,
+                            ),
+                          )
                         ),
-                      ),
-                      Text(
-                        "Cliccando qui invece potrai aggiungere una nuova cartella di musiche e specificare nome, percorso e colore; Ogni path ",
-                        style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.white
+                      ],
+                    ),
+                    Spacer(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Expanded(
+                            flex: 1,
+                            child: CustomPaint(
+                              painter: ArrowPainter(
+                                  MediaQuery.of(context).size.width/2, (MediaQuery.of(context).size.height/3)/2,
+                                  70, 50),
+                              child: Container(
+                                constraints: BoxConstraints(
+                                    maxWidth: MediaQuery.of(context).size.width/2,
+                                    maxHeight: MediaQuery.of(context).size.height/3
+                                ),
+                                margin: EdgeInsets.only(left:5.0, top:5.0),
+                                alignment: Alignment.center,
+                              ),
+                            )
                         ),
-                      ),
-                    ]
-                  ),
-                ],
-              )
-            ),
+                        Expanded(
+                          flex: 1,
+                          child: Container(
+                            width: MediaQuery.of(context).size.width/2,
+                            height: MediaQuery.of(context).size.height/3,
+                            margin: EdgeInsets.only(right:10.0, bottom:10.0),
+                            alignment: Alignment.center,
+                            child: Padding(
+                              padding: const EdgeInsets.all(15.0),
+                              child: Text(
+                                "Cliccando qui invece potrai aggiungere una nuova cartella di musiche e specificare percorso, colore di sfondo, nome e colore del testo.",
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.black
+                                ),
+                              ),
+                            ),
+                            decoration: BoxDecoration(
+                              color: Color(int.parse(filesProvider.settings[2])),
+                              image: DecorationImage (
+                                image: AssetImage("assets/Btn/btn-single-border.png"),
+                                fit: BoxFit.fill,
+                                centerSlice: Rect.fromLTWH(2500, 2500, 2500, 2500),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Spacer(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            filesProvider.settings[6] = true.toString();
+                            SharedPreferencesManager.updateKV("Settings", true, filesProvider.settings);
+                            filesProvider.getSettings();
+                          },
+                          child: Container(
+                            width: MediaQuery.of(context).size.width/5,
+                            height: 40,
+                            alignment: Alignment.center,
+                            child: Padding(
+                              padding: const EdgeInsets.all(0.0),
+                              child: Text(
+                                "Capito",
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.black
+                                ),
+                              ),
+                            ),
+                            decoration: BoxDecoration(
+                              color: Color(int.parse(filesProvider.settings[2])),
+                              image: DecorationImage (
+                                image: AssetImage("assets/Btn/btn-double-border.png"),
+                                fit: BoxFit.fill,
+                                centerSlice: Rect.fromLTWH(2500, 2500, 2500, 2500),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Spacer(),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ],
       ),
     );
