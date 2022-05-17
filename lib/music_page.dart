@@ -220,7 +220,9 @@ class _MusicPageState extends State<MusicPage> {
                           child: CustomPaint(
                             painter: ArrowPainter(
                                 0, (MediaQuery.of(context).size.height/3)/2,
-                                MediaQuery.of(context).size.width/2 - 35, 0),
+                                MediaQuery.of(context).size.width/2 - 35, 0,
+                                filesProvider.settings[2],
+                            ),
                             child: Container(
                               constraints: BoxConstraints(
                                   maxWidth: MediaQuery.of(context).size.width/2,
@@ -242,7 +244,9 @@ class _MusicPageState extends State<MusicPage> {
                             child: CustomPaint(
                               painter: ArrowPainter(
                                   MediaQuery.of(context).size.width/2, (MediaQuery.of(context).size.height/3)/2,
-                                  70, 50),
+                                  70, 50,
+                                  filesProvider.settings[2],
+                              ),
                               child: Container(
                                 constraints: BoxConstraints(
                                     maxWidth: MediaQuery.of(context).size.width/2,
