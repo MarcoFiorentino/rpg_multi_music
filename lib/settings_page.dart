@@ -37,7 +37,7 @@ class _SettingsScreenState extends State<SettingsPage> {
     return Scaffold(
       appBar: AppBar(
           title: Text(
-              filesProvider.translations[0]["settings"],
+              filesProvider.translations["settings"],
               style: TextStyle(color: Color(int.parse(filesProvider.settings[3]))),
           ),
           iconTheme: IconThemeData(
@@ -66,7 +66,7 @@ class _SettingsScreenState extends State<SettingsPage> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                filesProvider.translations[0]["language"] + ": ",
+                filesProvider.translations["language"] + ": ",
                 style: TextStyle(
                   fontSize: 18
                 ),
@@ -108,7 +108,7 @@ class _SettingsScreenState extends State<SettingsPage> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                filesProvider.translations[0]["screen_always_on"],
+                filesProvider.translations["screen_always_on"],
                 style: TextStyle(
                   fontSize: 18
                 ),
@@ -131,7 +131,7 @@ class _SettingsScreenState extends State<SettingsPage> {
             children: [
               //Icon(Icons.color_lens_rounded),
               Text(
-                filesProvider.translations[0]["appbar_color"] + ": ",
+                filesProvider.translations["appbar_color"] + ": ",
                 style: TextStyle(
                     fontSize: 18
                 ),
@@ -159,7 +159,7 @@ class _SettingsScreenState extends State<SettingsPage> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                filesProvider.translations[0]["font_color"] + ": ",
+                filesProvider.translations["font_color"] + ": ",
                 style: TextStyle(
                     fontSize: 18
                 ),
@@ -189,7 +189,7 @@ class _SettingsScreenState extends State<SettingsPage> {
                     name,
                     DropdownMenuItem<String>(
                       value: value,
-                      child: Text(filesProvider.translations[0][filesProvider.appFontColors.entries.firstWhere((element) => element.value == value).key]),
+                      child: Text(filesProvider.translations[filesProvider.appFontColors.entries.firstWhere((element) => element.value == value).key]),
                     )
                   );
                 }).values.toList(),
@@ -201,7 +201,7 @@ class _SettingsScreenState extends State<SettingsPage> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                filesProvider.translations[0]["background_img"] + ": ",
+                filesProvider.translations["background_img"] + ": ",
                 style: TextStyle(
                     fontSize: 18
                 ),
@@ -229,7 +229,7 @@ class _SettingsScreenState extends State<SettingsPage> {
                 items: filesProvider.backgroundImages.map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
-                    child: Text((value != "none") ? basenameWithoutExtension(value.split("/")[2]).capitalize() : filesProvider.translations[0][value]),
+                    child: Text((value != "none") ? basenameWithoutExtension(value.split("/")[2]).capitalize() : filesProvider.translations[value]),
                   );
                 }).toList(),
               ),
@@ -240,7 +240,7 @@ class _SettingsScreenState extends State<SettingsPage> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                filesProvider.translations[0]["background_color"] + ": ",
+                filesProvider.translations["background_color"] + ": ",
                 style: TextStyle(
                     fontSize: 18
                 ),
@@ -268,7 +268,7 @@ class _SettingsScreenState extends State<SettingsPage> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                filesProvider.translations[0]["show_tutorial"],
+                filesProvider.translations["show_tutorial"],
                 style: TextStyle(
                     fontSize: 18
                 ),
@@ -293,7 +293,7 @@ class _SettingsScreenState extends State<SettingsPage> {
               LimitedBox(
                 maxWidth: MediaQuery.of(context).size.width,
                 child: Text(
-                  filesProvider.translations[0]["2-minute-tabletop-attribution"],
+                  filesProvider.translations["2-minute-tabletop-attribution"],
                   style: TextStyle(
                       fontSize: 15
                   ),
@@ -308,7 +308,7 @@ class _SettingsScreenState extends State<SettingsPage> {
             children: [
               GestureDetector(
                 child: Text(
-                  filesProvider.translations[0]["attribution-link"],
+                  filesProvider.translations["attribution-link"],
                   style: TextStyle(
                       fontSize: 15,
                       color: Colors.blue,
@@ -317,7 +317,7 @@ class _SettingsScreenState extends State<SettingsPage> {
                 ),
                 onTap: () async => await canLaunchUrlString("https://2minutetabletop.com/")
                     ? await launchUrlString("https://2minutetabletop.com/")
-                    : throw filesProvider.translations[0]["url_error"],
+                    : throw filesProvider.translations["url_error"],
               ),
             ],
           ),
@@ -328,7 +328,7 @@ class _SettingsScreenState extends State<SettingsPage> {
               LimitedBox(
                 maxWidth: MediaQuery.of(context).size.width,
                 child: Text(
-                  filesProvider.translations[0]["signal_bug_request_feature"],
+                  filesProvider.translations["signal_bug_request_feature"],
                   style: TextStyle(
                       fontSize: 15
                   ),
@@ -343,7 +343,7 @@ class _SettingsScreenState extends State<SettingsPage> {
             children: [
               GestureDetector(
                 child: Text(
-                  filesProvider.translations[0]["click_here"],
+                  filesProvider.translations["click_here"],
                   style: TextStyle(
                     fontSize: 15,
                     color: Colors.blue,
@@ -352,7 +352,7 @@ class _SettingsScreenState extends State<SettingsPage> {
                 ),
                 onTap: () async => await canLaunchUrlString("https://docs.google.com/forms/d/e/1FAIpQLSf17hcBM-AR98ZYEFxo323qyTJ-tDpf-4OQQBevsMgZ_Z-sKw/viewform")
                     ? await launchUrlString("https://docs.google.com/forms/d/e/1FAIpQLSf17hcBM-AR98ZYEFxo323qyTJ-tDpf-4OQQBevsMgZ_Z-sKw/viewform")
-                    : throw filesProvider.translations[0]["url_error"],
+                    : throw filesProvider.translations["url_error"],
               ),
             ],
           ),

@@ -27,7 +27,47 @@ class FilesProvider with ChangeNotifier {
     "4292927712", // Colore di sfondo dietro la mappa
     "false" // Tutorial visto
   ];
-  List _translations = [];
+  Map<String, dynamic> _translations = {
+    "TUTORIAL": "**********************************************************",
+    "welcome_tutorial": "Hi and welcome!",
+    "settings_tutorial": "Here you will find the settings page, where you can change language, bar color, font color, background, etc...",
+    "button_tutorial": "By clicking here you can add a new music folder and define path, background color, name and font color.",
+    "done_tutorial": "Understood",
+    "MAIN_PAGE": "*********************************************************",
+    "state": "State",
+    "playing": "Playing",
+    "paused": "Paused",
+    "stopped": "Stopped",
+    "volume": "Volume",
+    "random": "Random",
+    "black": "Black",
+    "white": "White",
+    "POPUP": "*************************************************************",
+    "new_column": "New column",
+    "edit_column": "Edit column",
+    "directory_path": "Directory path",
+    "color": "Color",
+    "name": "Name",
+    "directory_name": "Directory name",
+    "delete_column": "Delete column",
+    "abort": "Abort",
+    "save": "Save",
+    "SETTINGS_PAGE": "*****************************************************",
+    "settings": "Settings",
+    "language": "Language",
+    "screen_always_on": "Keep the screen always on",
+    "appbar_color": "Bar color",
+    "font_color": "Font color",
+    "background_img": "Background image",
+    "none": "None",
+    "background_color": "Background color",
+    "show_tutorial": "Show tutorial at start",
+    "signal_bug_request_feature": "Do you want to signal a bug o request a feature?",
+    "click_here": "Click here!",
+    "2-minute-tabletop-attribution": "The astounding maps are drawn by 2-Minute Tabletop",
+    "attribution-link": "Click here to see their works!",
+    "url_error": "Error while opening the link"
+  };
   Map<String, String> _languages = {
     "IT": "Italiano",
     "GB": "English",
@@ -49,7 +89,7 @@ class FilesProvider with ChangeNotifier {
   List<String> get dirsNames => this._dirsNames;
   List<String> get fontsColors => this._fontsColors;
   List<String> get settings => this._settings;
-  List get translations => this._translations;
+  Map<String, dynamic> get translations => this._translations;
   Map<String, String> get languages => this._languages;
   String get deviceLanguage => this._deviceLanguage;
   Map<String, String> get appFontColors => this._appFontColors;
@@ -114,7 +154,6 @@ class FilesProvider with ChangeNotifier {
     if (sharedPreferences.getStringList("Settings") != null) {
       this._settings = sharedPreferences.getStringList("Settings");
     }
-    this.getTranslations();
     this.notifyListeners();
   }
 
@@ -122,6 +161,7 @@ class FilesProvider with ChangeNotifier {
   void getLanguages() async {
     String devicelocale = await Devicelocale.currentLocale;
     this._settings[0] = _languages[devicelocale.split("-")[1]];
+    this.notifyListeners();
   }
 
   // Recupera le traduzioni dal file
@@ -129,6 +169,7 @@ class FilesProvider with ChangeNotifier {
     var lang = this._settings.length > 0 ? this._settings[0] : "en";
     var jsonText = await rootBundle.loadString('assets/Languages/' + lang + '.json');
     this._translations = json.decode(jsonText);
+    this.notifyListeners();
   }
 
   // Recupera le immagini di sfondo
@@ -139,5 +180,6 @@ class FilesProvider with ChangeNotifier {
         .where((String key) => key.contains("assets/Background/"))
         .toList();
     this._backgroundImages.add("none");
+    this.notifyListeners();
   }
 }

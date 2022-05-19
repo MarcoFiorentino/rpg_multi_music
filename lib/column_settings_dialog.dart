@@ -42,17 +42,17 @@ class _ColumnSettingsDialogState extends State<ColumnSettingsDialog> {
     colIndex = widget.colIndex;
 
     filesProvider = Provider.of<FilesProvider>(context, listen: false);
-    colTitle = filesProvider.translations[0]["new_column"];
+    colTitle = filesProvider.translations["new_column"];
     directoryId = nanoid(10);
-    directoryPath = filesProvider.translations[0]["directory_path"];
+    directoryPath = filesProvider.translations["directory_path"];
     directoryColor = filesProvider.settings[2];
-    directoryName = filesProvider.translations[0]["directory_name"];
+    directoryName = filesProvider.translations["directory_name"];
     fontColor = "4280361249";
 
     // Se apro una colonna esistente e non ho fatto modifiche
     // Pre-popolo i campi con i dati in memoria
     if (!newCol) {
-      colTitle = filesProvider.translations[0]["edit_column"];
+      colTitle = filesProvider.translations["edit_column"];
       directoryId = filesProvider.dirsIds[colIndex];
       directoryPath  = filesProvider.dirsPaths[colIndex];
       directoryColor = filesProvider.dirsColors[colIndex];
@@ -190,7 +190,7 @@ class _ColumnSettingsDialogState extends State<ColumnSettingsDialog> {
                     name,
                     DropdownMenuItem<String>(
                       value: value,
-                      child: Text(filesProvider.translations[0][filesProvider.appFontColors.entries.firstWhere((element) => element.value == value).key]),
+                      child: Text(filesProvider.translations[filesProvider.appFontColors.entries.firstWhere((element) => element.value == value).key]),
                     )
                   );
                 }).values.toList(),
@@ -239,7 +239,7 @@ class _ColumnSettingsDialogState extends State<ColumnSettingsDialog> {
                 style: TextButton.styleFrom(
                   textStyle: const TextStyle(fontSize: 20),
                 ),
-                child: Text(filesProvider.translations[0]["abort"]),
+                child: Text(filesProvider.translations["abort"]),
               ),
               TextButton(
                 onPressed: () {
@@ -250,7 +250,7 @@ class _ColumnSettingsDialogState extends State<ColumnSettingsDialog> {
                 style: TextButton.styleFrom(
                   textStyle: const TextStyle(fontSize: 20),
                 ),
-                child: Text(filesProvider.translations[0]["save"]),
+                child: Text(filesProvider.translations["save"]),
               ),
             ]
         )

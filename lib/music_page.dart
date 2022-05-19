@@ -198,8 +198,8 @@ class _MusicPageState extends State<MusicPage> {
                             child: Padding(
                               padding: const EdgeInsets.all(15.0),
                               child: Text(
-                                filesProvider.translations[0]["welcome_tutorial"] + "\n\n" +
-                                filesProvider.translations[0]["settings_tutorial"],
+                                filesProvider.translations["welcome_tutorial"] + "\n\n" +
+                                filesProvider.translations["settings_tutorial"],
                                 maxLines: 10,
                                 style: TextStyle(
                                   fontSize: 15,
@@ -270,7 +270,7 @@ class _MusicPageState extends State<MusicPage> {
                             child: Padding(
                               padding: const EdgeInsets.all(15.0),
                               child: Text(
-                                filesProvider.translations[0]["button_tutorial"],
+                                filesProvider.translations["button_tutorial"],
                                 maxLines: 10,
                                 style: TextStyle(
                                   fontSize: 15,
@@ -308,7 +308,7 @@ class _MusicPageState extends State<MusicPage> {
                             child: Padding(
                               padding: const EdgeInsets.all(1.0),
                               child: Text(
-                                filesProvider.translations[0]["done_tutorial"],
+                                filesProvider.translations["done_tutorial"],
                                 maxLines: 2,
                                 style: TextStyle(
                                   color: Color(int.parse(filesProvider.settings[3])),
@@ -350,7 +350,7 @@ class _MusicPageState extends State<MusicPage> {
       players[colIndex].stop();
       players[colIndex].play(files[colIndex], isLocal: true);
       players[colIndex].setVolume(volumes[colIndex] / 10);
-      states[colIndex] = filesProvider.translations[0]["playing"];
+      states[colIndex] = filesProvider.translations["playing"];
     });
   }
 
@@ -362,7 +362,7 @@ class _MusicPageState extends State<MusicPage> {
       players[colIndex].setVolume(volumes[colIndex] / 10);
 
       setState(() {
-        states[colIndex] = filesProvider.translations[0]["playing"];
+        states[colIndex] = filesProvider.translations["playing"];
       });
     }
   }
@@ -374,7 +374,7 @@ class _MusicPageState extends State<MusicPage> {
       players[colIndex].pause();
 
       setState(() {
-        states[colIndex] = filesProvider.translations[0]["paused"];
+        states[colIndex] = filesProvider.translations["paused"];
       });
     }
   }
@@ -386,7 +386,7 @@ class _MusicPageState extends State<MusicPage> {
       players[colIndex].stop();
 
       setState(() {
-        states[colIndex] = filesProvider.translations[0]["stopped"];
+        states[colIndex] = filesProvider.translations["stopped"];
       });
     }
   }
@@ -489,7 +489,7 @@ class _MusicPageState extends State<MusicPage> {
                     ),
                   ),
                   Text(
-                    filesProvider.translations[0]["state"] + ": " + states[colIndex],
+                    filesProvider.translations["state"] + ": " + states[colIndex],
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: 15,
@@ -497,7 +497,7 @@ class _MusicPageState extends State<MusicPage> {
                     ),
                   ),
                   Text(
-                    filesProvider.translations[0]["volume"] + ": " + volumes[colIndex].toString(),
+                    filesProvider.translations["volume"] + ": " + volumes[colIndex].toString(),
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: 15,
@@ -516,7 +516,7 @@ class _MusicPageState extends State<MusicPage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              (states[colIndex] == filesProvider.translations[0]["playing"]) ?
+              (states[colIndex] == filesProvider.translations["playing"]) ?
                 GestureDetector(
                   onTap: () {
                     pause(colIndex);
@@ -679,7 +679,7 @@ class _MusicPageState extends State<MusicPage> {
                       color: fontCol,
                     ),
                     Text(
-                      filesProvider.translations[0]["random"],
+                      filesProvider.translations["random"],
                       maxLines: 2,
                       style: TextStyle(
                         fontSize: 15,
