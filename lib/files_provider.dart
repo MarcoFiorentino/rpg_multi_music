@@ -154,6 +154,7 @@ class FilesProvider with ChangeNotifier {
     if (sharedPreferences.getStringList("Settings") != null) {
       this._settings = sharedPreferences.getStringList("Settings");
     }
+    this.getTranslations();
     this.notifyListeners();
   }
 
@@ -161,7 +162,6 @@ class FilesProvider with ChangeNotifier {
   void getLanguages() async {
     String devicelocale = await Devicelocale.currentLocale;
     this._settings[0] = _languages[devicelocale.split("-")[1]];
-    this.notifyListeners();
   }
 
   // Recupera le traduzioni dal file
@@ -169,7 +169,6 @@ class FilesProvider with ChangeNotifier {
     var lang = this._settings.length > 0 ? this._settings[0] : "en";
     var jsonText = await rootBundle.loadString('assets/Languages/' + lang + '.json');
     this._translations = json.decode(jsonText);
-    this.notifyListeners();
   }
 
   // Recupera le immagini di sfondo
@@ -180,6 +179,5 @@ class FilesProvider with ChangeNotifier {
         .where((String key) => key.contains("assets/Background/"))
         .toList();
     this._backgroundImages.add("none");
-    this.notifyListeners();
   }
 }
