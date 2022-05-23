@@ -37,11 +37,37 @@ class _MusicPageState extends State<MusicPage> {
   int colIndex = 0;
 
   void onScroll(BuildContext context) {
-    double pageIndex = (horizontalScrollController.offset / MediaQuery.of(context).size.width);
-    double fractionOfPages = pageIndex / (filesProvider.filesPaths.length + 1);
-    double viewportWidth = MediaQuery.of(context).size.width;
-    double fractionOfViewport = fractionOfPages * viewportWidth;
-    widget.notifier.value = fractionOfViewport;
+    // double screenIndex = (horizontalScrollController.offset / MediaQuery.of(context).size.width);
+    // if(screenIndex < 0) {
+    //   screenIndex = 0;
+    // }
+    // if (pageIndex >= 2) {
+    //   pageIndex = 2;
+    // }
+
+    // if(horizontalScrollController.offset > (MediaQuery.of(context).size.width * 5)) {
+    //   pageIndex = 5;
+    // }
+
+    // print("offset: " + (horizontalScrollController.offset).toString());
+    // print("screenIndex: " + screenIndex.toString());
+
+    // double fractionOfPages = screenIndex / (filesProvider.filesPaths.length + 1);
+    // double fractionOfPages = (filesProvider.filesPaths.length + 1) / screenIndex;
+    // print("fractionOfPages: " + fractionOfPages.toString());
+    // double fractionOfViewport = fractionOfPages * MediaQuery.of(context).size.width;
+    double valore = horizontalScrollController.offset / (filesProvider.filesPaths.length + 1);
+    double quanteColonneHoScorso = horizontalScrollController.offset / (2 * MediaQuery.of(context).size.width / 3);
+    double percentualeColonneScorse = quanteColonneHoScorso / (filesProvider.filesPaths.length);
+
+    print("quanteColonneHoScorso: " + quanteColonneHoScorso.toString());
+    print("percentualeColonneScorse: " + percentualeColonneScorse.toString());
+    if(valore < 0) {
+      valore = 0;
+    }
+    // print("fractionOfViewport: " + fractionOfViewport.toString());
+    // print("valore: " + valore.toString());
+    widget.notifier.value = valore;
   }
 
   @override
@@ -104,7 +130,7 @@ class _MusicPageState extends State<MusicPage> {
                     scrollDirection: Axis.horizontal,
                     controller: horizontalScrollController,
                     physics: BouncingScrollPhysics(),
-                    shrinkWrap: true,
+                    // shrinkWrap: true,
                     itemCount: filesProvider.filesPaths.length + 1,
                     itemBuilder: (BuildContext context, int colIndex) {
                       // L`ultima colonna è quella con il pulsante per aggiungere altri player

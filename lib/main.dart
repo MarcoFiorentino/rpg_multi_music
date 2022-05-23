@@ -101,8 +101,8 @@ class _HomePageState extends State<HomePage>{
             (filesProvider.settings[4] == "none") ?
               SizedBox.shrink() :
               OverflowBox(
-                maxWidth: MediaQuery.of(context).size.width * 4,
-                // alignment: Alignment.topLeft, // Se si vuole lo sfondo che comincia dal bordo sinistro, altrimenti comincia dal centro
+                maxWidth: MediaQuery.of(context).size.width * 2,
+                alignment: Alignment.topLeft,
                 child: AnimatedBuilder(
                   animation: _notifier,
                   builder: (context, _) {
