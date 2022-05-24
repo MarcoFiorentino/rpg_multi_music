@@ -59,15 +59,19 @@ class _MusicPageState extends State<MusicPage> {
     double valore = horizontalScrollController.offset / (filesProvider.filesPaths.length + 1);
     double quanteColonneHoScorso = horizontalScrollController.offset / (2 * MediaQuery.of(context).size.width / 3);
     double percentualeColonneScorse = quanteColonneHoScorso / (filesProvider.filesPaths.length);
+    double backgroundWidth = filesProvider.decodedBackground.width;
+    double quantaImmagineDevoScorrere = backgroundWidth * percentualeColonneScorse;
 
     print("quanteColonneHoScorso: " + quanteColonneHoScorso.toString());
     print("percentualeColonneScorse: " + percentualeColonneScorse.toString());
+    print("quantaImmagineDevoScorrere: " + quantaImmagineDevoScorrere.toString());
     if(valore < 0) {
       valore = 0;
     }
     // print("fractionOfViewport: " + fractionOfViewport.toString());
     // print("valore: " + valore.toString());
-    widget.notifier.value = valore;
+    // widget.notifier.value = valore;
+    widget.notifier.value = quantaImmagineDevoScorrere;
   }
 
   @override

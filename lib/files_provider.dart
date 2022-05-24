@@ -81,6 +81,7 @@ class FilesProvider with ChangeNotifier {
     "white": "4294638330"
   };
   List<String> _backgroundImages = [];
+  var _decodedBackground;
 
   List<List<File>> get filesPaths => this._filesPaths;
   List<String> get dirsIds => this._dirsIds;
@@ -94,6 +95,7 @@ class FilesProvider with ChangeNotifier {
   String get deviceLanguage => this._deviceLanguage;
   Map<String, String> get appFontColors => this._appFontColors;
   List<String> get backgroundImages => this._backgroundImages;
+  get decodedBackground => this._decodedBackground;
 
   // Recupero le liste di file
   void getFilesList() async {
@@ -155,6 +157,10 @@ class FilesProvider with ChangeNotifier {
       this._settings = sharedPreferences.getStringList("Settings");
     }
     this.getTranslations();
+
+    File image = new File("Shipyard.jpg");
+    this._decodedBackground = await decodeImageFromList(image.readAsBytesSync());
+
     this.notifyListeners();
   }
 
