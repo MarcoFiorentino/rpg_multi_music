@@ -37,41 +37,27 @@ class _MusicPageState extends State<MusicPage> {
   int colIndex = 0;
 
   void onScroll(BuildContext context) {
-    // double screenIndex = (horizontalScrollController.offset / MediaQuery.of(context).size.width);
-    // if(screenIndex < 0) {
-    //   screenIndex = 0;
-    // }
-    // if (pageIndex >= 2) {
-    //   pageIndex = 2;
-    // }
-
-    // if(horizontalScrollController.offset > (MediaQuery.of(context).size.width * 5)) {
-    //   pageIndex = 5;
-    // }
-
-    // print("offset: " + (horizontalScrollController.offset).toString());
-    // print("screenIndex: " + screenIndex.toString());
-
-    // double fractionOfPages = screenIndex / (filesProvider.filesPaths.length + 1);
-    // double fractionOfPages = (filesProvider.filesPaths.length + 1) / screenIndex;
-    // print("fractionOfPages: " + fractionOfPages.toString());
-    // double fractionOfViewport = fractionOfPages * MediaQuery.of(context).size.width;
-    double valore = horizontalScrollController.offset / (filesProvider.filesPaths.length + 1);
     double quanteColonneHoScorso = horizontalScrollController.offset / (2 * MediaQuery.of(context).size.width / 3);
-    double percentualeColonneScorse = quanteColonneHoScorso / (filesProvider.filesPaths.length);
-    double backgroundWidth = filesProvider.decodedBackground.width;
-    double quantaImmagineDevoScorrere = backgroundWidth * percentualeColonneScorse;
+    double percentualeColonneScorse = quanteColonneHoScorso / (filesProvider.filesPaths.length + 1);
 
-    print("quanteColonneHoScorso: " + quanteColonneHoScorso.toString());
-    print("percentualeColonneScorse: " + percentualeColonneScorse.toString());
-    print("quantaImmagineDevoScorrere: " + quantaImmagineDevoScorrere.toString());
-    if(valore < 0) {
-      valore = 0;
+    double originalBackgroundHeight = filesProvider.loadedBackgroundHeight;
+    double originalBackgroundWidth = filesProvider.loadedBackgroundWidth;
+    if(originalBackgroundHeight != 0 && originalBackgroundWidth != 0) {
+      double screenHeight = MediaQuery.of(context).size.height;
+      double newBackgroundWidth = screenHeight / originalBackgroundHeight * originalBackgroundWidth;
+      double quantaImmagineDevoScorrere = newBackgroundWidth * percentualeColonneScorse;
+
+      if (quantaImmagineDevoScorrere > (newBackgroundWidth - MediaQuery.of(context).size.width)) {
+        quantaImmagineDevoScorrere = (newBackgroundWidth - MediaQuery.of(context).size.width);
+      }
+      if (quantaImmagineDevoScorrere < 0.0) {
+        quantaImmagineDevoScorrere = 0.0;
+      }
+
+      widget.notifier.value = quantaImmagineDevoScorrere;
+    } else {
+      widget.notifier.value = 0;
     }
-    // print("fractionOfViewport: " + fractionOfViewport.toString());
-    // print("valore: " + valore.toString());
-    // widget.notifier.value = valore;
-    widget.notifier.value = quantaImmagineDevoScorrere;
   }
 
   @override

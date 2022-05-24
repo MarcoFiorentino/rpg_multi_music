@@ -81,7 +81,8 @@ class FilesProvider with ChangeNotifier {
     "white": "4294638330"
   };
   List<String> _backgroundImages = [];
-  var _decodedBackground;
+  double _loadedBackgroundHeight = 0.0;
+  double _loadedBackgroundWidth = 0.0;
 
   List<List<File>> get filesPaths => this._filesPaths;
   List<String> get dirsIds => this._dirsIds;
@@ -95,7 +96,8 @@ class FilesProvider with ChangeNotifier {
   String get deviceLanguage => this._deviceLanguage;
   Map<String, String> get appFontColors => this._appFontColors;
   List<String> get backgroundImages => this._backgroundImages;
-  get decodedBackground => this._decodedBackground;
+  double get loadedBackgroundHeight => this._loadedBackgroundHeight;
+  double get loadedBackgroundWidth => this._loadedBackgroundWidth;
 
   // Recupero le liste di file
   void getFilesList() async {
@@ -158,9 +160,10 @@ class FilesProvider with ChangeNotifier {
     }
     this.getTranslations();
 
-    File image = new File("Shipyard.jpg");
-    this._decodedBackground = await decodeImageFromList(image.readAsBytesSync());
-
+    var img = await rootBundle.load("assets/Background/Shipyard.jpg");
+    var decodedImage = await decodeImageFromList(img.buffer.asUint8List());
+    this._loadedBackgroundHeight = decodedImage.height.toDouble();
+    this._loadedBackgroundWidth = decodedImage.width.toDouble();
     this.notifyListeners();
   }
 

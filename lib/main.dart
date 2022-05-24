@@ -101,7 +101,7 @@ class _HomePageState extends State<HomePage>{
             (filesProvider.settings[4] == "none") ?
               SizedBox.shrink() :
               OverflowBox(
-                maxWidth: MediaQuery.of(context).size.width * 2,
+                maxWidth: MediaQuery.of(context).size.width * 10,
                 alignment: Alignment.topLeft,
                 child: AnimatedBuilder(
                   animation: _notifier,
@@ -109,9 +109,9 @@ class _HomePageState extends State<HomePage>{
                     return Transform.translate(
                       offset: Offset(-_notifier.value, 0),
                       child: Image.asset(
-                          filesProvider.settings[4],
-                          height: MediaQuery.of(context).size.height,
-                          fit: BoxFit.fitHeight
+                        filesProvider.settings[4],
+                        height: MediaQuery.of(context).size.height,
+                        fit: BoxFit.fitHeight
                       ),
                     );
                   },
