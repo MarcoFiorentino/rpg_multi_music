@@ -37,13 +37,13 @@ class _MusicPageState extends State<MusicPage> {
   int colIndex = 0;
 
   void onScroll(BuildContext context) {
-    double quanteColonneHoScorso = horizontalScrollController.offset / (2 * MediaQuery.of(context).size.width / 3);
-    double percentualeColonneScorse = quanteColonneHoScorso / (filesProvider.filesPaths.length + 1);
+    double quanteColonneHoScorso = horizontalScrollController.offset / (MediaQuery.of(context).size.width / 3);
+    double percentualeColonneScorse = quanteColonneHoScorso / (filesProvider.filesPaths.length * 3 + 1);
 
     double originalBackgroundHeight = filesProvider.loadedBackgroundHeight;
     double originalBackgroundWidth = filesProvider.loadedBackgroundWidth;
     if(originalBackgroundHeight != 0 && originalBackgroundWidth != 0) {
-      double screenHeight = MediaQuery.of(context).size.height;
+      double screenHeight = MediaQuery.of(context).size.height - 80 - AppBar().preferredSize.height;
       double newBackgroundWidth = screenHeight / originalBackgroundHeight * originalBackgroundWidth;
       double quantaImmagineDevoScorrere = newBackgroundWidth * percentualeColonneScorse;
 
@@ -126,7 +126,7 @@ class _MusicPageState extends State<MusicPage> {
                       // L`ultima colonna è quella con il pulsante per aggiungere altri player
                       if (colIndex == filesProvider.filesPaths.length) {
                         return SizedBox (
-                          width: 100,
+                          width: MediaQuery.of(context).size.width / 3,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,

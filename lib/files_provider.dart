@@ -160,7 +160,7 @@ class FilesProvider with ChangeNotifier {
     }
     this.getTranslations();
 
-    var img = await rootBundle.load("assets/Background/Shipyard.jpg");
+    var img = await rootBundle.load(this.settings[4]);
     var decodedImage = await decodeImageFromList(img.buffer.asUint8List());
     this._loadedBackgroundHeight = decodedImage.height.toDouble();
     this._loadedBackgroundWidth = decodedImage.width.toDouble();
