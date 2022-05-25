@@ -37,24 +37,24 @@ class _MusicPageState extends State<MusicPage> {
   int colIndex = 0;
 
   void onScroll(BuildContext context) {
-    double quanteColonneHoScorso = horizontalScrollController.offset / (MediaQuery.of(context).size.width / 3);
-    double percentualeColonneScorse = quanteColonneHoScorso / (filesProvider.filesPaths.length * 3 + 1);
+    double scrolledSections = horizontalScrollController.offset / (MediaQuery.of(context).size.width / 3);
+    double percentageScrolledSections = scrolledSections / (filesProvider.filesPaths.length * 3 + 1);
 
     double originalBackgroundHeight = filesProvider.loadedBackgroundHeight;
     double originalBackgroundWidth = filesProvider.loadedBackgroundWidth;
     if(originalBackgroundHeight != 0 && originalBackgroundWidth != 0) {
       double screenHeight = MediaQuery.of(context).size.height - 80 - AppBar().preferredSize.height;
       double newBackgroundWidth = screenHeight / originalBackgroundHeight * originalBackgroundWidth;
-      double quantaImmagineDevoScorrere = newBackgroundWidth * percentualeColonneScorse;
+      double backgroundToScroll = newBackgroundWidth * percentageScrolledSections;
 
-      if (quantaImmagineDevoScorrere > (newBackgroundWidth - MediaQuery.of(context).size.width)) {
-        quantaImmagineDevoScorrere = (newBackgroundWidth - MediaQuery.of(context).size.width);
+      if (backgroundToScroll > (newBackgroundWidth - MediaQuery.of(context).size.width)) {
+        backgroundToScroll = (newBackgroundWidth - MediaQuery.of(context).size.width);
       }
-      if (quantaImmagineDevoScorrere < 0.0) {
-        quantaImmagineDevoScorrere = 0.0;
+      if (backgroundToScroll < 0.0) {
+        backgroundToScroll = 0.0;
       }
 
-      widget.notifier.value = quantaImmagineDevoScorrere;
+      widget.notifier.value = backgroundToScroll;
     } else {
       widget.notifier.value = 0;
     }
