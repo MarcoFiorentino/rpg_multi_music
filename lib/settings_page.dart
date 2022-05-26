@@ -8,6 +8,7 @@ import 'package:gdr_multi_music/string_extension.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 import 'package:path/path.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:gdr_multi_music/files_provider.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -15,6 +16,11 @@ import 'package:url_launcher/url_launcher_string.dart';
 import 'ad_helper.dart';
 
 class SettingsPage extends StatefulWidget {
+
+  final AppLocalizations loc;
+
+  const SettingsPage({Key key, this.loc}) : super(key: key);
+
   @override
   _SettingsScreenState createState() => _SettingsScreenState();
 }
@@ -37,7 +43,7 @@ class _SettingsScreenState extends State<SettingsPage> {
     return Scaffold(
       appBar: AppBar(
           title: Text(
-              filesProvider.translations["settings"],
+              widget.loc.settings,
               style: TextStyle(color: Color(int.parse(filesProvider.settings[3]))),
           ),
           iconTheme: IconThemeData(
@@ -66,7 +72,7 @@ class _SettingsScreenState extends State<SettingsPage> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                filesProvider.translations["language"] + ": ",
+                widget.loc.language + ": ",
                 style: TextStyle(
                   fontSize: 18
                 ),
@@ -108,7 +114,7 @@ class _SettingsScreenState extends State<SettingsPage> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                filesProvider.translations["screen_always_on"],
+                widget.loc.screen_always_on,
                 style: TextStyle(
                   fontSize: 18
                 ),
@@ -131,7 +137,7 @@ class _SettingsScreenState extends State<SettingsPage> {
             children: [
               //Icon(Icons.color_lens_rounded),
               Text(
-                filesProvider.translations["appbar_color"] + ": ",
+                widget.loc.appbar_color + ": ",
                 style: TextStyle(
                     fontSize: 18
                 ),
@@ -159,7 +165,7 @@ class _SettingsScreenState extends State<SettingsPage> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                filesProvider.translations["font_color"] + ": ",
+                widget.loc.font_color + ": ",
                 style: TextStyle(
                     fontSize: 18
                 ),
@@ -189,7 +195,9 @@ class _SettingsScreenState extends State<SettingsPage> {
                     name,
                     DropdownMenuItem<String>(
                       value: value,
-                      child: Text(filesProvider.translations[filesProvider.appFontColors.entries.firstWhere((element) => element.value == value).key]),
+                      child: Text(
+                          "" //filesProvider.translations[filesProvider.appFontColors.entries.firstWhere((element) => element.value == value).key]),
+                      )
                     )
                   );
                 }).values.toList(),
@@ -201,7 +209,7 @@ class _SettingsScreenState extends State<SettingsPage> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                filesProvider.translations["background_img"] + ": ",
+                widget.loc.background_img + ": ",
                 style: TextStyle(
                     fontSize: 18
                 ),
@@ -229,7 +237,7 @@ class _SettingsScreenState extends State<SettingsPage> {
                 items: filesProvider.backgroundImages.map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
-                    child: Text((value != "none") ? basenameWithoutExtension(value.split("/")[2]).capitalize() : filesProvider.translations[value]),
+                    child: Text((value != "none") ? basenameWithoutExtension(value.split("/")[2]).capitalize() : ""),// widget.loc[value]),
                   );
                 }).toList(),
               ),
@@ -240,7 +248,7 @@ class _SettingsScreenState extends State<SettingsPage> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                filesProvider.translations["background_color"] + ": ",
+                widget.loc.background_color + ": ",
                 style: TextStyle(
                     fontSize: 18
                 ),
@@ -268,7 +276,7 @@ class _SettingsScreenState extends State<SettingsPage> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                filesProvider.translations["show_tutorial"],
+                widget.loc.show_tutorial,
                 style: TextStyle(
                     fontSize: 18
                 ),
@@ -293,7 +301,7 @@ class _SettingsScreenState extends State<SettingsPage> {
               LimitedBox(
                 maxWidth: MediaQuery.of(context).size.width,
                 child: Text(
-                  filesProvider.translations["2-minute-tabletop-attribution"],
+                  widget.loc.two_minute_tabletop_attribution,
                   style: TextStyle(
                       fontSize: 15
                   ),
@@ -308,7 +316,7 @@ class _SettingsScreenState extends State<SettingsPage> {
             children: [
               GestureDetector(
                 child: Text(
-                  filesProvider.translations["attribution-link"],
+                  widget.loc.attribution_link,
                   style: TextStyle(
                       fontSize: 15,
                       color: Colors.blue,
@@ -317,7 +325,7 @@ class _SettingsScreenState extends State<SettingsPage> {
                 ),
                 onTap: () async => await canLaunchUrlString("https://2minutetabletop.com/")
                     ? await launchUrlString("https://2minutetabletop.com/")
-                    : throw filesProvider.translations["url_error"],
+                    : throw widget.loc.url_error,
               ),
             ],
           ),
@@ -328,7 +336,7 @@ class _SettingsScreenState extends State<SettingsPage> {
               LimitedBox(
                 maxWidth: MediaQuery.of(context).size.width,
                 child: Text(
-                  filesProvider.translations["signal_bug_request_feature"],
+                  widget.loc.signal_bug_request_feature,
                   style: TextStyle(
                       fontSize: 15
                   ),
@@ -343,7 +351,7 @@ class _SettingsScreenState extends State<SettingsPage> {
             children: [
               GestureDetector(
                 child: Text(
-                  filesProvider.translations["click_here"],
+                  widget.loc.click_here,
                   style: TextStyle(
                     fontSize: 15,
                     color: Colors.blue,
@@ -352,7 +360,7 @@ class _SettingsScreenState extends State<SettingsPage> {
                 ),
                 onTap: () async => await canLaunchUrlString("https://docs.google.com/forms/d/e/1FAIpQLSf17hcBM-AR98ZYEFxo323qyTJ-tDpf-4OQQBevsMgZ_Z-sKw/viewform")
                     ? await launchUrlString("https://docs.google.com/forms/d/e/1FAIpQLSf17hcBM-AR98ZYEFxo323qyTJ-tDpf-4OQQBevsMgZ_Z-sKw/viewform")
-                    : throw filesProvider.translations["url_error"],
+                    : throw widget.loc.url_error,
               ),
             ],
           ),

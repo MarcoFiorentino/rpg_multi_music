@@ -7,14 +7,16 @@ import 'package:flutter_color_picker_wheel/widgets/flutter_color_picker_wheel.da
 import 'package:gdr_multi_music/shared_preferences_manager.dart';
 import 'package:nanoid/nanoid.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'files_provider.dart';
 
 class ColumnSettingsDialog extends StatefulWidget {
-  ColumnSettingsDialog({this.newCol, this.colIndex});
+  const ColumnSettingsDialog({Key key, this.newCol, this.colIndex, this.loc});
 
   final bool newCol;
   final int colIndex;
+  final AppLocalizations loc;
 
   @override
   _ColumnSettingsDialogState createState() => _ColumnSettingsDialogState();
@@ -42,17 +44,17 @@ class _ColumnSettingsDialogState extends State<ColumnSettingsDialog> {
     colIndex = widget.colIndex;
 
     filesProvider = Provider.of<FilesProvider>(context, listen: false);
-    colTitle = filesProvider.translations["new_column"];
+    colTitle = widget.loc.new_column;
     directoryId = nanoid(10);
-    directoryPath = filesProvider.translations["directory_path"];
+    directoryPath = widget.loc.directory_path;
     directoryColor = filesProvider.settings[2];
-    directoryName = filesProvider.translations["directory_name"];
+    directoryName = widget.loc.directory_name;
     fontColor = "4280361249";
 
     // Se apro una colonna esistente e non ho fatto modifiche
     // Pre-popolo i campi con i dati in memoria
     if (!newCol) {
-      colTitle = filesProvider.translations["edit_column"];
+      colTitle = widget.loc.edit_column;
       directoryId = filesProvider.dirsIds[colIndex];
       directoryPath  = filesProvider.dirsPaths[colIndex];
       directoryColor = filesProvider.dirsColors[colIndex];
@@ -190,7 +192,9 @@ class _ColumnSettingsDialogState extends State<ColumnSettingsDialog> {
                     name,
                     DropdownMenuItem<String>(
                       value: value,
-                      child: Text(filesProvider.translations[filesProvider.appFontColors.entries.firstWhere((element) => element.value == value).key]),
+                      child: Text(
+                          "" //widget.loc[filesProvider.appFontColors.entries.firstWhere((element) => element.value == value).key]
+                      ),
                     )
                   );
                 }).values.toList(),
@@ -239,7 +243,7 @@ class _ColumnSettingsDialogState extends State<ColumnSettingsDialog> {
                 style: TextButton.styleFrom(
                   textStyle: const TextStyle(fontSize: 20),
                 ),
-                child: Text(filesProvider.translations["abort"]),
+                child: Text(widget.loc.abort),
               ),
               TextButton(
                 onPressed: () {
@@ -250,7 +254,7 @@ class _ColumnSettingsDialogState extends State<ColumnSettingsDialog> {
                 style: TextButton.styleFrom(
                   textStyle: const TextStyle(fontSize: 20),
                 ),
-                child: Text(filesProvider.translations["save"]),
+                child: Text(widget.loc.save),
               ),
             ]
         )

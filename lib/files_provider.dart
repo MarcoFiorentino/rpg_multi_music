@@ -27,7 +27,6 @@ class FilesProvider with ChangeNotifier {
     "4292927712", // Colore di sfondo dietro la mappa
     "false" // Tutorial visto
   ];
-  Map<String, dynamic> _translations = {};
   Map<String, String> _languages = {
     "IT": "Italiano",
     "GB": "English",
@@ -51,7 +50,6 @@ class FilesProvider with ChangeNotifier {
   List<String> get dirsNames => this._dirsNames;
   List<String> get fontsColors => this._fontsColors;
   List<String> get settings => this._settings;
-  Map<String, dynamic> get translations => this._translations;
   Map<String, String> get languages => this._languages;
   String get deviceLanguage => this._deviceLanguage;
   Map<String, String> get appFontColors => this._appFontColors;
@@ -118,7 +116,6 @@ class FilesProvider with ChangeNotifier {
     if (sharedPreferences.getStringList("Settings") != null) {
       this._settings = sharedPreferences.getStringList("Settings");
     }
-    this.getTranslations();
 
     var img = await rootBundle.load(this.settings[4]);
     var decodedImage = await decodeImageFromList(img.buffer.asUint8List());
@@ -131,13 +128,6 @@ class FilesProvider with ChangeNotifier {
   void getLanguages() async {
     String devicelocale = await Devicelocale.currentLocale;
     this._settings[0] = _languages[devicelocale.split("-")[1]];
-  }
-
-  // Recupera le traduzioni dal file
-  void getTranslations() async {
-    var lang = this._settings.length > 0 ? this._settings[0] : "en";
-    var jsonText = await rootBundle.loadString('assets/Languages/' + lang + '.json');
-    this._translations = json.decode(jsonText);
   }
 
   // Recupera le immagini di sfondo

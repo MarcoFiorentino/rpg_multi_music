@@ -10,11 +10,13 @@ import 'package:gdr_multi_music/string_extension.dart';
 import 'package:wakelock/wakelock.dart';
 import 'arrow_painter.dart';
 import 'column_settings_dialog.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MusicPage extends StatefulWidget {
   final ValueNotifier<double> notifier;
+  final AppLocalizations loc;
 
-  const MusicPage({Key key, this.notifier}) : super(key: key);
+  const MusicPage({Key key, this.notifier, this.loc}) : super(key: key);
 
   @override
   _MusicPageState createState() => _MusicPageState();
@@ -136,7 +138,7 @@ class _MusicPageState extends State<MusicPage> {
                                   showDialog(
                                     context: context,
                                     builder: (BuildContext context) {
-                                      return ColumnSettingsDialog(newCol: true);
+                                      return ColumnSettingsDialog(newCol: true, loc: widget.loc);
                                     },
                                   );
                                 },
@@ -214,8 +216,8 @@ class _MusicPageState extends State<MusicPage> {
                             child: Padding(
                               padding: const EdgeInsets.all(15.0),
                               child: Text(
-                                filesProvider.translations["welcome_tutorial"] + "\n\n" +
-                                filesProvider.translations["settings_tutorial"],
+                                widget.loc.welcome_tutorial + "\n\n" +
+                                    widget.loc.settings_tutorial,
                                 maxLines: 10,
                                 style: TextStyle(
                                   fontSize: 15,
@@ -286,7 +288,7 @@ class _MusicPageState extends State<MusicPage> {
                             child: Padding(
                               padding: const EdgeInsets.all(15.0),
                               child: Text(
-                                filesProvider.translations["button_tutorial"],
+                                widget.loc.button_tutorial,
                                 maxLines: 10,
                                 style: TextStyle(
                                   fontSize: 15,
@@ -324,7 +326,7 @@ class _MusicPageState extends State<MusicPage> {
                             child: Padding(
                               padding: const EdgeInsets.all(1.0),
                               child: Text(
-                                filesProvider.translations["done_tutorial"],
+                                widget.loc.done_tutorial,
                                 maxLines: 2,
                                 style: TextStyle(
                                   color: Color(int.parse(filesProvider.settings[3])),
@@ -366,7 +368,7 @@ class _MusicPageState extends State<MusicPage> {
       players[colIndex].stop();
       players[colIndex].play(files[colIndex], isLocal: true);
       players[colIndex].setVolume(volumes[colIndex] / 10);
-      states[colIndex] = filesProvider.translations["playing"];
+      states[colIndex] = widget.loc.playing;
     });
   }
 
@@ -378,7 +380,7 @@ class _MusicPageState extends State<MusicPage> {
       players[colIndex].setVolume(volumes[colIndex] / 10);
 
       setState(() {
-        states[colIndex] = filesProvider.translations["playing"];
+        states[colIndex] = widget.loc.playing;
       });
     }
   }
@@ -390,7 +392,7 @@ class _MusicPageState extends State<MusicPage> {
       players[colIndex].pause();
 
       setState(() {
-        states[colIndex] = filesProvider.translations["paused"];
+        states[colIndex] = widget.loc.paused;
       });
     }
   }
@@ -402,7 +404,7 @@ class _MusicPageState extends State<MusicPage> {
       players[colIndex].stop();
 
       setState(() {
-        states[colIndex] = filesProvider.translations["stopped"];
+        states[colIndex] = widget.loc.stopped;
       });
     }
   }
@@ -488,7 +490,7 @@ class _MusicPageState extends State<MusicPage> {
                           showDialog(
                             context: context,
                             builder: (BuildContext context) {
-                              return ColumnSettingsDialog(newCol: false, colIndex: colIndex);
+                              return ColumnSettingsDialog(newCol: false, colIndex: colIndex, loc: widget.loc);
                             },
                           );
                         },
@@ -505,7 +507,7 @@ class _MusicPageState extends State<MusicPage> {
                     ),
                   ),
                   Text(
-                    filesProvider.translations["state"] + ": " + states[colIndex],
+                    widget.loc.state + ": " + states[colIndex],
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: 15,
@@ -513,7 +515,7 @@ class _MusicPageState extends State<MusicPage> {
                     ),
                   ),
                   Text(
-                    filesProvider.translations["volume"] + ": " + volumes[colIndex].toString(),
+                    widget.loc.volume + ": " + volumes[colIndex].toString(),
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: 15,
@@ -532,7 +534,7 @@ class _MusicPageState extends State<MusicPage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              (states[colIndex] == filesProvider.translations["playing"]) ?
+              (states[colIndex] == widget.loc.playing) ?
                 GestureDetector(
                   onTap: () {
                     pause(colIndex);
@@ -695,7 +697,7 @@ class _MusicPageState extends State<MusicPage> {
                       color: fontCol,
                     ),
                     Text(
-                      filesProvider.translations["random"],
+                      widget.loc.random,
                       maxLines: 2,
                       style: TextStyle(
                         fontSize: 15,

@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:gdr_multi_music/settings_page.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'ad_helper.dart';
 import 'files_provider.dart';
@@ -30,11 +31,12 @@ class MyApp extends StatelessWidget {
     filesProvider.getFilesList();
     filesProvider.getSettings();
     filesProvider.getLanguages();
-    filesProvider.getTranslations();
     filesProvider.getBackgroundImages();
 
     return MaterialApp(
       title: 'Multi music Handler',
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
       home: HomePage(),
     );
   }
@@ -90,7 +92,7 @@ class _HomePageState extends State<HomePage>{
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => SettingsPage()),
+                  MaterialPageRoute(builder: (context) => SettingsPage(loc: AppLocalizations.of(context))),
                 );
               },
             ),
@@ -119,6 +121,7 @@ class _HomePageState extends State<HomePage>{
               ),
             MusicPage(
               notifier: _notifier,
+              loc: AppLocalizations.of(context)
             ),
           ],
         ),
