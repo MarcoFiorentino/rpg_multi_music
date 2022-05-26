@@ -29,8 +29,8 @@ class MyApp extends StatelessWidget {
     final FilesProvider filesProvider = Provider.of<FilesProvider>(context, listen: false);
     filesProvider.getFilesList();
     filesProvider.getSettings();
-    filesProvider.getTranslations();
     filesProvider.getLanguages();
+    filesProvider.getTranslations();
     filesProvider.getBackgroundImages();
 
     return MaterialApp(
