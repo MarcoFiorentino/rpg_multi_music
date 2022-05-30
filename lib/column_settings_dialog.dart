@@ -187,17 +187,20 @@ class _ColumnSettingsDialogState extends State<ColumnSettingsDialog> {
                     fontColor = data;
                   });
                 },
-                items: filesProvider.appFontColors.map((String name, String value) {
-                  return MapEntry(
-                    name,
-                    DropdownMenuItem<String>(
-                      value: value,
+                items: [
+                  DropdownMenuItem<String>(
+                      value: "4280361249",
                       child: Text(
-                          "" //widget.loc[filesProvider.appFontColors.entries.firstWhere((element) => element.value == value).key]
-                      ),
-                    )
-                  );
-                }).values.toList(),
+                        widget.loc.black,
+                      )
+                  ),
+                  DropdownMenuItem<String>(
+                      value: "4294638330",
+                      child: Text(
+                        widget.loc.white,
+                      )
+                  )
+                ],
               ),
             ],
           ),

@@ -1,16 +1,26 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="gdr.fiore.gdr_multi_music">
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="gdr.fiore.gdr_multi_music"
+    android:versionCode="1"
+    android:versionName="GdrMultiMusic1.0">
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
    <application
-        android:requestLegacyExternalStorage="true"
-        android:label="Gdr Multi music"
-        android:icon="@mipmap/ic_launcher">
+       android:icon="@mipmap/ic_launcher"
+       android:label="Gdr Multi music"
+       android:requestLegacyExternalStorage="true"
+       tools:replace="android:icon">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
             android:theme="@style/LaunchTheme"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
             android:hardwareAccelerated="true"
-            android:windowSoftInputMode="adjustResize">
+            android:windowSoftInputMode="adjustResize"
+            android:exported="true"
+            tools:targetApi="honeycomb">
             <!-- Specifies an Android theme to apply to this Activity as soon as
                  the Android process has started. This theme is visible to the user
                  while the Flutter UI initializes. After that, this theme continues
@@ -42,8 +52,4 @@
             <data android:scheme="https" />
         </intent>
     </queries>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
 </manifest>

@@ -32,11 +32,13 @@ class MyApp extends StatelessWidget {
     filesProvider.getSettings();
     filesProvider.getLanguages();
     filesProvider.getBackgroundImages();
+    // filesProvider.setLocale(filesProvider.settings[0]);
 
     return MaterialApp(
       title: 'Multi music Handler',
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
+      // locale: filesProvider.locale,
       home: HomePage(),
     );
   }

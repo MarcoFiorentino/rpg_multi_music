@@ -92,6 +92,7 @@ class _SettingsScreenState extends State<SettingsPage> {
                 ),
                 onChanged: (String data) {
                   setState(() {
+                    filesProvider.setLocale(filesProvider.languages.entries.firstWhere((element) => element.value == data).key);
                     filesProvider.settings[0] = data;
                     SharedPreferencesManager.updateKV("Settings", true, filesProvider.settings);
                     filesProvider.getSettings();
@@ -190,17 +191,20 @@ class _SettingsScreenState extends State<SettingsPage> {
                     filesProvider.getSettings();
                   });
                 },
-                items: filesProvider.appFontColors.map((String name, String value) {
-                  return MapEntry(
-                    name,
-                    DropdownMenuItem<String>(
-                      value: value,
+                items: [
+                  DropdownMenuItem<String>(
+                      value: "4280361249",
                       child: Text(
-                          "" //filesProvider.translations[filesProvider.appFontColors.entries.firstWhere((element) => element.value == value).key]),
+                        widget.loc.black,
                       )
-                    )
-                  );
-                }).values.toList(),
+                  ),
+                  DropdownMenuItem<String>(
+                      value: "4294638330",
+                      child: Text(
+                        widget.loc.white,
+                      )
+                  )
+                ],
               ),
             ],
           ),
@@ -237,7 +241,7 @@ class _SettingsScreenState extends State<SettingsPage> {
                 items: filesProvider.backgroundImages.map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
-                    child: Text((value != "none") ? basenameWithoutExtension(value.split("/")[2]).capitalize() : ""),// widget.loc[value]),
+                    child: Text((value != "none") ? basenameWithoutExtension(value.split("/")[2]).capitalize() : widget.loc.none),
                   );
                 }).toList(),
               ),
