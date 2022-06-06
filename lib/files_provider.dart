@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:devicelocale/devicelocale.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,7 +8,6 @@ import 'package:flutter_file_manager/flutter_file_manager.dart';
 import 'package:gdr_multi_music/shared_preferences_manager.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class FilesProvider with ChangeNotifier {
   // Variabili condivise
@@ -20,7 +18,6 @@ class FilesProvider with ChangeNotifier {
   List<String> _dirsNames = [];
   List<String> _fontsColors = [];
   List<String> _settings = [
-    "en", // Lingua di default
     "true", // Schermo sempre attivo di default
     "4294688813", // Colore della barra e del pulsante del più
     "4280361249", // Colore del font
@@ -28,14 +25,6 @@ class FilesProvider with ChangeNotifier {
     "4292927712", // Colore di sfondo dietro la mappa
     "false" // Tutorial visto
   ];
-  Locale _locale;
-  Map<String, String> _languages = {
-    "it": "Italiano",
-    "en": "English",
-    "es": "Espanol",
-    "fr": "Frances",
-    "de": "Deutsch"
-  };
   Map<String, String> _appFontColors = {
     "black": "4280361249",
     "white": "4294638330"
@@ -51,20 +40,10 @@ class FilesProvider with ChangeNotifier {
   List<String> get dirsNames => this._dirsNames;
   List<String> get fontsColors => this._fontsColors;
   List<String> get settings => this._settings;
-  Locale get locale => _locale;
-  Map<String, String> get languages => this._languages;
   Map<String, String> get appFontColors => this._appFontColors;
   List<String> get backgroundImages => this._backgroundImages;
   double get loadedBackgroundHeight => this._loadedBackgroundHeight;
   double get loadedBackgroundWidth => this._loadedBackgroundWidth;
-
-  void setLocale(String locale){
-    if(!AppLocalizations.supportedLocales.contains(Locale(locale))) {
-      return;
-    }
-    _locale = Locale(locale);
-    notifyListeners();
-  }
 
   // Recupero le liste di file
   void getFilesList() async {
@@ -126,17 +105,13 @@ class FilesProvider with ChangeNotifier {
       this._settings = sharedPreferences.getStringList("Settings");
     }
 
-    var img = await rootBundle.load(this.settings[4]);
-    var decodedImage = await decodeImageFromList(img.buffer.asUint8List());
-    this._loadedBackgroundHeight = decodedImage.height.toDouble();
-    this._loadedBackgroundWidth = decodedImage.width.toDouble();
+    if (this.settings[3] != "none") {
+      var img = await rootBundle.load(this.settings[3]);
+      var decodedImage = await decodeImageFromList(img.buffer.asUint8List());
+      this._loadedBackgroundHeight = decodedImage.height.toDouble();
+      this._loadedBackgroundWidth = decodedImage.width.toDouble();
+    }
     this.notifyListeners();
-  }
-
-  // Recupera la lista di lingue disponibili
-  void getLanguages() async {
-    String devicelocale = await Devicelocale.currentLocale;
-    this._settings[0] = _languages[devicelocale.split("-")[0]];
   }
 
   // Recupera le immagini di sfondo

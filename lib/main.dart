@@ -30,15 +30,12 @@ class MyApp extends StatelessWidget {
     final FilesProvider filesProvider = Provider.of<FilesProvider>(context, listen: false);
     filesProvider.getFilesList();
     filesProvider.getSettings();
-    filesProvider.getLanguages();
     filesProvider.getBackgroundImages();
-    // filesProvider.setLocale(filesProvider.settings[0]);
 
     return MaterialApp(
       title: 'Multi music Handler',
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      // locale: filesProvider.locale,
       home: HomePage(),
     );
   }
@@ -78,18 +75,18 @@ class _HomePageState extends State<HomePage>{
     return MaterialApp(
       //Gestisco le tab dell`app
       home: Scaffold(
-        backgroundColor: Color(int.parse(filesProvider.settings[5])),
+        backgroundColor: Color(int.parse(filesProvider.settings[4])),
         appBar: AppBar(
-          backgroundColor: Color(int.parse(filesProvider.settings[2])),
+          backgroundColor: Color(int.parse(filesProvider.settings[1])),
           title: Text(
               "Multi music handler",
-              style: TextStyle(color: Color(int.parse(filesProvider.settings[3]))),
+              style: TextStyle(color: Color(int.parse(filesProvider.settings[2]))),
           ),
           actions: [
             IconButton(
               icon: Icon(
                   Icons.settings_rounded,
-                  color: Color(int.parse(filesProvider.settings[3])),
+                  color: Color(int.parse(filesProvider.settings[2])),
               ),
               onPressed: () {
                 Navigator.push(
@@ -102,7 +99,7 @@ class _HomePageState extends State<HomePage>{
         ),
         body: Stack(
           children: <Widget>[
-            (filesProvider.settings[4] == "none") ?
+            (filesProvider.settings[3] == "none") ?
               SizedBox.shrink() :
               OverflowBox(
                 maxWidth: MediaQuery.of(context).size.width * 10,
@@ -113,7 +110,7 @@ class _HomePageState extends State<HomePage>{
                     return Transform.translate(
                       offset: Offset(-_notifier.value, 0),
                       child: Image.asset(
-                        filesProvider.settings[4],
+                        filesProvider.settings[3],
                         height: MediaQuery.of(context).size.height,
                         fit: BoxFit.fitHeight
                       ),
@@ -129,7 +126,7 @@ class _HomePageState extends State<HomePage>{
         ),
         bottomNavigationBar: Container(
           height: 50,
-          color: Color(int.parse(filesProvider.settings[2])),
+          color: Color(int.parse(filesProvider.settings[1])),
           child: adWidget
         ),
       ),

@@ -72,7 +72,7 @@ class _MusicPageState extends State<MusicPage> {
     filesProvider = Provider.of<FilesProvider>(context, listen: true);
 
     if (filesProvider.settings.length > 0) {
-      Wakelock.toggle(enable: filesProvider.settings[1].toBoolean());
+      Wakelock.toggle(enable: filesProvider.settings[0].toBoolean());
     } else {
       Wakelock.toggle(enable: true);
     }
@@ -150,11 +150,11 @@ class _MusicPageState extends State<MusicPage> {
                                     padding: const EdgeInsets.all(0.0),
                                     child: Icon(
                                       Icons.add_rounded,
-                                      color: Color(int.parse(filesProvider.settings[3])),
+                                      color: Color(int.parse(filesProvider.settings[2])),
                                     ),
                                   ),
                                   decoration: BoxDecoration(
-                                    color: Color(int.parse(filesProvider.settings[2])),
+                                    color: Color(int.parse(filesProvider.settings[1])),
                                     image: DecorationImage (
                                       image: AssetImage("assets/Btn/btn-double-border.png"),
                                       fit: BoxFit.fill,
@@ -185,7 +185,7 @@ class _MusicPageState extends State<MusicPage> {
               ),
             ],
           ),
-          (filesProvider.settings[6].toBoolean()) ?
+          (filesProvider.settings[5].toBoolean()) ?
           SizedBox.shrink() :
           Stack(
             children: [
@@ -221,13 +221,13 @@ class _MusicPageState extends State<MusicPage> {
                                 maxLines: 10,
                                 style: TextStyle(
                                   fontSize: 15,
-                                  color: Color(int.parse(filesProvider.settings[3])),
+                                  color: Color(int.parse(filesProvider.settings[2])),
                                   overflow: TextOverflow.ellipsis,
                                 ),
                               ),
                             ),
                             decoration: BoxDecoration(
-                              color: Color(int.parse(filesProvider.settings[2])),
+                              color: Color(int.parse(filesProvider.settings[1])),
                               image: DecorationImage (
                                 image: AssetImage("assets/Btn/btn-single-border.png"),
                                 fit: BoxFit.fill,
@@ -242,7 +242,7 @@ class _MusicPageState extends State<MusicPage> {
                             painter: ArrowPainter(
                                 0, (MediaQuery.of(context).size.height/3)/2,
                                 MediaQuery.of(context).size.width/2 - 35, 0,
-                                filesProvider.settings[2],
+                                filesProvider.settings[1],
                             ),
                             child: Container(
                               constraints: BoxConstraints(
@@ -266,7 +266,7 @@ class _MusicPageState extends State<MusicPage> {
                               painter: ArrowPainter(
                                   MediaQuery.of(context).size.width/2, (MediaQuery.of(context).size.height/3)/2,
                                   70, 20,
-                                  filesProvider.settings[2],
+                                  filesProvider.settings[1],
                               ),
                               child: Container(
                                 constraints: BoxConstraints(
@@ -292,13 +292,13 @@ class _MusicPageState extends State<MusicPage> {
                                 maxLines: 10,
                                 style: TextStyle(
                                   fontSize: 15,
-                                  color: Color(int.parse(filesProvider.settings[3])),
+                                  color: Color(int.parse(filesProvider.settings[2])),
                                   overflow: TextOverflow.ellipsis,
                                 ),
                               ),
                             ),
                             decoration: BoxDecoration(
-                              color: Color(int.parse(filesProvider.settings[2])),
+                              color: Color(int.parse(filesProvider.settings[1])),
                               image: DecorationImage (
                                 image: AssetImage("assets/Btn/btn-single-border.png"),
                                 fit: BoxFit.fill,
@@ -314,7 +314,7 @@ class _MusicPageState extends State<MusicPage> {
                       children: [
                         GestureDetector(
                           onTap: () {
-                            filesProvider.settings[6] = true.toString();
+                            filesProvider.settings[5] = true.toString();
                             SharedPreferencesManager.updateKV("Settings", true, filesProvider.settings);
                             filesProvider.getSettings();
                           },
@@ -329,13 +329,13 @@ class _MusicPageState extends State<MusicPage> {
                                 widget.loc.done_tutorial,
                                 maxLines: 2,
                                 style: TextStyle(
-                                  color: Color(int.parse(filesProvider.settings[3])),
+                                  color: Color(int.parse(filesProvider.settings[2])),
                                   overflow: TextOverflow.ellipsis,
                                 ),
                               ),
                             ),
                             decoration: BoxDecoration(
-                              color: Color(int.parse(filesProvider.settings[2])),
+                              color: Color(int.parse(filesProvider.settings[1])),
                               image: DecorationImage (
                                 image: AssetImage("assets/Btn/btn-double-border.png"),
                                 fit: BoxFit.fill,
@@ -552,7 +552,6 @@ class _MusicPageState extends State<MusicPage> {
                       ),
                     ),
                     decoration: BoxDecoration(
-                      // borderRadius: BorderRadius.circular(5),
                       color: btnCol,
                       image: DecorationImage (
                         image: AssetImage("assets/Btn/btn-double-border.png"),
@@ -580,7 +579,6 @@ class _MusicPageState extends State<MusicPage> {
                       ),
                     ),
                     decoration: BoxDecoration(
-                      // borderRadius: BorderRadius.circular(5),
                       color: btnCol,
                       image: DecorationImage (
                         image: AssetImage("assets/Btn/btn-double-border.png"),
@@ -607,7 +605,6 @@ class _MusicPageState extends State<MusicPage> {
                     ),
                   ),
                   decoration: BoxDecoration(
-                    // borderRadius: BorderRadius.circular(5),
                     color: btnCol,
                     image: DecorationImage (
                       image: AssetImage("assets/Btn/btn-double-border.png"),
@@ -639,7 +636,6 @@ class _MusicPageState extends State<MusicPage> {
                     ),
                   ),
                   decoration: BoxDecoration(
-                    // borderRadius: BorderRadius.circular(5),
                     color: btnCol,
                     image: DecorationImage (
                       image: AssetImage("assets/Btn/btn-double-border.png"),
@@ -666,7 +662,6 @@ class _MusicPageState extends State<MusicPage> {
                     ),
                   ),
                   decoration: BoxDecoration(
-                    // borderRadius: BorderRadius.circular(5),
                     color: btnCol,
                     image: DecorationImage (
                       image: AssetImage("assets/Btn/btn-double-border.png"),
@@ -709,7 +704,6 @@ class _MusicPageState extends State<MusicPage> {
                 ),
               ),
               decoration: BoxDecoration(
-                // borderRadius: BorderRadius.circular(5),
                 color: btnCol,
                 image: DecorationImage (
                   image: AssetImage("assets/Btn/btn-double-border.png"),
@@ -794,7 +788,6 @@ class _MusicPageState extends State<MusicPage> {
                   ),
                 ),
                 decoration: BoxDecoration(
-                  // borderRadius: BorderRadius.circular(5),
                   color: btnCol,
                   image: DecorationImage (
                     image: AssetImage("assets/Btn/btn-double-border.png"),

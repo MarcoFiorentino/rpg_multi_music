@@ -47,7 +47,7 @@ class _ColumnSettingsDialogState extends State<ColumnSettingsDialog> {
     colTitle = widget.loc.new_column;
     directoryId = nanoid(10);
     directoryPath = widget.loc.directory_path;
-    directoryColor = filesProvider.settings[2];
+    directoryColor = filesProvider.settings[1];
     directoryName = widget.loc.directory_name;
     fontColor = "4280361249";
 

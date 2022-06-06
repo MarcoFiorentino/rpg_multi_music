@@ -44,17 +44,17 @@ class _SettingsScreenState extends State<SettingsPage> {
       appBar: AppBar(
           title: Text(
               widget.loc.settings,
-              style: TextStyle(color: Color(int.parse(filesProvider.settings[3]))),
+              style: TextStyle(color: Color(int.parse(filesProvider.settings[2]))),
           ),
           iconTheme: IconThemeData(
-            color: Color(int.parse(filesProvider.settings[3])),
+            color: Color(int.parse(filesProvider.settings[2])),
           ),
-          backgroundColor: Color(int.parse(filesProvider.settings[2])),
+          backgroundColor: Color(int.parse(filesProvider.settings[1])),
       ),
       body: buildSettings(context),
       bottomNavigationBar: Container(
           height: 50,
-          color: Color(int.parse(filesProvider.settings[2])),
+          color: Color(int.parse(filesProvider.settings[1])),
           child: adWidget
       ),
     );
@@ -72,59 +72,16 @@ class _SettingsScreenState extends State<SettingsPage> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                widget.loc.language + ": ",
-                style: TextStyle(
-                  fontSize: 18
-                ),
-              ),
-              DropdownButton<String>(
-                value: filesProvider.settings[0],
-                icon: Icon(Icons.arrow_drop_down),
-                iconSize: 24,
-                elevation: 16,
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 18
-                ),
-                underline: Container(
-                  height: 2,
-                  color: Colors.black,
-                ),
-                onChanged: (String data) {
-                  setState(() {
-                    filesProvider.setLocale(filesProvider.languages.entries.firstWhere((element) => element.value == data).key);
-                    filesProvider.settings[0] = data;
-                    SharedPreferencesManager.updateKV("Settings", true, filesProvider.settings);
-                    filesProvider.getSettings();
-                  });
-                },
-                items: filesProvider.languages.map((String name, String value) {
-                  return MapEntry(
-                      name,
-                      DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(filesProvider.languages.entries.firstWhere((element) => element.value == value).value),
-                      )
-                  );
-                }).values.toList(),
-              ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
                 widget.loc.screen_always_on,
                 style: TextStyle(
                   fontSize: 18
                 ),
               ),
               Switch(
-                value: filesProvider.settings[1].toBoolean(),
+                value: filesProvider.settings[0].toBoolean(),
                 onChanged: (value) {
                   setState(() {
-                    filesProvider.settings[1] = value.toString();
+                    filesProvider.settings[0] = value.toString();
                     SharedPreferencesManager.updateKV("Settings", true, filesProvider.settings);
                     filesProvider.getSettings();
                   });
@@ -136,7 +93,6 @@ class _SettingsScreenState extends State<SettingsPage> {
             mainAxisAlignment: MainAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              //Icon(Icons.color_lens_rounded),
               Text(
                 widget.loc.appbar_color + ": ",
                 style: TextStyle(
@@ -146,13 +102,13 @@ class _SettingsScreenState extends State<SettingsPage> {
               WheelColorPicker(
                 onSelect: (Color newColor) {
                   setState(() {
-                    filesProvider.settings[2] = newColor.value.toString();
+                    filesProvider.settings[1] = newColor.value.toString();
                     SharedPreferencesManager.updateKV("Settings", true, filesProvider.settings);
                     filesProvider.getSettings();
                   });
                 },
                 behaviour: ButtonBehaviour.clickToOpen,
-                defaultColor: Color(int.parse(filesProvider.settings[2])),
+                defaultColor: Color(int.parse(filesProvider.settings[1])),
                 animationConfig: fanLikeAnimationConfig,
                 colorList: defaultAvailableColors,
                 buttonSize: 25,
@@ -172,7 +128,7 @@ class _SettingsScreenState extends State<SettingsPage> {
                 ),
               ),
               DropdownButton<String>(
-                value: filesProvider.settings[3],
+                value: filesProvider.settings[2],
                 icon: Icon(Icons.arrow_drop_down),
                 iconSize: 24,
                 elevation: 16,
@@ -186,7 +142,7 @@ class _SettingsScreenState extends State<SettingsPage> {
                 ),
                 onChanged: (String data) {
                   setState(() {
-                    filesProvider.settings[3] = data;
+                    filesProvider.settings[2] = data;
                     SharedPreferencesManager.updateKV("Settings", true, filesProvider.settings);
                     filesProvider.getSettings();
                   });
@@ -219,7 +175,7 @@ class _SettingsScreenState extends State<SettingsPage> {
                 ),
               ),
               DropdownButton<String>(
-                value: filesProvider.settings[4],
+                value: filesProvider.settings[3],
                 icon: Icon(Icons.arrow_drop_down),
                 iconSize: 24,
                 elevation: 16,
@@ -233,7 +189,7 @@ class _SettingsScreenState extends State<SettingsPage> {
                 ),
                 onChanged: (String data) {
                   setState(() {
-                    filesProvider.settings[4] = data;
+                    filesProvider.settings[3] = data;
                     SharedPreferencesManager.updateKV("Settings", true, filesProvider.settings);
                     filesProvider.getSettings();
                   });
@@ -260,13 +216,13 @@ class _SettingsScreenState extends State<SettingsPage> {
               WheelColorPicker(
                 onSelect: (Color newColor) {
                   setState(() {
-                    filesProvider.settings[5] = newColor.value.toString();
+                    filesProvider.settings[4] = newColor.value.toString();
                     SharedPreferencesManager.updateKV("Settings", true, filesProvider.settings);
                     filesProvider.getSettings();
                   });
                 },
                 behaviour: ButtonBehaviour.clickToOpen,
-                defaultColor: Color(int.parse(filesProvider.settings[5])),
+                defaultColor: Color(int.parse(filesProvider.settings[4])),
                 animationConfig: fanLikeAnimationConfig,
                 colorList: defaultAvailableColors,
                 buttonSize: 25,
@@ -286,10 +242,10 @@ class _SettingsScreenState extends State<SettingsPage> {
                 ),
               ),
               Switch(
-                value: !(filesProvider.settings[6].toBoolean()),
+                value: !(filesProvider.settings[5].toBoolean()),
                 onChanged: (value) {
                   setState(() {
-                    filesProvider.settings[6] = (!value).toString();
+                    filesProvider.settings[5] = (!value).toString();
                     SharedPreferencesManager.updateKV("Settings", true, filesProvider.settings);
                     filesProvider.getSettings();
                   });
