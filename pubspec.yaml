@@ -56,8 +56,10 @@ dev_dependencies:
 flutter_icons:
   android: true # can specify file name here e.g. "ic_launcher"
   ios: true
-  image_path_android: "assets/logo.png"
-  image_path_ios: "assets/logo.png"
+  image_path: "assets/logo_bianco-blu.png"
+  adaptive_icon_background: "#151f33"
+  adaptive_icon_foreground: "assets/logo.png" 
+  remove_alpha_ios: true
 
 flutter_native_splash:
   # This package generates native code to customize Flutter's default white native splash screen
