@@ -19,8 +19,8 @@ class FilesProvider with ChangeNotifier {
   List<String> _fontsColors = [];
   List<String> _settings = [
     "true", // Schermo sempre attivo di default
-    "4294688813", // Colore della barra e del pulsante del più
-    "4280361249", // Colore del font
+    "4279592384", // Colore della barra e del pulsante del più
+    "4294638330", // Colore del font
     "assets/Background/Shipyard.jpg", // Immagine di sfondo
     "4292927712", // Colore di sfondo dietro la mappa
     "false" // Tutorial visto

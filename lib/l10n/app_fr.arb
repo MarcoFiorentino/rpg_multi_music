@@ -37,5 +37,7 @@
     "click_here": "Cliquez ici!",
     "two_minute_tabletop_attribution": "Les magnifiques cartes sont dessinées par 2-Minute Tabletop",
     "attribution_link": "Cliquez ici pour voir leur travail",
-    "url_error": "Erreur dans l'ouverture du lien"
+    "url_error": "Erreur dans l'ouverture du lien",
+    "need_privacy": "Voulez-vous l'intimité?",
+    "privacy_text": "Trouvez-le ici"
 }

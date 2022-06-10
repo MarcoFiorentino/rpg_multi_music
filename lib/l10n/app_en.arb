@@ -37,5 +37,7 @@
     "click_here": "Click here!",
     "two_minute_tabletop_attribution": "The astounding maps are drawn by 2-Minute Tabletop",
     "attribution_link": "Click here to see their works!",
-    "url_error": "Error while opening the link"
+    "url_error": "Error while opening the link",
+    "need_privacy": "Need some privacy?",
+    "privacy_text": "You can find it here"
 }

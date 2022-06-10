@@ -9,6 +9,7 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 import 'package:path/path.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'privacy_dialog.dart';
 
 import 'package:gdr_multi_music/files_provider.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -321,6 +322,46 @@ class _SettingsScreenState extends State<SettingsPage> {
                 onTap: () async => await canLaunchUrlString("https://docs.google.com/forms/d/e/1FAIpQLSf17hcBM-AR98ZYEFxo323qyTJ-tDpf-4OQQBevsMgZ_Z-sKw/viewform")
                     ? await launchUrlString("https://docs.google.com/forms/d/e/1FAIpQLSf17hcBM-AR98ZYEFxo323qyTJ-tDpf-4OQQBevsMgZ_Z-sKw/viewform")
                     : throw widget.loc.url_error,
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              LimitedBox(
+                maxWidth: MediaQuery.of(context).size.width,
+                child: Text(
+                  widget.loc.need_privacy,
+                  style: TextStyle(
+                      fontSize: 15
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              )
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              GestureDetector(
+                child: Text(
+                  widget.loc.privacy_text,
+                  style: TextStyle(
+                    fontSize: 15,
+                    color: Colors.blue,
+                    decoration: TextDecoration.underline
+                  ),
+                ),
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return PrivacyDialog(loc: widget.loc);
+                    },
+                  );
+                },
               ),
             ],
           ),

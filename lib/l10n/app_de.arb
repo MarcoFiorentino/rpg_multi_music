@@ -37,5 +37,7 @@
     "click_here": "Klicke hier!",
     "two_minute_tabletop_attribution": "Die prächtigen Karten sind gezeichnet von 2-Minute Tabletop",
     "attribution_link": "Klicken Sie hier, um ihre Arbeit zu sehen!",
-    "url_error": "Fehler beim Öffnen des Links"
+    "url_error": "Fehler beim Öffnen des Links",
+    "need_privacy": "Willst du Privatsphäre?",
+    "privacy_text": "Finden Sie es hier"
 }

@@ -49,7 +49,7 @@ class _ColumnSettingsDialogState extends State<ColumnSettingsDialog> {
     directoryPath = widget.loc.directory_path;
     directoryColor = filesProvider.settings[1];
     directoryName = widget.loc.directory_name;
-    fontColor = "4280361249";
+    fontColor = filesProvider.settings[2];
 
     // Se apro una colonna esistente e non ho fatto modifiche
     // Pre-popolo i campi con i dati in memoria
@@ -270,11 +270,13 @@ class _ColumnSettingsDialogState extends State<ColumnSettingsDialog> {
 
     String dirPath = await FilePicker.platform.getDirectoryPath();
 
-    setState(() {
-      if (dirPath.isNotEmpty) {
-        directoryPath = dirPath;
-      }
-    });
+    if (dirPath != null) {
+      setState(() {
+        if (dirPath.isNotEmpty) {
+          directoryPath = dirPath;
+        }
+      });
+    }
   }
 
   // Gestisco il campo di testo editabile

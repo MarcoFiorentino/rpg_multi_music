@@ -37,5 +37,7 @@
     "click_here": "Clicca qui!",
     "two_minute_tabletop_attribution": "Le magnifiche mappe sono disegnate da 2-Minute Tabletop",
     "attribution_link": "Clicca qui per vedere i loro lavori!",
-    "url_error": "Errore nell`apertura del link"
+    "url_error": "Errore nell`apertura del link",
+    "need_privacy": "Vuoi della privacy?",
+    "privacy_text": "La trovi qui"
 }
