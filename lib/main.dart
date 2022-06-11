@@ -99,7 +99,7 @@ class _HomePageState extends State<HomePage>{
         ),
         body: Stack(
           children: <Widget>[
-            (filesProvider.settings[3] == "assets/Background/None.jpg") ?
+            (filesProvider.settings[3] == "none") ?
               SizedBox.shrink() :
               OverflowBox(
                 maxWidth: MediaQuery.of(context).size.width * 10,

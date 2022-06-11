@@ -5,7 +5,6 @@ import 'package:flutter_color_picker_wheel/presets/color_presets.dart';
 import 'package:flutter_color_picker_wheel/widgets/flutter_color_picker_wheel.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
-import 'package:path/path.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -179,6 +178,18 @@ class _SettingsScreenState extends State<SettingsPage> {
               Flexible(
                 flex: 2,
                 child: GestureDetector(
+                  child: (filesProvider.settings[3] == "none") ?
+                    Container(
+                      width: 100,
+                      height: 75,
+                      child: ColoredBox(
+                        color: Color(int.parse(filesProvider.settings[4])),
+                      ),
+                    ) :
+                    Image.asset(
+                      filesProvider.settings[3],
+                      height: 75,
+                    ),
                   onTap: () {
                     showDialog(
                       context: context,
@@ -187,13 +198,6 @@ class _SettingsScreenState extends State<SettingsPage> {
                       },
                     );
                   },
-                  child: Text(
-                    basenameWithoutExtension(filesProvider.settings[3].split("/")[2]).capitalize(),
-                    style: TextStyle(
-                        fontSize: 18,
-                        decoration: TextDecoration.underline,
-                    ),
-                  ),
                 ),
               ),
               IconButton(

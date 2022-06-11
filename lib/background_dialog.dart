@@ -181,29 +181,30 @@ class _BackgroundDialogState extends State<BackgroundDialog> {
                 ),
                 GestureDetector(
                   child: Container(
-                    child: Image.asset(
-                      "assets/Background/None.jpg",
+                    child: ColoredBox(
+                      color: Color(int.parse(filesProvider.settings[4])),
                     ),
                     decoration: BoxDecoration(
-                      border: selected == "assets/Background/None.jpg" ?
-                                              Border.all(
-                                                color: Color(int.parse(filesProvider.settings[1])),
-                                                width: 2.0
-                                              ) : Border.all(
-                                                color: Colors.transparent,
-                                              ),
+                      border: selected == "none" ?
+                      Border.all(
+                          color: Color(int.parse(filesProvider.settings[1])),
+                          width: 2.0
+                      ) : Border.all(
+                        color: Colors.transparent,
+                      ),
                     ),
+                    height: 10,
                   ),
                   onTap: () {
                     setState(() {
-                      selected = "assets/Background/None.jpg";
+                      selected = "none";
                     });
                   },
                 ),
               ],
             ),
           ),
-          (selected != "assets/Background/None.jpg") ?
+          (selected != "none") ?
             SizedBox.shrink() :
             Row(
               mainAxisAlignment: MainAxisAlignment.start,

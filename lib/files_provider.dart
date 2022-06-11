@@ -23,7 +23,7 @@ class FilesProvider with ChangeNotifier {
     "4279592384", // Colore della barra e del pulsante del più
     "4294638330", // Colore del font
     "assets/Background/Shipyard.jpg", // Immagine di sfondo
-    "4292927712", // Colore di sfondo dietro la mappa
+    "4279592384", // Colore di sfondo dietro la mappa
     "false" // Tutorial visto
   ];
   Map<String, String> _appFontColors = {
