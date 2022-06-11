@@ -87,6 +87,7 @@ class _SettingsScreenState extends State<SettingsPage> {
                     filesProvider.getSettings();
                   });
                 },
+                activeColor: Color(int.parse(filesProvider.settings[1])),
               ),
             ],
           ),
@@ -251,6 +252,7 @@ class _SettingsScreenState extends State<SettingsPage> {
                     filesProvider.getSettings();
                   });
                 },
+                activeColor: Color(int.parse(filesProvider.settings[1])),
               ),
             ],
           ),
@@ -280,7 +282,7 @@ class _SettingsScreenState extends State<SettingsPage> {
                   widget.loc.attribution_link,
                   style: TextStyle(
                       fontSize: 15,
-                      color: Colors.blue,
+                      color: Color(int.parse(filesProvider.settings[1])),
                       decoration: TextDecoration.underline
                   ),
                 ),
@@ -315,7 +317,7 @@ class _SettingsScreenState extends State<SettingsPage> {
                   widget.loc.click_here,
                   style: TextStyle(
                     fontSize: 15,
-                    color: Colors.blue,
+                    color: Color(int.parse(filesProvider.settings[1])),
                     decoration: TextDecoration.underline
                   ),
                 ),
@@ -350,7 +352,7 @@ class _SettingsScreenState extends State<SettingsPage> {
                   widget.loc.privacy_text,
                   style: TextStyle(
                     fontSize: 15,
-                    color: Colors.blue,
+                    color: Color(int.parse(filesProvider.settings[1])),
                     decoration: TextDecoration.underline
                   ),
                 ),
