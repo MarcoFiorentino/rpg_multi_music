@@ -193,7 +193,6 @@ class _BackgroundDialogState extends State<BackgroundDialog> {
                         color: Colors.transparent,
                       ),
                     ),
-                    height: 10,
                   ),
                   onTap: () {
                     setState(() {
