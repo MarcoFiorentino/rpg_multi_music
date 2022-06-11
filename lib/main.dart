@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:gdr_multi_music/settings_page.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'ad_helper.dart';
-import 'files_provider.dart';
-import 'music_page.dart';
+import 'package:gdr_multi_music/settings_page.dart';
+import 'package:gdr_multi_music/ad_helper.dart';
+import 'package:gdr_multi_music/files_provider.dart';
+import 'package:gdr_multi_music/music_page.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -99,7 +99,7 @@ class _HomePageState extends State<HomePage>{
         ),
         body: Stack(
           children: <Widget>[
-            (filesProvider.settings[3] == "none") ?
+            (filesProvider.settings[3] == "assets/Background/None.jpg") ?
               SizedBox.shrink() :
               OverflowBox(
                 maxWidth: MediaQuery.of(context).size.width * 10,

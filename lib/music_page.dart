@@ -2,15 +2,16 @@ import 'dart:math';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
-import 'package:gdr_multi_music/shared_preferences_manager.dart';
 import 'package:path/path.dart';
 import 'package:provider/provider.dart';
+import 'package:wakelock/wakelock.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import 'package:gdr_multi_music/shared_preferences_manager.dart';
 import 'package:gdr_multi_music/files_provider.dart';
 import 'package:gdr_multi_music/string_extension.dart';
-import 'package:wakelock/wakelock.dart';
-import 'arrow_painter.dart';
-import 'column_settings_dialog.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:gdr_multi_music/arrow_painter.dart';
+import 'package:gdr_multi_music/column_settings_dialog.dart';
 
 class MusicPage extends StatefulWidget {
   final ValueNotifier<double> notifier;

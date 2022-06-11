@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'files_provider.dart';
+import 'package:gdr_multi_music/files_provider.dart';
 
 class PrivacyDialog extends StatefulWidget {
   const PrivacyDialog({Key key, this.loc});
@@ -76,6 +76,7 @@ class _PrivacyDialogState extends State<PrivacyDialog> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               TextButton(
+                child: Text(widget.loc.done_tutorial),
                 onPressed: () {
                   // Chiudo il popup
                   Navigator.of(context).pop();
@@ -83,7 +84,6 @@ class _PrivacyDialogState extends State<PrivacyDialog> {
                 style: TextButton.styleFrom(
                   textStyle: const TextStyle(fontSize: 20),
                 ),
-                child: Text(widget.loc.done_tutorial),
               ),
             ]
         )

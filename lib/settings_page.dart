@@ -3,18 +3,18 @@ import 'package:flutter_color_picker_wheel/models/button_behaviour.dart';
 import 'package:flutter_color_picker_wheel/presets/animation_config_presets.dart';
 import 'package:flutter_color_picker_wheel/presets/color_presets.dart';
 import 'package:flutter_color_picker_wheel/widgets/flutter_color_picker_wheel.dart';
-import 'package:gdr_multi_music/shared_preferences_manager.dart';
-import 'package:gdr_multi_music/string_extension.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 import 'package:path/path.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'privacy_dialog.dart';
-
-import 'package:gdr_multi_music/files_provider.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
-import 'ad_helper.dart';
+import 'package:gdr_multi_music/shared_preferences_manager.dart';
+import 'package:gdr_multi_music/string_extension.dart';
+import 'package:gdr_multi_music/privacy_dialog.dart';
+import 'package:gdr_multi_music/background_dialog.dart';
+import 'package:gdr_multi_music/files_provider.dart';
+import 'package:gdr_multi_music/ad_helper.dart';
 
 class SettingsPage extends StatefulWidget {
 
@@ -96,7 +96,7 @@ class _SettingsScreenState extends State<SettingsPage> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                widget.loc.appbar_color + ": ",
+                widget.loc.base_color + ": ",
                 style: TextStyle(
                     fontSize: 18
                 ),
@@ -171,65 +171,42 @@ class _SettingsScreenState extends State<SettingsPage> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                widget.loc.background_img + ": ",
+                widget.loc.background + ": ",
                 style: TextStyle(
-                    fontSize: 18
+                    fontSize: 18,
                 ),
               ),
-              DropdownButton<String>(
-                value: filesProvider.settings[3],
-                icon: Icon(Icons.arrow_drop_down),
-                iconSize: 24,
-                elevation: 16,
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 18
+              Flexible(
+                flex: 2,
+                child: GestureDetector(
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return BackgroundDialog(loc: widget.loc);
+                      },
+                    );
+                  },
+                  child: Text(
+                    basenameWithoutExtension(filesProvider.settings[3].split("/")[2]).capitalize(),
+                    style: TextStyle(
+                        fontSize: 18,
+                        decoration: TextDecoration.underline,
+                    ),
+                  ),
                 ),
-                underline: Container(
-                  height: 2,
-                  color: Colors.black,
-                ),
-                onChanged: (String data) {
-                  setState(() {
-                    filesProvider.settings[3] = data;
-                    SharedPreferencesManager.updateKV("Settings", true, filesProvider.settings);
-                    filesProvider.getSettings();
-                  });
-                },
-                items: filesProvider.backgroundImages.map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text((value != "none") ? basenameWithoutExtension(value.split("/")[2]).capitalize() : widget.loc.none),
+              ),
+              IconButton(
+                icon: Icon(Icons.drive_file_rename_outline),
+                color: Colors.grey,
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return BackgroundDialog(loc: widget.loc);
+                    },
                   );
-                }).toList(),
-              ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                widget.loc.background_color + ": ",
-                style: TextStyle(
-                    fontSize: 18
-                ),
-              ),
-              WheelColorPicker(
-                onSelect: (Color newColor) {
-                  setState(() {
-                    filesProvider.settings[4] = newColor.value.toString();
-                    SharedPreferencesManager.updateKV("Settings", true, filesProvider.settings);
-                    filesProvider.getSettings();
-                  });
                 },
-                behaviour: ButtonBehaviour.clickToOpen,
-                defaultColor: Color(int.parse(filesProvider.settings[4])),
-                animationConfig: fanLikeAnimationConfig,
-                colorList: defaultAvailableColors,
-                buttonSize: 25,
-                pieceHeight: 25,
-                innerRadius: 30,
               ),
             ],
           ),
