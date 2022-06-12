@@ -69,7 +69,8 @@ class _BackgroundDialogState extends State<BackgroundDialog> {
             width: MediaQuery.of(context).size.width,
             height: 200,
             child: GridView.count(
-            shrinkWrap: true,
+              // childAspectRatio: 1.1,
+              shrinkWrap: true,
               primary: false,
               crossAxisSpacing: 5,
               crossAxisCount: 3,
@@ -203,7 +204,9 @@ class _BackgroundDialogState extends State<BackgroundDialog> {
               ],
             ),
           ),
-          (selected != "none") ?
+          Container(
+            height: 20,
+            child: (selected != "none") ?
             SizedBox.shrink() :
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -231,6 +234,7 @@ class _BackgroundDialogState extends State<BackgroundDialog> {
                 ),
               ],
             ),
+          ),
         ],
       ),
       actions: [
