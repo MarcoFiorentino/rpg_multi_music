@@ -99,21 +99,21 @@ class _BackgroundDialogState extends State<BackgroundDialog> {
                 GestureDetector(
                   child: Container(
                     child: Image.asset(
-                      "assets/Background/Desert-Oasis-Town.jpg",
+                      "assets/Background/Shipyard.jpg",
                     ),
                     decoration: BoxDecoration(
-                      border: selected == "assets/Background/Desert-Oasis-Town.jpg" ?
-                                              Border.all(
-                                                color: Color(int.parse(filesProvider.settings[1])),
-                                                width: 2.0
-                                              ) : Border.all(
-                                                color: Colors.transparent,
-                                              ),
+                      border: selected == "assets/Background/Shipyard.jpg" ?
+                      Border.all(
+                          color: Color(int.parse(filesProvider.settings[1])),
+                          width: 2.0
+                      ) : Border.all(
+                        color: Colors.transparent,
+                      ),
                     ),
                   ),
                   onTap: () {
                     setState(() {
-                      selected = "assets/Background/Desert-Oasis-Town.jpg";
+                      selected = "assets/Background/Shipyard.jpg";
                     });
                   },
                 ),
@@ -162,21 +162,21 @@ class _BackgroundDialogState extends State<BackgroundDialog> {
                 GestureDetector(
                   child: Container(
                     child: Image.asset(
-                      "assets/Background/Shipyard.jpg",
+                      "assets/Background/Desert-Oasis-Town.jpg",
                     ),
                     decoration: BoxDecoration(
-                      border: selected == "assets/Background/Shipyard.jpg" ?
-                                              Border.all(
-                                                color: Color(int.parse(filesProvider.settings[1])),
-                                                width: 2.0
-                                              ) : Border.all(
-                                                color: Colors.transparent,
-                                              ),
+                      border: selected == "assets/Background/Desert-Oasis-Town.jpg" ?
+                      Border.all(
+                          color: Color(int.parse(filesProvider.settings[1])),
+                          width: 2.0
+                      ) : Border.all(
+                        color: Colors.transparent,
+                      ),
                     ),
                   ),
                   onTap: () {
                     setState(() {
-                      selected = "assets/Background/Shipyard.jpg";
+                      selected = "assets/Background/Desert-Oasis-Town.jpg";
                     });
                   },
                 ),
