@@ -182,6 +182,7 @@ class _BackgroundDialogState extends State<BackgroundDialog> {
                 ),
                 GestureDetector(
                   child: Container(
+                    padding: EdgeInsets.fromLTRB(0, 12, 0, 12),
                     child: ColoredBox(
                       color: Color(int.parse(filesProvider.settings[4])),
                     ),
