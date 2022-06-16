@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
     filesProvider.getBackgroundImages();
 
     return MaterialApp(
-      title: 'Multi music Handler',
+      title: 'Rpg Multi Music',
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       home: HomePage(),
@@ -79,7 +79,7 @@ class _HomePageState extends State<HomePage>{
         appBar: AppBar(
           backgroundColor: Color(int.parse(filesProvider.settings[1])),
           title: Text(
-              "Multi music handler",
+              "Rpg Multi Music",
               style: TextStyle(color: Color(int.parse(filesProvider.settings[2]))),
           ),
           actions: [

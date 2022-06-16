@@ -1,5 +1,5 @@
-name: gdr_multi_music
-description: Gestore musica
+name: rpg_multi_music
+description: Multi music handler for rpg
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.

@@ -1,6 +1,6 @@
-# gdr_multi_music
+# rpg_multi_music
 
-Gestore musica
+Multi music handler for rpg
 
 ## Getting Started
 

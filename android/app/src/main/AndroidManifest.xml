@@ -3,13 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="rpg.in_dice.rpg_multi_music"
     android:versionCode="1"
-    android:versionName="GdrMultiMusic1.0">
+    android:versionName="RpgMultiMusic1.0">
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
    <application
        android:icon="@mipmap/ic_launcher"
-       android:label="Gdr Multi music"
+       android:label="Rpg Multi music"
        android:requestLegacyExternalStorage="true"
        tools:replace="android:icon">
         <activity
