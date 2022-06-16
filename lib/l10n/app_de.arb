@@ -2,7 +2,7 @@
   "tutorial": "**********************************************************",
     "welcome_tutorial": "Hallo und herzlich willkommen!",
     "settings_tutorial": "Hier finden Sie die Einstellungsseite, auf der Sie Sprache, Balkenfarbe, Schriftfarbe, Hintergrund, etc...",
-    "button_tutorial": "Wenn Sie hier klicken, können Sie einen neuen Musikordner hinzufügen und Pfad, Hintergrundfarbe, Name und Schriftfarbe definieren.",
+    "button_tutorial": "Wenn Sie hier klicken, können Sie einen neuen Musikordner von Ihrem Gerät hinzufügen und Pfad, Hintergrundfarbe, Name und Schriftfarbe definieren.",
     "done_tutorial": "Verstanden",
   "main_page": "*********************************************************",
     "state": "Zustand",

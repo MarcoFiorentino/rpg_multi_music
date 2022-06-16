@@ -2,7 +2,7 @@
   "tutorial": "**********************************************************",
     "welcome_tutorial": "Salut et bienvenue!",
     "settings_tutorial": "Ici vous trouverez la page des paramètres, où vous pouvez changer la langue, la couleur de la barre, la couleur de la police, le image de fond, etc...",
-    "button_tutorial": "En cliquant ici, vous pouvez ajouter un nouveau dossier de musique et définir le chemin, la couleur d’arrière-plan, le nom et la couleur de police.",
+    "button_tutorial": "En cliquant ici, vous pouvez ajouter un nouveau dossier de musique à partir de votre appareil et spécifier le chemin, la couleur d’arrière-plan, le nom et la couleur de texte.",
     "done_tutorial": "Compris",
   "main_page": "*********************************************************",
     "state": "État",

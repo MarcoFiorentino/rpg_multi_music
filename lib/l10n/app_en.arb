@@ -2,7 +2,7 @@
   "tutorial": "**********************************************************",
     "welcome_tutorial": "Hi and welcome!",
     "settings_tutorial": "Here you will find the settings page, where you can change language, bar color, font color, background, etc...",
-    "button_tutorial": "By clicking here you can add a new music folder and define path, background color, name and font color.",
+    "button_tutorial": "By clicking here you can add a new music folder from your device and specify path, background color, name and font color.",
     "done_tutorial": "Understood",
   "main_page": "*********************************************************",
     "state": "State",

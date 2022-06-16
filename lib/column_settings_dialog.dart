@@ -321,7 +321,7 @@ class _ColumnSettingsDialogState extends State<ColumnSettingsDialog> {
       SharedPreferencesManager.updateDirList(directoryId);
     }
 
-    // Salvo il trittico come lista usando l`id come chiave
+    // Salvo le impostazioni come lista usando l`id come chiave
     List<String> dirCharacteristics = [directoryPath, directoryColor, directoryName, fontColor];
     SharedPreferencesManager.updateKV(directoryId, true, dirCharacteristics);
 

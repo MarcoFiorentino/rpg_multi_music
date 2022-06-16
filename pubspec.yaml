@@ -56,7 +56,7 @@ dev_dependencies:
 flutter_icons:
   android: true # can specify file name here e.g. "ic_launcher"
   ios: true
-  image_path: "assets/logo_bianco-blu.png"
+  image_path: "assets/logo.png"
   adaptive_icon_background: "#151f33"
   adaptive_icon_foreground: "assets/logo.png" 
   remove_alpha_ios: true
@@ -81,7 +81,7 @@ flutter_native_splash:
 
   # The image parameter allows you to specify an image used in the splash screen.  It must be a
   # png file and should be sized for 4x pixel density.
-  image: assets/logo-bianco.png
+  image: assets/logo_splash.png
 
   # The branding property allows you to specify an image used as branding in the splash screen.
   # It must be a png file. Currently, it is only supported for Android < v12 and iOS.
