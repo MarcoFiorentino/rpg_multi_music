@@ -9,7 +9,7 @@ class AdHelper {
   );
 
   static BannerAd settingsBanner = BannerAd(
-    adUnitId: 'ca-app-pub-3940256099942544/6300978111',
+    adUnitId: 'ca-app-pub-5556746391287393/1331115504',
     size: AdSize.banner,
     request: AdRequest(),
     listener: BannerAdListener(),
