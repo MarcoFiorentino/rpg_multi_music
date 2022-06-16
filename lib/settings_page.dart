@@ -8,12 +8,12 @@ import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
-import 'package:gdr_multi_music/shared_preferences_manager.dart';
-import 'package:gdr_multi_music/string_extension.dart';
-import 'package:gdr_multi_music/privacy_dialog.dart';
-import 'package:gdr_multi_music/background_dialog.dart';
-import 'package:gdr_multi_music/files_provider.dart';
-import 'package:gdr_multi_music/ad_helper.dart';
+import 'package:rpg_multi_music/shared_preferences_manager.dart';
+import 'package:rpg_multi_music/string_extension.dart';
+import 'package:rpg_multi_music/privacy_dialog.dart';
+import 'package:rpg_multi_music/background_dialog.dart';
+import 'package:rpg_multi_music/files_provider.dart';
+import 'package:rpg_multi_music/ad_helper.dart';
 
 class SettingsPage extends StatefulWidget {
 

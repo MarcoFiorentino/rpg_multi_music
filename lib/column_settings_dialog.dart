@@ -8,8 +8,8 @@ import 'package:nanoid/nanoid.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'package:gdr_multi_music/shared_preferences_manager.dart';
-import 'package:gdr_multi_music/files_provider.dart';
+import 'package:rpg_multi_music/shared_preferences_manager.dart';
+import 'package:rpg_multi_music/files_provider.dart';
 
 class ColumnSettingsDialog extends StatefulWidget {
   const ColumnSettingsDialog({Key key, this.newCol, this.colIndex, this.loc});

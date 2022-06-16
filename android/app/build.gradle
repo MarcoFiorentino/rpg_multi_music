@@ -34,7 +34,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "gdr.fiore.gdr_multi_music"
+        applicationId "rpg.in_dice.rpg_multi_music"
         minSdkVersion 19
         targetSdkVersion 31
         versionCode flutterVersionCode.toInteger()

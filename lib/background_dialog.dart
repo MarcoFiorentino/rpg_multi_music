@@ -6,8 +6,8 @@ import 'package:flutter_color_picker_wheel/widgets/flutter_color_picker_wheel.da
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'package:gdr_multi_music/shared_preferences_manager.dart';
-import 'package:gdr_multi_music/files_provider.dart';
+import 'package:rpg_multi_music/shared_preferences_manager.dart';
+import 'package:rpg_multi_music/files_provider.dart';
 
 class BackgroundDialog extends StatefulWidget {
   const BackgroundDialog({Key key, this.loc});

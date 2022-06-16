@@ -8,7 +8,7 @@ import 'package:flutter_file_manager/flutter_file_manager.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:gdr_multi_music/shared_preferences_manager.dart';
+import 'package:rpg_multi_music/shared_preferences_manager.dart';
 
 class FilesProvider with ChangeNotifier {
   // Variabili condivise

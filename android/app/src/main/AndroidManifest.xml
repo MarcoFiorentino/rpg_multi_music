@@ -1,7 +1,7 @@
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="gdr.fiore.gdr_multi_music"
+    package="rpg.in_dice.rpg_multi_music"
     android:versionCode="1"
     android:versionName="GdrMultiMusic1.0">
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
