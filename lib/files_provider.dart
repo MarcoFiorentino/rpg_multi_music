@@ -20,10 +20,10 @@ class FilesProvider with ChangeNotifier {
   List<String> _fontsColors = [];
   List<String> _settings = [
     "true", // Schermo sempre attivo di default
-    "4279592384", // Colore della barra e del pulsante del più
+    "4279983648", // Colore della barra e del pulsante del più
     "4294638330", // Colore del font
-    "assets/Background/Shipyard.jpg", // Immagine di sfondo
-    "4279592384", // Colore di sfondo dietro la mappa
+    "assets/Background/Desert-Oasis-Town.jpg", // Immagine di sfondo
+    "4294956367", // Colore di sfondo dietro la mappa
     "false" // Tutorial visto
   ];
   Map<String, String> _appFontColors = {

@@ -10,7 +10,6 @@ import 'package:url_launcher/url_launcher_string.dart';
 
 import 'package:rpg_multi_music/shared_preferences_manager.dart';
 import 'package:rpg_multi_music/string_extension.dart';
-import 'package:rpg_multi_music/privacy_dialog.dart';
 import 'package:rpg_multi_music/background_dialog.dart';
 import 'package:rpg_multi_music/files_provider.dart';
 import 'package:rpg_multi_music/ad_helper.dart';
@@ -332,24 +331,19 @@ class _SettingsScreenState extends State<SettingsPage> {
                 child: Text(
                   widget.loc.privacy_text,
                   style: TextStyle(
-                    fontSize: 15,
-                    color: Color(int.parse(filesProvider.settings[1])),
-                    decoration: TextDecoration.underline
+                      fontSize: 15,
+                      color: Color(int.parse(filesProvider.settings[1])),
+                      decoration: TextDecoration.underline
                   ),
                 ),
-                onTap: () {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return PrivacyDialog(loc: widget.loc);
-                    },
-                  );
-                },
+                onTap: () async => await canLaunchUrlString("https://www.termsfeed.com/live/87b4bdbc-4836-489c-bd47-532fe4a2adef")
+                    ? await launchUrlString("https://www.termsfeed.com/live/87b4bdbc-4836-489c-bd47-532fe4a2adef")
+                    : throw widget.loc.url_error,
               ),
             ],
           ),
           SizedBox(
-            height: 30,
+            height: 10,
           ),
         ],
       ),
