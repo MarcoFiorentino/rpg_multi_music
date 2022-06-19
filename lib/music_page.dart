@@ -475,12 +475,15 @@ class _MusicPageState extends State<MusicPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        dirName,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontSize: 15,
-                            color: fontCol),
+                      Padding(
+                        child: Text(
+                          dirName,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 15,
+                              color: fontCol),
+                        ),
+                        padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
                       ),
                       IconButton(
                         icon: Icon(
@@ -760,40 +763,43 @@ class _MusicPageState extends State<MusicPage> {
       int musicIndex = (rowIndex * colonnePerTipo) + i;
       if (musicIndex < provider.filesPaths[colIndex].length) {
         sizedBoxes.add(
-          SizedBox(
-            width: MediaQuery
-                .of(context)
-                .size
-                .width * 0.23,
-            child: GestureDetector(
-              onTap: () {
-                playSelected(context,
-                  provider.filesPaths[colIndex][musicIndex].path,
-                  colIndex);
-              },
-              child: Container(
-                width: MediaQuery.of(context).size.width/5,
-                height: 40,
-                margin: EdgeInsets.all(1.0),
-                alignment: Alignment.center,
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
-                  child: Text(
-                    basenameWithoutExtension(provider.filesPaths[colIndex][musicIndex].path).capitalize(),
-                    maxLines: 2,
-                    style: TextStyle(
-                      fontSize: 15,
-                      color: fontCol,
-                      overflow: TextOverflow.ellipsis,
+          Flexible(
+            flex: 1,
+            child: SizedBox(
+              width: MediaQuery
+                  .of(context)
+                  .size
+                  .width * 0.23,
+              child: GestureDetector(
+                onTap: () {
+                  playSelected(context,
+                    provider.filesPaths[colIndex][musicIndex].path,
+                    colIndex);
+                },
+                child: Container(
+                  width: MediaQuery.of(context).size.width/5,
+                  height: 40,
+                  margin: EdgeInsets.all(1.0),
+                  alignment: Alignment.center,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
+                    child: Text(
+                      basenameWithoutExtension(provider.filesPaths[colIndex][musicIndex].path).capitalize(),
+                      maxLines: 2,
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: fontCol,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
                   ),
-                ),
-                decoration: BoxDecoration(
-                  color: btnCol,
-                  image: DecorationImage (
-                    image: AssetImage("assets/Btn/btn-double-border.png"),
-                    fit: BoxFit.fill,
-                    centerSlice: Rect.fromLTWH(2500, 2500, 2500, 2500)
+                  decoration: BoxDecoration(
+                    color: btnCol,
+                    image: DecorationImage (
+                      image: AssetImage("assets/Btn/btn-double-border.png"),
+                      fit: BoxFit.fill,
+                      centerSlice: Rect.fromLTWH(2500, 2500, 2500, 2500)
+                    ),
                   ),
                 ),
               ),
@@ -801,18 +807,24 @@ class _MusicPageState extends State<MusicPage> {
           ),
         );
       } else {
-        sizedBoxes.add(SizedBox(
-          width: MediaQuery
-              .of(context)
-              .size
-              .width * 0.23,
-        ));
+        sizedBoxes.add(
+          Flexible(
+            flex: 1,
+            child: SizedBox(
+              width: MediaQuery
+                  .of(context)
+                  .size
+                  .width * 0.23,
+            )
+          )
+        );
       }
     }
-
+print(sizedBoxes.toString());
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: sizedBoxes,
+      children:
+        sizedBoxes,
     );
   }
 }
