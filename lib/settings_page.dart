@@ -301,8 +301,8 @@ class _SettingsScreenState extends State<SettingsPage> {
                     decoration: TextDecoration.underline
                   ),
                 ),
-                onTap: () async => await canLaunchUrlString("https://forms.gle/h7jYVnstPfm2eagy6")
-                    ? await launchUrlString("https://forms.gle/h7jYVnstPfm2eagy6")
+                onTap: () async => await canLaunchUrlString("https://docs.google.com/forms/d/e/1FAIpQLScmcQg2ZTiimjaYGdSFyZv65Yc0YX-nsKBVxTpksiW3YqTeHw/viewform")
+                    ? await launchUrlString("https://docs.google.com/forms/d/e/1FAIpQLScmcQg2ZTiimjaYGdSFyZv65Yc0YX-nsKBVxTpksiW3YqTeHw/viewform")
                     : throw widget.loc.url_error,
               ),
             ],

@@ -152,6 +152,7 @@ class _MusicPageState extends State<MusicPage> {
                                     child: Icon(
                                       Icons.add_rounded,
                                       color: Color(int.parse(filesProvider.settings[2])),
+                                      semanticLabel: widget.loc.new_column,
                                     ),
                                   ),
                                   decoration: BoxDecoration(
@@ -488,7 +489,8 @@ class _MusicPageState extends State<MusicPage> {
                       IconButton(
                         icon: Icon(
                             Icons.settings_rounded,
-                            color: fontCol
+                            color: fontCol,
+                            semanticLabel: widget.loc.settings,
                         ),
                         onPressed: () {
                           showDialog(
@@ -553,6 +555,7 @@ class _MusicPageState extends State<MusicPage> {
                       child: Icon(
                         Icons.pause_rounded,
                         color: fontCol,
+                        semanticLabel: widget.loc.pause,
                       ),
                     ),
                     decoration: BoxDecoration(
@@ -580,6 +583,7 @@ class _MusicPageState extends State<MusicPage> {
                       child: Icon(
                         Icons.play_arrow_rounded,
                         color: fontCol,
+                        semanticLabel: widget.loc.play,
                       ),
                     ),
                     decoration: BoxDecoration(
@@ -606,6 +610,7 @@ class _MusicPageState extends State<MusicPage> {
                     child: Icon(
                       Icons.stop_rounded,
                       color: fontCol,
+                      semanticLabel: widget.loc.stop,
                     ),
                   ),
                   decoration: BoxDecoration(
@@ -637,6 +642,7 @@ class _MusicPageState extends State<MusicPage> {
                     child: Icon(
                       Icons.volume_down_rounded,
                       color: fontCol,
+                      semanticLabel: widget.loc.volume_down,
                     ),
                   ),
                   decoration: BoxDecoration(
@@ -663,6 +669,7 @@ class _MusicPageState extends State<MusicPage> {
                     child: Icon(
                       Icons.volume_up_rounded,
                       color: fontCol,
+                      semanticLabel: widget.loc.volume_up,
                     ),
                   ),
                   decoration: BoxDecoration(
