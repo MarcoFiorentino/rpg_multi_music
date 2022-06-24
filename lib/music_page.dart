@@ -321,8 +321,10 @@ class _MusicPageState extends State<MusicPage> {
                             filesProvider.getSettings();
                           },
                           child: Container(
-                            width: MediaQuery.of(context).size.width/5,
                             height: 40,
+                            constraints: BoxConstraints(
+                              minWidth: MediaQuery.of(context).size.width/5,
+                            ),
                             margin: EdgeInsets.only(bottom:10.0),
                             alignment: Alignment.center,
                             child: Padding(
